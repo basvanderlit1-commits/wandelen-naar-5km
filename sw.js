@@ -1,5 +1,5 @@
 // Offline: eerst netwerk (altijd nieuwste versie), cache als terugval.
-const CACHE = "loopcoach-v2";
+const CACHE = "loopcoach-v3";
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(["./", "index.html", "manifest.webmanifest", "icon.svg", "apple-touch-icon.png", "data/schema.json"])));

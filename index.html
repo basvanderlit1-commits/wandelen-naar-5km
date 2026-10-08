@@ -158,6 +158,60 @@ function phaseRules(w){
   r.push('Pijn op de borst, duizelig of benauwd? Stop en neem contact op met je huisarts.');
   return r;
 }
+// Waarom deze training? (het idee achter de sessie)
+function purpose(w,dow){
+  const wk=weekOf(w),d=wk.days[DK[dow]],f=(d.session||d.test?.session||{}).format,out=[];
+  if(d.type==='test') out.push(`Testmoment van fase ${wk.phase}: laat zien of je klaar bent voor de volgende fase (${wk.phaseGoal}). Start rustig, niet sneller dan 7:00 /km; lukt het niet, dan herhaal je de laatste 2 weken en test je opnieuw.`);
+  else if(d.type==='jog'&&d.name) out.push('Extra lichte jog-sessie: vaker joggen oefenen met een kleine belasting. Het schema is rustiger dan maandag en donderdag.');
+  else if(d.type==='jog'&&f==='distance-intervals') out.push('Korte jogs laten je pezen, botten en gewrichten wennen aan de schokken van joggen, terwijl je hartslag laag blijft. Het tempo is bewust traag; het wandelen ertussen is herstel, geen pauze.');
+  else if(d.type==='jog'&&f==='time-intervals') out.push(`Je bouwt de jogblokken op in tijd, op weg naar ${wk.phaseGoal}. Jog zo rustig dat je hele zinnen kunt praten.`);
+  else if(d.type==='jog') out.push(`Aan één stuk doorlopen in praattempo; elke week iets langer, op weg naar ${wk.phaseGoal}.`);
+  else if(d.type==='walk'&&/Duur/.test(d.name)) out.push('Conditie en vetverbranding opbouwen in zone 2, zonder de belasting van joggen. Vlot doorwandelen (≥ 6 km/u).');
+  else if(d.type==='walk'&&/Lange/.test(d.name)) out.push('Langer bewegen op lage intensiteit: uithoudingsvermogen en extra calorieën, zonder je benen te belasten.');
+  else if(d.type==='walk') out.push('Actief herstel: rustig bewegen met een lage hartslag, zodat je fris bent voor de volgende jog-sessie.');
+  else out.push('Rust is onderdeel van het plan: je lichaam wordt sterker tijdens herstel.');
+  if(wk.recoveryWeek&&d.type!=='rest') out.push('Dit is een herstelweek: minder belasting zodat je lichaam de vorige weken kan verwerken.');
+  return out.join(' ');
+}
+// Komende trainingen (rustdagen overgeslagen), vanaf morgen
+function upcoming(n){
+  const w=planState().planWeek,out=[];
+  for(let i=1;out.length<n&&i<15;i++){const dt=addDays(TODAY,i),dow=parse(dt).getDay(),pl=planFor(w,dow);if(pl.kind!=='rest')out.push({date:dt,dow,pl,in:i})}
+  return out;
+}
+// Review van een sessie: plan vs. resultaat
+function review(s){
+  const w=s.planWeek||1,dow=parse(s.date).getDay(),pl=planFor(w,dow),day=weekOf(w).days[DK[dow]],ph=phaseNr(w),out=[];
+  const add=(ok,t)=>out.push({ok,t});
+  if(pl.kind==='rest') add(null,'Gepland was een rustdag; extra bewegen is prima, maar rust telt ook mee.');
+  else if(isJog(pl)!==isJog(s)) add(false,`Gepland was: ${pl.title}. Je deed een ${isJog(s)?'jog':'wandeling'}.`);
+  if(s.kind==='walk'&&day.type==='walk'){
+    if(s.durMin!=null) add(s.durMin>=day.min*0.9,`Duur ${nl(s.durMin,0)} van ${day.min} min${s.durMin>=day.min*0.9?'.':': iets te kort, probeer de hele tijd vol te maken.'}`);
+    const z=(day.hrZone||'').match(/(\d+)-(\d+)/),u=(day.hrZone||'').match(/<(\d+)/);
+    if(s.avgHr!=null&&z) add(s.avgHr>=+z[1]&&s.avgHr<=+z[2],`Gem. hartslag ${int(s.avgHr)} (doel ${z[1]}–${z[2]})${s.avgHr>+z[2]?': te hoog, wandel iets rustiger.':s.avgHr<+z[1]?': mag iets vlotter.':'.'}`);
+    if(s.avgHr!=null&&u) add(s.avgHr<+u[1],`Gem. hartslag ${int(s.avgHr)} (doel onder ${u[1]})${s.avgHr<+u[1]?'.':': te hoog voor een herstelwandeling, rustiger aan.'}`);
+    if(s.km!=null&&s.durMin&&/Duur/.test(day.name)){const v=s.km/(s.durMin/60);add(v>=6,`Tempo ${nl(v,1)} km/u${v>=6?'.':' (doel ≥ 6,0): iets vlotter doorstappen.'}`)}
+  }
+  if(isJog(s)){
+    const ses=day.session||day.test?.session;
+    if(s.pace!=null&&(ph===1||s.kind==='test')) add(s.pace>=7,s.pace>=7?`Jogtempo ${mmss(s.pace)} /km: rustig genoeg.`:`Jogtempo ${mmss(s.pace)} /km is te snel (plan: 7:00–7:30). Kleinere passen, bewust trager.`);
+    if(s.maxHr!=null) add(s.maxHr<=170,s.maxHr<=170?`Max hartslag ${int(s.maxHr)}: onder de grens van 170.`:`Max hartslag ${int(s.maxHr)} ging boven 170. Wandel direct zodra je 170 ziet${ph===1?' en jog pas weer onder 135':ph>=3?', tot 150':''}.`);
+    if(s.avgHr!=null&&ph>=3) add(s.avgHr<=160,`Gem. hartslag ${int(s.avgHr)} (grens 160)${s.avgHr<=160?'.':': rustiger joggen.'}`);
+    if(ses?.format==='distance-intervals'&&s.jogCount!=null) add(s.jogCount>=ses.reps*0.9&&s.jogCount<=ses.reps*1.2,`${s.jogCount} jogs gedaan, gepland ${ses.reps}.`);
+    if(ses?.format==='distance-intervals'&&s.jogMeters!=null) add(s.jogMeters<=ses.totalJogMeters*1.25,`${int(s.jogMeters)} m gejogd, gepland ${int(ses.totalJogMeters)} m${s.jogMeters>ses.totalJogMeters*1.25?': meer is niet beter, houd je aan het schema.':'.'}`);
+    if(Array.isArray(s.jogs)&&s.jogs.length){const J=s.jogs,P=J.filter(j=>j.hrPeak!=null),H=J.filter(j=>j.hrStart!=null); // ontbrekende HS = geen data, geen fout
+      if(P.length){const n=P.filter(j=>j.hrPeak<=170).length;add(n===P.length,`Piek ≤ 170 bij ${n}/${P.length} jogs.`)}
+      if(ph===1){if(H.length){const n=H.filter(j=>j.hrStart<135).length;add(n===H.length,`Start onder 135 bij ${n}/${H.length} jogs${n<H.length?': wacht langer met de volgende jog.':'.'}`)}
+        const wm=ses?.walkMetersBetween;if(wm){const W=J.filter(j=>j.walkMBefore!=null);if(W.length)add(W.every(j=>j.walkMBefore>=wm),`Herstel ≥ ${wm} m bij ${W.filter(j=>j.walkMBefore>=wm).length}/${W.length} pauzes.`)}}}
+    if(s.talkTestOk!=null&&ph>=2) add(!!s.talkTestOk,s.talkTestOk?'Praattest gehaald.':'Praattest niet gehaald: jog langzamer.');
+    if(s.kind==='test'&&s.testPassed!=null) add(!!s.testPassed,s.testPassed?'Test gehaald!':'Test niet gehaald: laatste 2 weken van de fase herhalen.');
+  }
+  if(s.pain!=null) add(s.pain<=3,s.pain<=3?`Pijn ${int(s.pain)}/10: oké.`:`Pijn ${int(s.pain)}/10: volgende sessie zonder jogs. Houdt het langer dan een week aan: huisarts of fysio.`);
+  const bad=out.filter(x=>x.ok===false);
+  const verdict=!out.some(x=>x.ok!=null)?'Te weinig gegevens voor een review: vul hartslag, tempo of duur in.':bad.length?`Aandachtspunt: ${bad[0].t}`:'Goed uitgevoerd volgens plan.';
+  return {verdict,items:out,ok:!bad.length};
+}
+const reviewHtml=s=>{const r=review(s);return `<div class="banner ${r.ok?'b-good':'b-warn'}"><b>Review:</b> ${esc(r.verdict)}${r.items.length?`<ul class="steps" style="margin-top:6px">${r.items.map(x=>`<li>${x.ok===true?'✓':x.ok===false?'!':'·'} ${esc(x.t)}</li>`).join('')}</ul>`:''}</div>`};
 
 /* ---------- state ---------- */
 const S={docs:{},view:'today',ready:false,uid:null,offline:false};
@@ -228,8 +282,16 @@ function renderToday(){
   const W=weights(),a7=avg7(TODAY)??(W.length?avg7(W.at(-1).date):null),tr=trendPerWeek(),pk=planKgAt(TODAY);
   let h=`<div class="card"><div class="row between"><span class="eyebrow">Training vandaag · ${esc(SCHEMA.config.sessionTime||'19:00')}</span>${ses?'<span class="pill p-good">✓ Gedaan</span>':pl.kind==='rest'?'<span class="pill p-mute">Rust</span>':'<span class="pill p-mute">Open</span>'}</div>
     <h2>${esc(pl.title)}</h2><p class="sub">${esc(pl.text)}</p>
+    <p class="muted"><b>Idee:</b> ${esc(purpose(p.planWeek,d.getDay()))}</p>
     ${pl.rules?`<ul class="steps">${phaseRules(p.planWeek).map(r=>`<li>${esc(r)}</li>`).join('')}</ul>`:''}
+    ${ses?reviewHtml(ses):''}
     ${pl.kind!=='rest'?sessionForm(pl,ses,p.planWeek):''}</div>`;
+  const up=upcoming(4),nx=up[0];
+  if(nx) h+=`<div class="card"><div class="row between"><span class="eyebrow">Volgende training</span><span class="pill p-mute">${nx.in===1?'morgen':`over ${nx.in} dagen`}</span></div>
+    <h2>${esc(nx.pl.title)}</h2><p class="sub">${nice(nx.date)} · ${esc(SCHEMA.config.sessionTime||'19:00')} — ${esc(nx.pl.text)}</p>
+    <p class="muted"><b>Idee:</b> ${esc(purpose(p.planWeek,nx.dow))}</p>
+    <div><span class="eyebrow">Planning daarna</span><table><tbody>${up.slice(1).map(u=>`<tr><td style="width:84px;white-space:nowrap">${nice(u.date)}</td><td>${esc(u.pl.title)}<div class="muted">${esc(u.pl.text)}</div></td></tr>`).join('')}</tbody></table></div>
+    <p class="muted">Na het afsluiten van de week kan de planweek veranderen.</p></div>`;
   h+=`<div class="card"><span class="eyebrow">Gewicht · elke ochtend</span>
     <div class="weigh"><label class="f">Vandaag (kg)<input id="w-kg" inputmode="decimal" placeholder="bijv. 122,4" value="${w?nl(w.kg,1):''}"></label><button class="primary" id="w-save">${w?'Bijwerken':'Opslaan'}</button></div>
     <div class="tiles"><div class="tile"><span class="eyebrow">7-daags</span><span class="v">${nl(a7,1)}</span><span class="d">kg gemiddeld</span></div>
@@ -367,7 +429,7 @@ function renderSessions(){
     const st=!isJog(s)?'<span class="pill p-good">✓</span>':!e.length?'<span class="pill p-mute">geen data</span>':e.every(x=>x.ok)?'<span class="pill p-good">✓ binnen grenzen</span>':'<span class="pill p-warn">! te hard</span>';
     const bad=e?e.filter(x=>!x.ok).map(x=>x.t).join(', '):'';
     const facts=[s.durMin!=null?`${nl(s.durMin,0)} min`:'',s.km!=null?`${nl(s.km,2)} km`:'',s.avgHr!=null?`gem. ${int(s.avgHr)}`:'',s.maxHr!=null?`max ${int(s.maxHr)}`:'',s.pace!=null?`jog ${mmss(s.pace)} /km`:''].filter(Boolean).join(' · ');
-    return `<div class="li"><span class="dot" style="background:${isJog(s)?'var(--accent)':'var(--muted)'}"></span><div><div style="font-weight:650">${nice(s.date)} · ${esc(s.title||s.kind)}</div><div class="muted">${facts||'–'}${bad?' · <b>'+esc(bad)+'</b>':''}${s.note?' · '+esc(s.note):''}</div></div>${st}</div>`}).join('')||'<p class="muted">Nog geen sessies. Vink je training af op Vandaag.</p>'}</div></div>`;
+    return `<div class="li"><span class="dot" style="background:${isJog(s)?'var(--accent)':'var(--muted)'}"></span><div><div style="font-weight:650">${nice(s.date)} · ${esc(s.title||s.kind)}</div><div class="muted">${facts||'–'}${bad?' · <b>'+esc(bad)+'</b>':''}${s.note?' · '+esc(s.note):''}</div><details><summary>Review bekijken</summary>${reviewHtml(s)}</details></div>${st}</div>`}).join('')||'<p class="muted">Nog geen sessies. Vink je training af op Vandaag.</p>'}</div></div>`;
   $('#v-sessions').innerHTML=h;
 }
 
@@ -394,6 +456,8 @@ function renderPlan(){
    <label class="f">Planweek<input id="g-week" inputmode="numeric" value="${esc(p.planWeek)}"></label>
    <label class="f">Calorieën (kcal)<input id="g-kcal" inputmode="numeric" value="${esc(p.kcal)}"></label></div>
    <button class="primary" id="g-save">Opslaan</button></div>`;
+  h+=`<div class="card"><span class="eyebrow">Historie importeren</span><p class="muted">Kies <b>weights.csv</b> en/of <b>sessions.json</b>. De gegevens gaan alleen naar jouw opslag, niet naar GitHub. Bestaande dagen worden niet overschreven.</p>
+   <input type="file" id="imp" accept=".csv,.json,text/csv,application/json" multiple></div>`;
   h+=`<div class="card"><span class="eyebrow">Account</span><p class="muted">${sb?(S.offline?'Offline: je ziet de laatst geladen gegevens.':'Gegevens worden opgeslagen in je eigen database.'):'Gegevens staan alleen op dit apparaat (Supabase nog niet ingesteld).'}</p>${sb?'<button id="logout">Uitloggen</button>':''}</div>`;
   $('#v-plan').innerHTML=h;
   $('#g-save').addEventListener('click',()=>{
@@ -404,7 +468,33 @@ function renderPlan(){
     if(rd&&!validDate(rd)){toast('Ongeldige datum');return}
     setPlan({goalKg:goal,rateKg:rate,refKg:ref,refDate:rd,planWeek:wk,kcal:kc,...(kc!==p.kcal?{kcalSetAt:TODAY}:{})},'Opgeslagen');
   });
+  $('#imp').addEventListener('change',e=>importHistory([...e.target.files]).finally(()=>e.target.value=''));
   $('#logout')?.addEventListener('click',async()=>{await sb.auth.signOut();try{localStorage.removeItem(CACHE_KEY)}catch(e){};location.reload()});
+}
+
+/* ---------- historie importeren (weights.csv, sessions.json) ---------- */
+async function importHistory(files){
+  const entries=[],num=numOrNull;
+  for(const f of files){
+    const txt=await f.text();
+    if(/\.csv$/i.test(f.name)){
+      for(const line of txt.split(/\r?\n/).slice(1)){const [date,kg,src]=line.split(',');const k=num(kg);
+        if(validDate(date)&&k>40&&k<250&&!S.docs['weights/'+date]) entries.push(['weights/'+date,{date,kg:Math.round(k*10)/10,source:src==='export'?'export':'import'}])}
+    } else {
+      let arr;try{arr=JSON.parse(txt)}catch(e){toast(`${f.name} is geen geldige JSON`);continue}
+      for(const x of Array.isArray(arr)?arr:[]){
+        if(!x||!validDate(x.date)||S.docs['sessions/'+x.date])continue;
+        const kind=['jog','walk','test'].includes(x.kind)?x.kind:'walk',pw=Math.min(Math.max(Math.round(num(x.planWeek)||1),1),SCHEMA.weeks.length);
+        entries.push(['sessions/'+x.date,{date:x.date,kind,title:planFor(pw,parse(x.date).getDay()).title,planWeek:pw,done:true,durMin:num(x.durMin),km:num(x.km),avgHr:num(x.avgHr),maxHr:num(x.maxHr),
+          pace:num(x.pace??x.avgJogPaceMinKm),pain:num(x.pain),jogCount:Array.isArray(x.jogs)?x.jogs.length:num(x.jogs),jogMeters:num(x.jogMeters),
+          jogs:Array.isArray(x.jogs)?x.jogs.slice(0,100).map(j=>Object.fromEntries(['startMin','m','sec','paceMinKm','hrStart','hrPeak','walkMBefore'].map(k=>[k,num(j?.[k])]))):null,
+          note:String(x.note||'').slice(0,500),source:'import'}]);
+      }
+    }
+  }
+  if(!entries.length){toast('Niets nieuws gevonden om te importeren');return}
+  const uniq=[...new Map(entries)]; // dubbele datums in de bestanden: één keer opslaan
+  await guard(async()=>{await write(uniq);toast(`${uniq.length} items geïmporteerd`)});
 }
 
 /* ---------- inloggen ---------- */
@@ -451,7 +541,12 @@ async function start(){
     sb.auth.onAuthStateChange((ev,ses)=>{if(ev==='SIGNED_IN'&&!S.uid)location.reload();});
     if(!session){showLogin(true);return}
     S.uid=session.user.id;
-    try{await loadDocs()}catch(e){S.docs=cacheLoad();S.offline=true;conn.hidden=false;conn.textContent='Offline: je ziet de laatst geladen gegevens. Opslaan lukt pas weer met verbinding.'}
+    const local=cacheLoad();
+    try{await loadDocs();
+      // eerste keer inloggen: wat al op dit apparaat stond meenemen naar de database
+      if(!Object.keys(S.docs).length&&Object.keys(local).length){S.ready=true;
+        try{await write(Object.entries(local))}catch(e){try{localStorage.setItem(CACHE_KEY,JSON.stringify(local))}catch(_){};toast('Overzetten naar de database mislukt; je lokale gegevens blijven bewaard')}}
+    }catch(e){S.docs=cacheLoad();S.offline=true;conn.hidden=false;conn.textContent='Offline: je ziet de laatst geladen gegevens. Opslaan lukt pas weer met verbinding.'}
   } else {
     await loadDocs();
     if(SUPABASE_URL){conn.hidden=false;conn.textContent='Database niet bereikbaar: gegevens worden alleen op dit apparaat bewaard.'}
