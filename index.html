@@ -2,254 +2,466 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Wandelen naar 5km</title>
+<title>Loopcoach</title>
 <meta name="theme-color" content="#2e7d5b">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-  :root { --bg:#f6f7f5; --card:#fff; --text:#1d2420; --muted:#6b756f; --accent:#2e7d5b; --line:#e2e6e3; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#121614; --card:#1c2320; --text:#e8ece9; --muted:#9aa59f; --accent:#5cc493; --line:#2c3531; }
-  }
-  * { box-sizing:border-box; }
-  body { margin:0; font:16px/1.4 system-ui, sans-serif; background:var(--bg); color:var(--text);
-         padding:16px 16px calc(80px + env(safe-area-inset-bottom)); }
-  h1 { font-size:1.4rem; margin:.2em 0 .6em; }
-  h2 { font-size:1.05rem; margin:0 0 .5em; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:12px; }
-  .muted { color:var(--muted); font-size:.9rem; }
-  .bar { height:10px; background:var(--line); border-radius:5px; overflow:hidden; margin:.4em 0; }
-  .bar > div { height:100%; width:0; background:var(--accent); }
-  label.row { display:flex; gap:10px; align-items:center; padding:8px 0; border-top:1px solid var(--line); }
-  label.row:first-of-type { border-top:0; }
-  label.row input { width:22px; height:22px; accent-color:var(--accent); }
-  .done { text-decoration:line-through; color:var(--muted); }
-  form { display:flex; flex-wrap:wrap; gap:8px; }
-  input[type=date], input[type=number] { flex:1 1 120px; padding:10px; border-radius:10px; border:1px solid var(--line);
-         background:var(--bg); color:var(--text); font-size:16px; }
-  button { padding:10px 14px; border:0; border-radius:10px; background:var(--accent); color:#fff; font-size:16px; }
-  button.ghost { background:transparent; color:var(--accent); border:1px solid var(--accent); }
-  ul.log { list-style:none; padding:0; margin:0; }
-  ul.log li { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-top:1px solid var(--line); }
-  ul.log li:first-child { border-top:0; }
-  ul.log li button { padding:0 8px; background:none; color:var(--muted); }
-  nav { position:fixed; left:0; right:0; bottom:0; display:flex; background:var(--card); border-top:1px solid var(--line);
-        padding-bottom:env(safe-area-inset-bottom); }
-  nav button { flex:1; background:none; color:var(--muted); border-radius:0; padding:14px 0; }
-  nav button[aria-current=page] { color:var(--accent); font-weight:600; }
-  svg { width:100%; height:140px; margin-top:10px; }
+:root{
+  --bg:#f3f5f3; --surface:#ffffff; --ink:#15191c; --ink-2:#4d5559; --muted:#7c8589; --line:#dde2df; --grid:#eceeed;
+  --accent:#2a78d6; --accent-ink:#ffffff; --plan:#a9b0ad; --goal:#1a8a4c;
+  --good:#1a8a4c; --good-bg:#e5f3ea; --warn:#b56b00; --warn-bg:#fbf0dc; --bad:#c23b3a; --bad-bg:#fbe6e5;
+  --display:"Archivo",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111415; --surface:#1a1e20; --ink:#f1f3f2; --ink-2:#c1c7c5; --muted:#8d9694; --line:#2c3234; --grid:#242a2c;
+  --accent:#3987e5; --accent-ink:#ffffff; --plan:#5d6663; --goal:#4cc083;
+  --good:#4cc083; --good-bg:#15291e; --warn:#e6a23a; --warn-bg:#2e2412; --bad:#ec6d6c; --bad-bg:#321a1a; color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--display);font-size:15px;line-height:1.45}
+.wrap{max-width:640px;margin:0 auto;padding-inline:16px;padding-block:calc(18px + env(safe-area-inset-top)) 96px;display:flex;flex-direction:column;gap:16px}
+section{display:flex;flex-direction:column;gap:16px}
+section[hidden]{display:none}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+h1{font-stretch:118%;font-weight:800;font-size:26px;line-height:1;margin:0}
+h2{font-stretch:110%;font-weight:750;font-size:18px;margin:0}
+.eyebrow{font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:600}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.big{font-stretch:105%;font-weight:800;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.sub{color:var(--ink-2);font-size:14px;margin:0}
+.muted{color:var(--muted);font-size:13px}
+.pill{display:inline-flex;align-items:center;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.p-good{background:var(--good-bg);color:var(--good)}.p-warn{background:var(--warn-bg);color:var(--warn)}.p-mute{background:var(--grid);color:var(--ink-2)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{border:1px solid var(--line);border-radius:10px;padding:9px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tile .v{font-weight:750;font-size:19px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tile .d{font-size:12px;color:var(--ink-2)}
+button{font:inherit;font-weight:650;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 14px;cursor:pointer;min-height:44px}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input,select,textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 10px;min-height:44px;width:100%;min-width:0}
+textarea{min-height:64px;resize:vertical}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-2);min-width:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.weigh{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+.steps{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom,0px);z-index:10}
+.tabs button{border:0;border-radius:0;background:transparent;color:var(--muted);font-size:12.5px;padding:10px 4px;min-height:54px}
+.tabs button[aria-selected="true"]{color:var(--accent)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:8px 6px;text-align:left;border-bottom:1px solid var(--grid);vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tw{overflow-x:auto}
+svg{display:block;width:100%;height:auto}
+svg text{fill:var(--muted);font-family:var(--mono);font-size:10.5px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2)}
+.legend i{display:inline-block;width:12px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.banner{border-radius:10px;padding:10px 12px;font-size:14px}
+.b-warn{background:var(--warn-bg);color:var(--ink)}.b-good{background:var(--good-bg);color:var(--ink)}.b-mute{background:var(--grid);color:var(--ink-2)}
+.toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:9px;font-size:14px;z-index:20;max-width:90vw}
+.list{display:flex;flex-direction:column}
+.li{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--grid)}
+.li:first-child{border-top:0}
+.dot{width:10px;height:10px;border-radius:50%}
+details summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:14px;min-height:32px;display:flex;align-items:center}
 </style>
 </head>
 <body>
-<h1>Wandelen naar 5km</h1>
-
-<section id="schema">
-  <div class="card">
-    <h2>Voortgang schema</h2>
-    <div class="bar"><div id="schemaBar"></div></div>
-    <div class="muted" id="schemaText"></div>
-  </div>
-  <div id="weeks"></div>
-</section>
-
-<section id="wandel" hidden>
-  <div class="card">
-    <h2>Wandeling loggen</h2>
-    <form id="walkForm">
-      <input type="date" name="date" required>
-      <input type="number" name="km" step="0.1" min="0.1" max="100" placeholder="km" required>
-      <input type="number" name="min" step="1" min="1" max="1000" placeholder="minuten">
-      <button>Opslaan</button>
-    </form>
-  </div>
-  <div class="card">
-    <h2>Totaal</h2>
-    <div id="walkStats" class="muted"></div>
-  </div>
-  <div class="card"><ul class="log" id="walkLog"></ul></div>
-</section>
-
-<section id="gewicht" hidden>
-  <div class="card">
-    <h2>Doel</h2>
-    <form id="goalForm">
-      <input type="number" name="start" step="0.1" min="20" max="400" placeholder="start kg" required>
-      <input type="number" name="target" step="0.1" min="20" max="400" placeholder="doel kg" required>
-      <button>Opslaan</button>
-    </form>
-    <div class="bar"><div id="weightBar"></div></div>
-    <div class="muted" id="weightText"></div>
-  </div>
-  <div class="card">
-    <h2>Gewicht loggen</h2>
-    <form id="weightForm">
-      <input type="date" name="date" required>
-      <input type="number" name="kg" step="0.1" min="20" max="400" placeholder="kg" required>
-      <button>Opslaan</button>
-    </form>
-    <svg id="chart" viewBox="0 0 300 140" preserveAspectRatio="none" role="img" aria-label="Gewichtsverloop"></svg>
-  </div>
-  <div class="card"><ul class="log" id="weightLog"></ul></div>
-</section>
-
-<section id="meer" hidden>
-  <div class="card">
-    <h2>Back-up</h2>
-    <p class="muted">Je gegevens staan alleen op deze telefoon. Maak af en toe een back-up.</p>
-    <form>
-      <button type="button" id="exportBtn">Exporteren</button>
-      <button type="button" class="ghost" id="importBtn">Importeren</button>
-      <input type="file" id="importFile" accept="application/json,.json" hidden>
-    </form>
-  </div>
-</section>
-
-<nav>
-  <button data-tab="schema" aria-current="page">Schema</button>
-  <button data-tab="wandel">Wandelen</button>
-  <button data-tab="gewicht">Gewicht</button>
-  <button data-tab="meer">Meer</button>
+<div class="wrap" id="app">
+  <header>
+    <div><div class="eyebrow" id="hdr-date">Vandaag</div><h1>Loopcoach</h1></div>
+    <span class="pill p-mute" id="hdr-week">Week –</span>
+  </header>
+  <div id="conn" class="banner b-mute" hidden></div>
+  <section id="v-login" hidden></section>
+  <section id="v-today"></section>
+  <section id="v-weight" hidden></section>
+  <section id="v-sessions" hidden></section>
+  <section id="v-plan" hidden></section>
+</div>
+<nav class="tabs" role="tablist">
+  <button role="tab" aria-selected="true" data-v="today">Vandaag</button>
+  <button role="tab" aria-selected="false" data-v="weight">Gewicht</button>
+  <button role="tab" aria-selected="false" data-v="sessions">Sessies</button>
+  <button role="tab" aria-selected="false" data-v="plan">Plan</button>
 </nav>
+<div class="toast" id="toast" hidden></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.50.0/dist/umd/supabase.min.js" integrity="sha384-jP+y6mxch/vbLrNpx4basfv6ciZQuHwdRHgZGa6Mhja0Xm4p87ok2OQavTrRIGxH" crossorigin="anonymous"></script>
 <script>
-// Pas je trainingsschema hier aan: elke regel is een week, elke tekst een training.
-const SCHEMA = [
-  ["1,5 km rustig", "1,5 km rustig", "2 km rustig"],
-  ["2 km rustig", "2 km rustig", "2 km rustig"],
-  ["2,5 km rustig", "2 km stevig", "2,5 km rustig"],
-  ["3 km rustig", "2,5 km stevig", "3 km rustig"],
-  ["3,5 km rustig", "2 km stevig", "3,5 km rustig"],
-  ["4 km rustig", "3 km stevig", "4 km rustig"],
-  ["4,5 km rustig", "3 km stevig", "4,5 km rustig"],
-  ["3 km rustig", "2 km stevig", "5 km — doel gehaald! 🎉"],
-];
+/* ---------- Supabase (leeg = alleen op dit apparaat opslaan) ---------- */
+const SUPABASE_URL = '';
+const SUPABASE_KEY = ''; // publishable/anon key: mag openbaar, data is beschermd met Row Level Security
 
-const KEY = "wandel5km";
-// Alles wat binnenkomt (opslag of back-up) omzetten naar geldige getallen/datums.
-const num = v => Number.isFinite(+v) && +v > 0 ? +v : null;
-const date = v => /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null;
-const rows = (a, f) => (Array.isArray(a) ? a : []).filter(x => x && typeof x === "object").map(f).filter(Boolean);
-const clean = d => ({
-  done: d && d.done && typeof d.done === "object" && !Array.isArray(d.done)
-    ? Object.fromEntries(Object.entries(d.done).filter(([k]) => /^\d+-\d+$/.test(k)).map(([k, v]) => [k, !!v])) : {},
-  walks: rows(d?.walks, x => date(x.date) && num(x.km) && { id: num(x.id) || Math.random(), date: x.date, km: num(x.km), min: num(x.min) }),
-  weights: rows(d?.weights, x => date(x.date) && num(x.kg) && { id: num(x.id) || Math.random(), date: x.date, kg: num(x.kg) }),
-  goal: num(d?.goal?.start) && num(d?.goal?.target) ? { start: num(d.goal.start), target: num(d.goal.target) } : null,
-});
-let data;
-try { data = clean(JSON.parse(localStorage.getItem(KEY))); }
-catch { localStorage.setItem(KEY + ".kapot", localStorage.getItem(KEY)); data = clean(null); } // ruwe data bewaren
-const save = () => {
-  try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { alert("Opslaan mislukt (opslag vol of privé-modus)."); }
-  render();
-};
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const iso=d=>d.toLocaleDateString('sv-SE');
+const parse=s=>new Date(s+'T12:00:00');
+const addDays=(s,n)=>{const d=parse(s);d.setDate(d.getDate()+n);return iso(d)};
+const days=(a,b)=>Math.round((parse(b)-parse(a))/864e5);
+const DK=['zo','ma','di','wo','do','vr','za'],MON=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+const nice=s=>{const d=parse(s);return `${DK[d.getDay()]} ${d.getDate()} ${MON[d.getMonth()]}`};
+const nl=(x,d=1)=>x==null||isNaN(x)?'–':Number(x).toLocaleString('nl-NL',{minimumFractionDigits:d,maximumFractionDigits:d});
+const int=x=>x==null||isNaN(x)?'–':Math.round(x).toLocaleString('nl-NL');
+const mmss=m=>{if(m==null||isNaN(m))return '–';const s=Math.round(m*60);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+const toMin=v=>{if(v==null||v==='')return null;v=String(v).trim().replace(',','.');if(v.includes(':')){const[a,b]=v.split(':');const r=+a+(+b)/60;return isNaN(r)?null:r}const n=parseFloat(v);return isNaN(n)?null:n};
+const numOrNull=v=>{if(v==null||v==='')return null;const x=parseFloat(String(v).replace(',','.'));return isNaN(x)?null:x};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(t){const el=$('#toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2600)}
+// ?today=2026-10-08 om een datum te testen (alleen lokaal)
+const qToday=location.hostname==='localhost'?new URLSearchParams(location.search).get('today'):null;
+const validDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||'')&&iso(parse(s))===s;
+let TODAY=validDate(qToday)?qToday:iso(new Date());
+// app blijft open na middernacht: datum bijwerken
+document.addEventListener('visibilitychange',()=>{if(!qToday&&!document.hidden&&iso(new Date())!==TODAY){TODAY=iso(new Date());S.pastedJogs=null;render(true)}});
 
-const $ = s => document.querySelector(s);
-const today = () => new Date().toLocaleDateString("sv"); // YYYY-MM-DD in lokale tijd
-const fmtDate = d => new Date(d + "T12:00").toLocaleDateString("nl-NL", { day: "numeric", month: "short", year: "numeric" });
-const byDateDesc = (a, b) => b.date.localeCompare(a.date) || b.id - a.id;
-const nl = x => x.toLocaleString("nl-NL", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+/* ---------- plan uit data/schema.json ---------- */
+let SCHEMA=null;
+const KCAL0=2500,KCAL_MIN=2200,PROTEIN=130; // overschreven door schema.config.nutrition
+const secTxt=s=>s%60?mmss(s/60):`${s/60} min`;
+const minTxt=m=>m%1?`${mmss(m)} min`:`${m} min`;
+function sessText(s){
+  let t;
+  if(s.format==='distance-intervals') t=`${s.reps} × ${s.jogMeters} m, ${s.walkMetersBetween} m wandelen ertussen (${int(s.totalJogMeters)} m jog)`;
+  else if(s.format==='time-intervals'&&s.blocks) t=s.blocks.map(b=>b.reps>1?`${b.reps} × ${secTxt(b.jogSec)} jog${b.walkSec?` / ${secTxt(b.walkSec)} wandelen`:''}`:`${secTxt(b.jogSec)} jog${b.walkSec?` + ${secTxt(b.walkSec)} wandelen`:''}`).join(' + ');
+  else if(s.format==='time-intervals') t=`jog ${minTxt(s.jogMin)} in blokken van ${String(s.blockSec||'60-120').split('-').map(x=>x/60).join('–')} min`;
+  else t=`${minTxt(s.jogMin)} aan één stuk joggen`;
+  return `${t} · ${s.warmupWalkMin} min in- en ${s.cooldownWalkMin} min uitwandelen`;
+}
+const weekOf=w=>SCHEMA.weeks[Math.min(Math.max(w,1),SCHEMA.weeks.length)-1];
+function planFor(w,dow){ // dow: 0 zo .. 6 za
+  const wk=weekOf(w),d=wk.days[DK[dow]],rec=wk.recoveryWeek?' (herstel)':'';
+  if(d.type==='jog') return {kind:'jog',title:`Jog-sessie${d.name?' (licht)':''} · week ${w}${rec}`,text:sessText(d.session),rules:true};
+  if(d.type==='test') return {kind:'test',title:`Test · week ${w}`,rules:true,
+    text:(d.test.distanceKm?`${d.test.distanceKm} km aan één stuk joggen. `:`${d.test.kind.replace('walk+jog','wandelen + joggen').replace('target','doel')}: ${sessText(d.test.session)}. `)+(d.rule||'').replace(/max HR <=/,'max hartslag ≤').replace(/^./,c=>c.toUpperCase())+'.'};
+  if(d.type==='walk') return {kind:'walk',title:d.name,text:`${d.min} min wandelen in ${d.hrZone}. Geen jogs.`};
+  return {kind:'rest',title:'Rustdag',text:'Geen training. Wel ~9.000 stappen.'};
+}
+const phaseNr=w=>weekOf(w).phase;
+const phases=()=>{const m=new Map();SCHEMA.weeks.forEach(w=>{const p=m.get(w.phase)||{nr:w.phase,name:w.phaseName,goal:w.phaseGoal,from:w.week,to:w.week};p.to=w.week;m.set(w.phase,p)});return [...m.values()]};
+const isJog=s=>s&&(s.kind==='jog'||s.kind==='test');
+function phaseRules(w){
+  const p=phaseNr(w),r=[];
+  if(p===1) r.push('Jogtempo 7:00–7:30 /km of langzamer, korte passen','Hartslag 170 → direct wandelen','Pas weer joggen onder 135');
+  else if(p===2) r.push('Praattempo: je kunt hele zinnen zeggen','Hartslag 170 → wandelen','Langzamer mag altijd');
+  else r.push('Gemiddelde hartslag ≤ 160','Bij 170: wandelen tot 150, dan verder','Praattempo');
+  r.push('Pijn op de borst, duizelig of benauwd? Stop en neem contact op met je huisarts.');
+  return r;
+}
 
-function render() {
-  // Schema
-  const total = SCHEMA.flat().length;
-  const done = SCHEMA.flatMap((wk, w) => wk.map((_, s) => data.done[`${w}-${s}`])).filter(Boolean).length;
-  $("#schemaBar").style.width = (done / total * 100) + "%";
-  $("#schemaText").textContent = `${done} van ${total} trainingen gedaan`;
-  $("#weeks").innerHTML = SCHEMA.map((week, w) => `
-    <div class="card"><h2>Week ${w + 1}</h2>
-      ${week.map((t, s) => { const k = `${w}-${s}`, on = !!data.done[k]; return `
-        <label class="row"><input type="checkbox" data-k="${k}" ${on ? "checked" : ""}>
-          <span class="${on ? "done" : ""}">${esc(t)}</span></label>`; }).join("")}
-    </div>`).join("");
+/* ---------- state ---------- */
+const S={docs:{},view:'today',ready:false,uid:null,offline:false};
+let sb=null;
+const weights=()=>Object.entries(S.docs).filter(([k])=>k.startsWith('weights/')).map(e=>e[1]).sort((a,b)=>a.date.localeCompare(b.date));
+const sessions=()=>Object.entries(S.docs).filter(([k])=>k.startsWith('sessions/')).map(e=>e[1]).sort((a,b)=>a.date.localeCompare(b.date));
+function planState(){const n=SCHEMA?.config?.nutrition||{};return Object.assign({planWeek:1,kcal:n.kcalStart||KCAL0,kcalSetAt:'2026-10-08',history:[],goalKg:null,refKg:null,refDate:null,rateKg:0.6},S.docs['state/plan']||{})}
+const kcalMin=()=>SCHEMA?.config?.nutrition?.kcalFloor||KCAL_MIN;
 
-  // Wandelen
-  const km = data.walks.reduce((n, x) => n + x.km, 0);
-  const longest = Math.max(0, ...data.walks.map(x => x.km));
-  $("#walkStats").textContent = `${data.walks.length} wandelingen · ${nl(km)} km totaal · langste ${nl(longest)} km`;
-  $("#walkLog").innerHTML = data.walks.slice().sort(byDateDesc).map(x => `
-    <li><span>${fmtDate(x.date)} — ${nl(x.km)} km${x.min ? ` in ${x.min} min` : ""}</span>
-    <button data-del="walks" data-id="${x.id}" aria-label="Verwijderen">✕</button></li>`).join("");
+/* ---------- opslag ---------- */
+const CACHE_KEY='lc-docs';
+function cacheSave(){try{localStorage.setItem(CACHE_KEY,JSON.stringify(S.docs))}catch(e){}}
+function cacheLoad(){try{return JSON.parse(localStorage.getItem(CACHE_KEY))||{}}catch(e){return {}}}
+async function loadDocs(){
+  if(!sb){S.docs=cacheLoad();return}
+  const {data,error}=await sb.from('docs').select('key,data');
+  if(error) throw error;
+  S.docs=Object.fromEntries(data.map(r=>[r.key,r.data])); cacheSave();
+}
+async function write(entries){ // [[key, data | null]]
+  if(SUPABASE_URL&&!sb) throw new Error('database niet geladen'); // niet stilletjes alleen lokaal opslaan
+  if(sb){
+    const up=entries.filter(e=>e[1]!=null).map(([key,data])=>({user_id:S.uid,key,data,updated_at:new Date().toISOString()}));
+    const del=entries.filter(e=>e[1]==null).map(e=>e[0]);
+    if(up.length){const {error}=await sb.from('docs').upsert(up);if(error)throw error}
+    if(del.length){const {error}=await sb.from('docs').delete().in('key',del);if(error)throw error}
+  }
+  for(const [k,v] of entries) v==null?delete S.docs[k]:S.docs[k]=v;
+  cacheSave(); render(true);
+}
+async function guard(fn){try{await fn()}catch(e){console.error(e);toast(navigator.onLine?'Opslaan mislukt, probeer het opnieuw':'Geen verbinding, probeer het zo opnieuw')}}
 
-  // Gewicht
-  const ws = data.weights.slice().sort(byDateDesc), cur = ws[0]?.kg, g = data.goal;
-  if (g) { $("#goalForm").start.value = g.start; $("#goalForm").target.value = g.target; }
-  if (g && cur != null && g.start !== g.target) {
-    const pct = Math.min(100, Math.max(0, (g.start - cur) / (g.start - g.target) * 100));
-    $("#weightBar").style.width = pct + "%";
-    $("#weightText").textContent = `Nu ${nl(cur)} kg · nog ${nl(Math.abs(cur - g.target))} kg te gaan (${pct.toFixed(0)}%)`;
+/* ---------- rekenregels ---------- */
+function avg7(d){const w=weights().filter(x=>x.date<=d&&x.date>addDays(d,-7));return w.length?w.reduce((a,b)=>a+b.kg,0)/w.length:null}
+const cnt7=d=>weights().filter(x=>x.date<=d&&x.date>addDays(d,-7)).length;
+function trendPerWeek(){const W=weights();if(!W.length)return null;const l=W.at(-1).date,o=addDays(l,-14);if(cnt7(l)<3||cnt7(o)<3)return null;return (avg7(o)-avg7(l))/2}
+function planKgAt(d){const p=planState();if(p.refKg==null||!p.refDate)return null;return Math.max(p.goalKg??0,p.refKg-p.rateKg*days(p.refDate,d)/7)}
+function evalSession(s){
+  if(!isJog(s))return null;
+  const ph=phaseNr(s.planWeek||1),out=[];
+  if(s.pace!=null&&(ph===1||s.kind==='test')) out.push({ok:s.pace>=7,t:`tempo ${mmss(s.pace)} /km`});
+  if(s.maxHr!=null) out.push({ok:s.maxHr<=170,t:`max HS ${int(s.maxHr)}`});
+  if(s.avgHr!=null&&ph>=3) out.push({ok:s.avgHr<=160,t:`gem. HS ${int(s.avgHr)}`});
+  if(s.talkTestOk!=null&&ph>=2) out.push({ok:!!s.talkTestOk,t:'praattest'});
+  if(s.kind==='test'&&s.testPassed!=null) out.push({ok:!!s.testPassed,t:'test'});
+  if(s.pain!=null) out.push({ok:s.pain<=3,t:`pijn ${int(s.pain)}/10`});
+  return out;
+}
+const sessionOk=s=>{const e=evalSession(s);return !!e&&e.every(x=>x.ok)};
+function weekStart(d){const off=(parse(d).getDay()+6)%7;return addDays(d,-off)}
+// Advies bij week afsluiten (config.progression)
+function weekAdvice(){
+  const p=planState(),w=p.planWeek,wk=weekOf(w),ws=weekStart(TODAY),S2=sessions();
+  const inWeek=S2.filter(s=>s.date>=ws&&s.date<=addDays(ws,6));
+  const reqDows=[1,4].concat(w>=17?[6]:[]);
+  const req=reqDows.map(dw=>S2.find(s=>s.date===addDays(ws,(dw+6)%7)));
+  const test=wk.testWeek?req[1]:null;
+  if(!inWeek.length) return {to:Math.max(1,w-2),why:'Hele week gemist: 2 weken terug.',req,inWeek};
+  if(wk.testWeek&&!(isJog(test)&&sessionOk(test))) return {to:Math.max(1,w-1),why:'Test niet gehaald: laatste 2 weken van de fase herhalen, dan opnieuw testen.',req,inWeek};
+  if(req.every(s=>isJog(s)&&sessionOk(s))) return {to:Math.min(SCHEMA.weeks.length,w+1),why:`Alle jog-sessies gedaan en binnen de grenzen. Door naar week ${Math.min(SCHEMA.weeks.length,w+1)}.`,req,inWeek};
+  const missing=req.filter(s=>!isJog(s)).length;
+  return {to:w,why:missing?`${missing} jog-sessie(s) niet gedaan: week ${w} herhalen.`:`Niet alle jog-sessies binnen de grenzen: week ${w} herhalen.`,req,inWeek};
+}
+
+/* ---------- render: vandaag ---------- */
+function renderToday(){
+  const p=planState(),d=parse(TODAY),pl=planFor(p.planWeek,d.getDay()),ses=S.docs['sessions/'+TODAY],w=S.docs['weights/'+TODAY];
+  const W=weights(),a7=avg7(TODAY)??(W.length?avg7(W.at(-1).date):null),tr=trendPerWeek(),pk=planKgAt(TODAY);
+  let h=`<div class="card"><div class="row between"><span class="eyebrow">Training vandaag · ${esc(SCHEMA.config.sessionTime||'19:00')}</span>${ses?'<span class="pill p-good">✓ Gedaan</span>':pl.kind==='rest'?'<span class="pill p-mute">Rust</span>':'<span class="pill p-mute">Open</span>'}</div>
+    <h2>${esc(pl.title)}</h2><p class="sub">${esc(pl.text)}</p>
+    ${pl.rules?`<ul class="steps">${phaseRules(p.planWeek).map(r=>`<li>${esc(r)}</li>`).join('')}</ul>`:''}
+    ${pl.kind!=='rest'?sessionForm(pl,ses,p.planWeek):''}</div>`;
+  h+=`<div class="card"><span class="eyebrow">Gewicht · elke ochtend</span>
+    <div class="weigh"><label class="f">Vandaag (kg)<input id="w-kg" inputmode="decimal" placeholder="bijv. 122,4" value="${w?nl(w.kg,1):''}"></label><button class="primary" id="w-save">${w?'Bijwerken':'Opslaan'}</button></div>
+    <div class="tiles"><div class="tile"><span class="eyebrow">7-daags</span><span class="v">${nl(a7,1)}</span><span class="d">kg gemiddeld</span></div>
+    <div class="tile"><span class="eyebrow">Tempo</span><span class="v">${tr!=null?(tr>=0?'−':'+')+nl(Math.abs(tr),2):'–'}</span><span class="d">kg per week</span></div>
+    <div class="tile"><span class="eyebrow">Plan</span><span class="v">${nl(pk,1)}</span><span class="d">${pk==null?'stel in bij Plan':'kg verwacht'}</span></div></div></div>`;
+  h+=`<div class="card"><span class="eyebrow">Eten vandaag</span><div class="row between"><div><div class="big">${int(p.kcal)}</div><div class="muted">kcal · nooit onder ${int(kcalMin())}</div></div><div style="text-align:right"><div class="big">${int(SCHEMA.config.nutrition?.proteinG||PROTEIN)} g</div><div class="muted">eiwit</div></div></div>${kcalAdvice()}</div>`;
+  h+=weekCard();
+  $('#v-today').innerHTML=h; bindToday(pl);
+}
+function sessionForm(pl,ses,w){
+  const v=k=>ses&&ses[k]!=null?esc(ses[k]):'';
+  const yn=(id,k,label)=>`<label class="f">${label}<select id="${id}"><option value=""></option><option value="1" ${ses&&ses[k]===true?'selected':''}>ja</option><option value="0" ${ses&&ses[k]===false?'selected':''}>nee</option></select></label>`;
+  return `<details ${ses?'':'open'}><summary>${ses?'Gegevens bekijken of aanpassen':'Afvinken en gegevens invullen'}</summary>
+  <div class="grid2" style="margin-top:8px">
+   <label class="f">Duur (min)<input id="s-dur" inputmode="decimal" value="${v('durMin')}"></label>
+   <label class="f">Afstand (km)<input id="s-km" inputmode="decimal" value="${ses&&ses.km!=null?nl(ses.km,2):''}"></label>
+   <label class="f">Gem. hartslag<input id="s-avg" inputmode="numeric" value="${v('avgHr')}"></label>
+   <label class="f">Max hartslag<input id="s-max" inputmode="numeric" value="${v('maxHr')}"></label>
+   ${isJog(pl)?`<label class="f">Gem. jogtempo (m:ss)<input id="s-pace" inputmode="decimal" placeholder="7:15" value="${ses&&ses.pace!=null?mmss(ses.pace):''}"></label>`:''}
+   <label class="f">Pijn (0–10)<input id="s-pain" inputmode="numeric" value="${v('pain')}"></label>
+   ${isJog(pl)&&phaseNr(w)>=2?yn('s-talk','talkTestOk','Praattest gehaald'):''}
+   ${pl.kind==='test'?yn('s-test','testPassed','Test gehaald'):''}
+  </div>
+  <label class="f" style="margin-top:8px">Notitie<textarea id="s-note">${v('note')}</textarea></label>
+  <details style="margin-top:6px"><summary>Analyse uit de chat plakken</summary><textarea id="s-paste" placeholder='{"durMin":47.5,"km":5.01,...}'></textarea><button id="s-fill" style="margin-top:6px">Velden invullen</button></details>
+  <div class="row" style="margin-top:8px"><button class="primary" id="s-save">${ses?'Opslaan':'Gedaan ✓'}</button>${ses?'<button id="s-del">Verwijderen</button>':''}</div>
+  ${ses?.jogs?.length?`<p class="muted">${ses.jogs.length} jogs uit Watch-analyse opgeslagen.</p>`:''}</details>`;
+}
+function kcalAdvice(){
+  const p=planState(),tr=trendPerWeek(),since=days(p.kcalSetAt,TODAY),every=SCHEMA.config.nutrition?.adjustEveryDays||14,min=kcalMin();
+  if(tr==null) return `<div class="banner b-mute">Nog te weinig metingen voor bijsturing. Weeg je dagelijks; na 3 weken stuurt de app je calorieën bij.</div>`;
+  if(since<every) return `<div class="banner b-mute">Volgende check over ${every-since} dagen. Je valt nu ${nl(tr,2)} kg per week af (doel 0,4–1,0).</div>`;
+  let nk=p.kcal,msg;
+  if(tr<0.4){nk=Math.max(min,p.kcal-200);msg=`Je valt ${nl(tr,2)} kg per week af, minder dan 0,4.`}
+  else if(tr>1.0){nk=p.kcal+200;msg=`Je valt ${nl(tr,2)} kg per week af, meer dan 1,0.`}
+  else return `<div class="banner b-good">Je valt ${nl(tr,2)} kg per week af. Precies goed, je calorieën blijven gelijk. <div style="margin-top:6px"><button id="k-ok">Check opslaan</button></div></div>`;
+  if(nk===p.kcal) return `<div class="banner b-warn">${msg} Je zit al op de ondergrens van ${int(min)} kcal: meer bewegen in plaats van minder eten. <div style="margin-top:6px"><button id="k-ok">Check opslaan</button></div></div>`;
+  return `<div class="banner b-warn">${msg} Advies: ${int(nk)} kcal.<div style="margin-top:6px"><button class="primary" id="k-apply" data-k="${nk}">Toepassen</button></div></div>`;
+}
+function weekCard(){
+  const p=planState(),ws=weekStart(TODAY),a=weekAdvice(),jogs=a.inWeek.filter(isJog),ok=jogs.filter(sessionOk).length;
+  const dots=[1,2,4,6,0].map(dw=>{const dt=addDays(ws,(dw+6)%7),s=S.docs['sessions/'+dt],pl=planFor(p.planWeek,dw);
+    const c=s?(isJog(s)?(sessionOk(s)?'var(--good)':'var(--warn)'):'var(--good)'):'var(--grid)';
+    return `<span title="${nice(dt)}: ${esc(pl.title)}" style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;color:var(--muted)"><span class="dot" style="background:${c};width:14px;height:14px"></span>${DK[dw]}</span>`}).join('');
+  const closed=(p.history||[]).some(x=>x.at>=ws), canClose=TODAY>=addDays(ws,3);
+  let close;
+  if(closed) close=`<p class="muted">Deze week is afgesloten.</p>`;
+  else if(!canClose) close=`<p class="muted">Vanaf donderdag kun je de week afsluiten.</p>`;
+  else {
+    const btn=(to,label)=>`<button class="${to===a.to?'primary':''}" data-close="${to}">${label}</button>`;
+    const opts=[[Math.min(SCHEMA.weeks.length,p.planWeek+1),`Door naar week ${Math.min(SCHEMA.weeks.length,p.planWeek+1)}`],[p.planWeek,`Week ${p.planWeek} herhalen`]];
+    if(!opts.some(o=>o[0]===a.to)) opts.push([a.to,`Naar week ${a.to}`]);
+    close=`<div class="banner ${a.to>p.planWeek?'b-good':'b-warn'}">${esc(a.why)}<div class="row" style="margin-top:8px">${opts.map(o=>btn(o[0],o[1])).join('')}</div></div>`;
+  }
+  return `<div class="card"><div class="row between"><span class="eyebrow">Deze week · ${a.inWeek.length} van 5 gedaan</span><span class="muted">${jogs.length} jog · ${ok} binnen de grenzen</span></div>
+   <div class="row" style="justify-content:space-around">${dots}</div>${close}</div>`;
+}
+function bindToday(pl){
+  $('#w-save')?.addEventListener('click',saveWeight);
+  $('#w-kg')?.addEventListener('keydown',e=>{if(e.key==='Enter')saveWeight()});
+  $('#s-save')?.addEventListener('click',()=>saveSession(pl));
+  $('#s-del')?.addEventListener('click',()=>confirm('Sessie verwijderen?')&&guard(()=>write([['sessions/'+TODAY,null]])).then(()=>toast('Sessie verwijderd')));
+  $('#s-fill')?.addEventListener('click',fillFromPaste);
+  $('#k-apply')?.addEventListener('click',e=>setPlan({kcal:+e.target.dataset.k,kcalSetAt:TODAY},'Calorieën aangepast'));
+  $('#k-ok')?.addEventListener('click',()=>setPlan({kcalSetAt:TODAY},'Check opgeslagen'));
+  document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeWeek(+b.dataset.close)));
+}
+
+/* ---------- schrijven ---------- */
+async function saveWeight(){
+  const kg=numOrNull($('#w-kg').value);
+  if(!(kg>40&&kg<250)){toast('Vul je gewicht in kg in, bijv. 122,4');return}
+  await guard(async()=>{await write([['weights/'+TODAY,{date:TODAY,kg:Math.round(kg*10)/10,source:'app'}]]);toast('Gewicht opgeslagen')});
+}
+const yesNo=id=>{const v=$(id)?.value;return v==='1'?true:v==='0'?false:null};
+async function saveSession(pl){
+  const n=id=>numOrNull($(id)?.value),p=planState(),old=S.docs['sessions/'+TODAY]||{};
+  const body={...old,date:TODAY,kind:pl.kind,title:pl.title,planWeek:p.planWeek,done:true,durMin:n('#s-dur'),km:n('#s-km'),avgHr:n('#s-avg'),maxHr:n('#s-max'),
+    pace:isJog(pl)?toMin($('#s-pace')?.value):null,pain:n('#s-pain'),talkTestOk:yesNo('#s-talk'),testPassed:yesNo('#s-test'),note:$('#s-note')?.value||'',jogs:S.pastedJogs||old.jogs||null,source:S.pastedJogs?'watch':old.source||'app'};
+  if(body.pain!=null&&(body.pain<0||body.pain>10)){toast('Pijn is een getal van 0 tot 10');return}
+  await guard(async()=>{await write([['sessions/'+TODAY,body]]);S.pastedJogs=null;toast('Sessie opgeslagen')});
+}
+// Analyse uit de chat: {"durMin","km","avgHr","maxHr","pace","jogs":[...],"note"}
+function fillFromPaste(){
+  let d;try{d=JSON.parse($('#s-paste').value)}catch(e){toast('Dit is geen geldige analyse');return}
+  const set=(id,v)=>{const el=$(id);if(el&&v!=null)el.value=v};
+  set('#s-dur',d.durMin);set('#s-km',d.km!=null?nl(d.km,2):null);set('#s-avg',d.avgHr);set('#s-max',d.maxHr);
+  set('#s-pace',d.pace!=null?mmss(d.pace):null);set('#s-note',d.note);
+  const nums=j=>Object.fromEntries(['startMin','m','sec','paceMinKm','hrStart','hrPeak','walkMBefore'].map(k=>[k,numOrNull(j?.[k])]));
+  S.pastedJogs=Array.isArray(d.jogs)?d.jogs.slice(0,100).map(nums):null;
+  toast('Velden ingevuld, controleer en sla op');
+}
+async function setPlan(patch,msg){await guard(async()=>{await write([['state/plan',{...planState(),...patch}]]);toast(msg)})}
+async function closeWeek(to){
+  const p=planState(),hist=(p.history||[]).concat([{week:p.planWeek,result:to>p.planWeek?'door':'herhaald',to,at:TODAY}]).slice(-120);
+  await setPlan({planWeek:to,history:hist},to>p.planWeek?`Week ${to} gestart`:`Verder met week ${to}`);
+}
+
+/* ---------- render: gewicht ---------- */
+function renderWeight(){
+  const W=weights(),last=W.at(-1),tr=trendPerWeek(),p=planState();
+  let h=`<div class="card"><span class="eyebrow">Gewicht</span><div class="tiles">
+   <div class="tile"><span class="eyebrow">Laatste</span><span class="v">${last?nl(last.kg,1):'–'}</span><span class="d">${last?nice(last.date):'nog niets'}</span></div>
+   <div class="tile"><span class="eyebrow">7-daags</span><span class="v">${last?nl(avg7(last.date),1):'–'}</span><span class="d">kg</span></div>
+   <div class="tile"><span class="eyebrow">Nog te gaan</span><span class="v">${last&&p.goalKg!=null?nl(avg7(last.date)-p.goalKg,1):'–'}</span><span class="d">${p.goalKg!=null?`kg tot ${nl(p.goalKg,0)}`:'doel instellen bij Plan'}</span></div></div>
+   ${weightChart()}
+   <div class="legend"><span><i style="background:var(--accent)"></i>7-daags gemiddelde</span><span><i style="background:var(--muted);height:6px;width:6px;border-radius:50%"></i>Dagmeting</span><span><i style="background:var(--plan)"></i>Plan ${nl(p.rateKg,1)} kg/week</span><span><i style="background:var(--goal)"></i>Doel</span></div>
+   <p class="muted">Tempo laatste 2 weken: ${tr!=null?nl(tr,2)+' kg per week':'nog te weinig metingen'} · calorieën nu ${int(p.kcal)} kcal</p></div>`;
+  h+=`<div class="card"><span class="eyebrow">Metingen</span><div class="tw"><table><thead><tr><th>Datum</th><th>kg</th><th>7-daags</th><th></th></tr></thead><tbody>${W.slice().reverse().slice(0,60).map(x=>`<tr><td>${nice(x.date)}</td><td class="n">${nl(x.kg,1)}</td><td class="n">${nl(avg7(x.date),1)}</td><td><button data-delw="${esc(x.date)}" aria-label="Verwijderen" style="min-height:0;padding:2px 8px;border:0">✕</button></td></tr>`).join('')||'<tr><td colspan="4" class="muted">Nog geen metingen. Weeg je morgenochtend en vul het in op Vandaag.</td></tr>'}</tbody></table></div></div>`;
+  $('#v-weight').innerHTML=h;
+  document.querySelectorAll('[data-delw]').forEach(b=>b.addEventListener('click',()=>confirm(`Meting ${nice(b.dataset.delw)} verwijderen?`)&&guard(()=>write([['weights/'+b.dataset.delw,null]]))));
+}
+function weightChart(){
+  const W=weights(),p=planState();if(W.length<2)return '<p class="muted">De grafiek verschijnt na 2 metingen.</p>';
+  const from=W[0].date,to=addDays(TODAY,21),n=Math.max(1,days(from,to)),Wd=600,H=230,m={l:34,r:8,t:10,b:22};
+  const xs=d=>m.l+days(from,d)/n*(Wd-m.l-m.r);
+  const vals=W.map(x=>x.kg).concat(p.goalKg!=null?[p.goalKg]:[]).concat(planKgAt(to)!=null?[planKgAt(to)]:[]);
+  const lo=Math.floor(Math.min(...vals)-2),hi=Math.ceil(Math.max(...vals)+1),ys=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
+  let g='';const step=hi-lo>20?5:2;
+  for(let v=Math.ceil(lo/step)*step;v<=hi;v+=step) g+=`<line x1="${m.l}" x2="${Wd-m.r}" y1="${ys(v)}" y2="${ys(v)}" stroke="var(--grid)"/><text x="${m.l-5}" y="${ys(v)+3.5}" text-anchor="end">${v}</text>`;
+  for(let d=parse(from);iso(d)<=to;d.setDate(d.getDate()+1)) if(d.getDate()===1) g+=`<text x="${xs(iso(d))}" y="${H-6}" text-anchor="middle">1 ${MON[d.getMonth()]}</text>`;
+  if(p.goalKg!=null) g+=`<line x1="${m.l}" x2="${Wd-m.r}" y1="${ys(p.goalKg)}" y2="${ys(p.goalKg)}" stroke="var(--goal)" stroke-width="1.5"/>`;
+  if(planKgAt(to)!=null){const a=from<p.refDate?p.refDate:from;g+=`<line x1="${xs(a)}" y1="${ys(planKgAt(a))}" x2="${xs(to)}" y2="${ys(planKgAt(to))}" stroke="var(--plan)" stroke-width="2" stroke-dasharray="6 5"/>`}
+  W.forEach(x=>g+=`<circle cx="${xs(x.date)}" cy="${ys(x.kg)}" r="2.5" fill="var(--muted)"><title>${nice(x.date)}: ${nl(x.kg,1)} kg</title></circle>`);
+  const a=W.map(x=>[x.date,avg7(x.date)]);
+  g+=`<path d="${a.map((q,i)=>(i?'L':'M')+xs(q[0]).toFixed(1)+','+ys(q[1]).toFixed(1)).join('')}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>`;
+  const l=a.at(-1);g+=`<circle cx="${xs(l[0])}" cy="${ys(l[1])}" r="4.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/>`;
+  return `<svg viewBox="0 0 ${Wd} ${H}" role="img" aria-label="Gewicht met 7-daags gemiddelde, plan en doel">${g}</svg>`;
+}
+
+/* ---------- render: sessies ---------- */
+function renderSessions(){
+  const L=sessions().reverse();
+  const h=`<div class="card"><span class="eyebrow">Sessies</span><div class="list">${L.map(s=>{const e=evalSession(s);
+    const st=!isJog(s)?'<span class="pill p-good">✓</span>':!e.length?'<span class="pill p-mute">geen data</span>':e.every(x=>x.ok)?'<span class="pill p-good">✓ binnen grenzen</span>':'<span class="pill p-warn">! te hard</span>';
+    const bad=e?e.filter(x=>!x.ok).map(x=>x.t).join(', '):'';
+    const facts=[s.durMin!=null?`${nl(s.durMin,0)} min`:'',s.km!=null?`${nl(s.km,2)} km`:'',s.avgHr!=null?`gem. ${int(s.avgHr)}`:'',s.maxHr!=null?`max ${int(s.maxHr)}`:'',s.pace!=null?`jog ${mmss(s.pace)} /km`:''].filter(Boolean).join(' · ');
+    return `<div class="li"><span class="dot" style="background:${isJog(s)?'var(--accent)':'var(--muted)'}"></span><div><div style="font-weight:650">${nice(s.date)} · ${esc(s.title||s.kind)}</div><div class="muted">${facts||'–'}${bad?' · <b>'+esc(bad)+'</b>':''}${s.note?' · '+esc(s.note):''}</div></div>${st}</div>`}).join('')||'<p class="muted">Nog geen sessies. Vink je training af op Vandaag.</p>'}</div></div>`;
+  $('#v-sessions').innerHTML=h;
+}
+
+/* ---------- render: plan ---------- */
+function renderPlan(){
+  const p=planState(),wk=weekOf(p.planWeek),c=SCHEMA.config;
+  let h=`<div class="card"><span class="eyebrow">Waar je staat</span><h2>Week ${esc(p.planWeek)} van ${SCHEMA.weeks.length} · fase ${wk.phase} · ${esc(wk.phaseName)}</h2>
+   <p class="sub">Doel van deze fase: ${esc(wk.phaseGoal)}. Einddoel: ${esc(c.goals.finalRun)} (rond ${nice(c.goals.finalRunTargetDate)} 2027)${p.goalKg!=null?` en ${nl(p.goalKg,0)} kg`:''}.</p>
+   ${wk.recoveryWeek?'<span class="pill p-mute">herstelweek</span>':''}${wk.testWeek?'<span class="pill p-warn">testweek</span>':''}</div>`;
+  h+=`<div class="card"><span class="eyebrow">Week-indeling</span><div class="tw"><table><tbody>${[1,2,3,4,5,6,0].map(dw=>{const pl=planFor(p.planWeek,dw);return `<tr><td style="width:44px;font-weight:650">${DK[dw]}</td><td>${esc(pl.title)}<div class="muted">${esc(pl.text)}</div></td></tr>`}).join('')}</tbody></table></div></div>`;
+  h+=`<div class="card"><span class="eyebrow">Fases</span><div class="tw"><table><thead><tr><th>Fase</th><th>Weken</th><th>Doel</th><th></th></tr></thead><tbody>${phases().map(f=>`<tr><td>${f.nr} · ${esc(f.name)}</td><td class="n">${f.from}–${f.to}</td><td>${esc(f.goal)}</td><td>${p.planWeek>f.to?'<span class="pill p-good">✓</span>':p.planWeek>=f.from?'<span class="pill p-mute">nu</span>':''}</td></tr>`).join('')}</tbody></table></div></div>`;
+  const pr=c.progression||{};
+  h+=`<div class="card"><span class="eyebrow">Regels</span><ul class="steps">
+   <li><b>Door:</b> ${esc(pr.advanceIf)}. Anders: ${esc(pr.else)}.</li><li><b>Sessie gemist:</b> ${esc(pr.missedSession)}. <b>Hele week gemist:</b> ${esc(pr.missedWeek)}.</li>
+   <li><b>Test niet gehaald:</b> ${esc(pr.testFailed)}.</li><li><b>Ziek of rusthartslag +10:</b> ${esc(pr.sick_or_restingHrPlus10)}.</li>
+   <li><b>Pijn &gt; 3 of de ochtend erna:</b> ${esc(pr.pain_gt3_or_nextMorning)}.</li><li><b>Pijn langer dan 1 week:</b> ${esc(pr.pain_gt_1week)}.</li></ul></div>`;
+  const hist=(p.history||[]).slice().reverse();
+  h+=`<div class="card"><span class="eyebrow">Geschiedenis</span>${hist.length?`<div class="tw"><table><tbody>${hist.map(x=>`<tr><td>${nice(x.at)}</td><td>Week ${esc(x.week)}</td><td>${x.result==='door'?'<span class="pill p-good">door</span>':`<span class="pill p-warn">${x.to!=null&&x.to<x.week?'terug naar '+esc(x.to):'herhaald'}</span>`}</td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">Nog geen weken afgesloten.</p>'}</div>`;
+  h+=`<div class="card"><span class="eyebrow">Doelen en planlijn</span>
+   <div class="grid2"><label class="f">Doelgewicht (kg)<input id="g-goal" inputmode="decimal" value="${p.goalKg!=null?nl(p.goalKg,1):''}"></label>
+   <label class="f">Afvaltempo (kg/week)<input id="g-rate" inputmode="decimal" value="${nl(p.rateKg,1)}"></label>
+   <label class="f">Planlijn start (kg)<input id="g-ref" inputmode="decimal" value="${p.refKg!=null?nl(p.refKg,1):''}"></label>
+   <label class="f">Planlijn startdatum<input id="g-refdate" type="date" value="${esc(p.refDate||'')}"></label>
+   <label class="f">Planweek<input id="g-week" inputmode="numeric" value="${esc(p.planWeek)}"></label>
+   <label class="f">Calorieën (kcal)<input id="g-kcal" inputmode="numeric" value="${esc(p.kcal)}"></label></div>
+   <button class="primary" id="g-save">Opslaan</button></div>`;
+  h+=`<div class="card"><span class="eyebrow">Account</span><p class="muted">${sb?(S.offline?'Offline: je ziet de laatst geladen gegevens.':'Gegevens worden opgeslagen in je eigen database.'):'Gegevens staan alleen op dit apparaat (Supabase nog niet ingesteld).'}</p>${sb?'<button id="logout">Uitloggen</button>':''}</div>`;
+  $('#v-plan').innerHTML=h;
+  $('#g-save').addEventListener('click',()=>{
+    const goal=numOrNull($('#g-goal').value),rate=numOrNull($('#g-rate').value),ref=numOrNull($('#g-ref').value),rd=$('#g-refdate').value||null,wk=Math.round(numOrNull($('#g-week').value)),kc=Math.round(numOrNull($('#g-kcal').value));
+    if(!(wk>=1&&wk<=SCHEMA.weeks.length)){toast(`Planweek moet tussen 1 en ${SCHEMA.weeks.length} liggen`);return}
+    if(!(kc>=kcalMin()&&kc<6000)){toast(`Calorieën minimaal ${int(kcalMin())}`);return}
+    if((goal!=null&&!(goal>40&&goal<250))||(ref!=null&&!(ref>40&&ref<250))||!(rate>0&&rate<=2)){toast('Controleer de getallen');return}
+    if(rd&&!validDate(rd)){toast('Ongeldige datum');return}
+    setPlan({goalKg:goal,rateKg:rate,refKg:ref,refDate:rd,planWeek:wk,kcal:kc,...(kc!==p.kcal?{kcalSetAt:TODAY}:{})},'Opgeslagen');
+  });
+  $('#logout')?.addEventListener('click',async()=>{await sb.auth.signOut();try{localStorage.removeItem(CACHE_KEY)}catch(e){};location.reload()});
+}
+
+/* ---------- inloggen ---------- */
+function renderLogin(msg){
+  $('#v-login').innerHTML=`<div class="card"><h2>Inloggen</h2><p class="sub">Log in om je gegevens op te slaan en op al je apparaten te zien.</p>
+   <label class="f">E-mail<input id="l-mail" type="email" autocomplete="email"></label>
+   <label class="f">Wachtwoord<input id="l-pw" type="password" autocomplete="current-password"></label>
+   <div class="row"><button class="primary" id="l-in">Inloggen</button><button id="l-up">Account maken</button></div>
+   ${msg?`<div class="banner b-mute">${esc(msg)}</div>`:''}</div>`;
+  const creds=()=>({email:$('#l-mail').value.trim(),password:$('#l-pw').value});
+  $('#l-in').onclick=async()=>{const {error}=await sb.auth.signInWithPassword(creds());if(error)renderLogin('Inloggen mislukt: controleer e-mail en wachtwoord.')};
+  $('#l-up').onclick=async()=>{const c=creds();if(c.password.length<8){renderLogin('Kies een wachtwoord van minstens 8 tekens.');return}
+    const {data,error}=await sb.auth.signUp({...c,options:{emailRedirectTo:location.origin+location.pathname}});
+    if(error)renderLogin('Account maken lukt niet (misschien staan nieuwe accounts uit).');else if(!data.session)renderLogin('Bevestig je e-mail via de link in je mail en log daarna hier in.')};
+}
+function showLogin(on){
+  $('#v-login').hidden=!on;$('.tabs').hidden=on;
+  ['today','weight','sessions','plan'].forEach(v=>$('#v-'+v).hidden=on||v!==S.view);
+  if(on)renderLogin();
+}
+
+/* ---------- tabs + start ---------- */
+function render(force){
+  if(!S.ready)return;
+  const ae=document.activeElement;
+  if(force) render.pending=false;
+  else if(ae&&/INPUT|TEXTAREA|SELECT/.test(ae.tagName)&&$('#app').contains(ae)&&!$('#v-login').contains(ae)){render.pending=true;return}
+  const p=planState(),wk=weekOf(p.planWeek);
+  $('#hdr-date').textContent=nice(TODAY);$('#hdr-week').textContent=`Week ${p.planWeek} · fase ${wk.phase}`;
+  ({today:renderToday,weight:renderWeight,sessions:renderSessions,plan:renderPlan})[S.view]();
+}
+document.addEventListener('focusout',()=>setTimeout(()=>{if(render.pending){const ae=document.activeElement;if(!(ae&&/INPUT|TEXTAREA|SELECT/.test(ae.tagName))){render.pending=false;render()}}},0));
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{
+  S.view=b.dataset.v;document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  ['today','weight','sessions','plan'].forEach(v=>$('#v-'+v).hidden=v!==S.view);
+  S.pastedJogs=null;try{localStorage.setItem('lc-tab',S.view)}catch(e){};render(true);scrollTo(0,0)}));
+
+async function start(){
+  const conn=$('#conn');
+  try{SCHEMA=await (await fetch('data/schema.json')).json()}catch(e){conn.hidden=false;conn.textContent='Het schema kon niet geladen worden. Controleer je verbinding.';return}
+  if(SUPABASE_URL&&SUPABASE_KEY&&window.supabase){
+    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    const {data:{session}}=await sb.auth.getSession();
+    sb.auth.onAuthStateChange((ev,ses)=>{if(ev==='SIGNED_IN'&&!S.uid)location.reload();});
+    if(!session){showLogin(true);return}
+    S.uid=session.user.id;
+    try{await loadDocs()}catch(e){S.docs=cacheLoad();S.offline=true;conn.hidden=false;conn.textContent='Offline: je ziet de laatst geladen gegevens. Opslaan lukt pas weer met verbinding.'}
   } else {
-    $("#weightBar").style.width = "0";
-    $("#weightText").textContent = "Stel een doel in en log je gewicht.";
+    await loadDocs();
+    if(SUPABASE_URL){conn.hidden=false;conn.textContent='Database niet bereikbaar: gegevens worden alleen op dit apparaat bewaard.'}
   }
-  $("#weightLog").innerHTML = ws.map(x => `
-    <li><span>${fmtDate(x.date)} — ${nl(x.kg)} kg</span>
-    <button data-del="weights" data-id="${x.id}" aria-label="Verwijderen">✕</button></li>`).join("");
-  drawChart(ws.slice().reverse());
+  S.ready=true;
+  try{const t=localStorage.getItem('lc-tab');if(t&&t!=='today')return document.querySelector(`.tabs [data-v="${t}"]`)?.click()}catch(e){}
+  render();
 }
-
-function drawChart(pts) {
-  const svg = $("#chart");
-  if (pts.length < 2) { svg.innerHTML = ""; return; }
-  const kgs = pts.map(p => p.kg).concat(data.goal ? [data.goal.target] : []);
-  const lo = Math.min(...kgs) - 1, hi = Math.max(...kgs) + 1;
-  const y = kg => 135 - (kg - lo) / (hi - lo) * 130;
-  const line = pts.map((p, i) => `${i / (pts.length - 1) * 300},${y(p.kg)}`).join(" ");
-  const goal = data.goal ? `<line x1="0" x2="300" y1="${y(data.goal.target)}" y2="${y(data.goal.target)}" stroke="var(--muted)" stroke-dasharray="4" vector-effect="non-scaling-stroke"/>` : "";
-  svg.innerHTML = goal + `<polyline points="${line}" fill="none" stroke="var(--accent)" stroke-width="2.5" vector-effect="non-scaling-stroke"/>`;
-}
-
-// Events
-document.addEventListener("change", e => {
-  if (e.target.dataset.k) { data.done[e.target.dataset.k] = e.target.checked; save(); }
-});
-document.addEventListener("click", e => {
-  const t = e.target;
-  if (t.dataset.tab) {
-    document.querySelectorAll("section").forEach(s => s.hidden = s.id !== t.dataset.tab);
-    document.querySelectorAll("nav button").forEach(b => b === t ? b.setAttribute("aria-current", "page") : b.removeAttribute("aria-current"));
-    scrollTo(0, 0);
-  }
-  if (t.dataset.del && confirm("Verwijderen?")) {
-    data[t.dataset.del] = data[t.dataset.del].filter(x => x.id !== +t.dataset.id); save();
-  }
-});
-$("#walkForm").onsubmit = e => {
-  e.preventDefault(); const f = e.target;
-  data.walks.push({ id: Date.now(), date: f.date.value, km: +f.km.value, min: +f.min.value || null });
-  f.reset(); f.date.value = today(); save();
-};
-$("#weightForm").onsubmit = e => {
-  e.preventDefault(); const f = e.target;
-  data.weights.push({ id: Date.now(), date: f.date.value, kg: +f.kg.value });
-  f.reset(); f.date.value = today(); save();
-};
-$("#goalForm").onsubmit = e => {
-  e.preventDefault(); const f = e.target;
-  data.goal = { start: +f.start.value, target: +f.target.value }; save();
-};
-$("#exportBtn").onclick = () => {
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
-  a.download = `wandel5km-backup-${today()}.json`; a.click();
-};
-$("#importBtn").onclick = () => $("#importFile").click();
-$("#importFile").onchange = async e => {
-  try {
-    const d = JSON.parse(await e.target.files[0].text());
-    if (!Array.isArray(d.walks) || !Array.isArray(d.weights) || typeof d.done !== "object") throw 0;
-    if (confirm("Huidige gegevens vervangen door de back-up?")) { data = clean(d); save(); }
-  } catch { alert("Dit is geen geldig back-upbestand."); }
-  e.target.value = "";
-};
-
-document.querySelectorAll("input[type=date]").forEach(i => i.value = today());
-render();
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+start();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 </script>
 </body>
 </html>

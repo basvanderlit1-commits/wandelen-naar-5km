@@ -1,0 +1,2922 @@
+{
+ "config": {
+  "startDate": "2026-10-05",
+  "sessionTime": "19:00",
+  "maxSessionMin": 60,
+  "restDays": [
+   "wo",
+   "vr"
+  ],
+  "goals": {
+   "finalRun": "5 km aan één stuk",
+   "finalRunTargetDate": "2027-08-22",
+   "bufferWeeks": "4-6"
+  },
+  "nutrition": {
+   "kcalStart": 2500,
+   "kcalFloor": 2200,
+   "proteinG": 130,
+   "adjustEveryDays": 14,
+   "adjust": [
+    {
+     "if": "lossPerWeek < 0.4",
+     "kcalDelta": -200
+    },
+    {
+     "if": "lossPerWeek > 1.0",
+     "kcalDelta": 200
+    }
+   ],
+   "note": "Watch-calorieën niet terugeten"
+  },
+  "intensityRules": {
+   "phase1": {
+    "maxPaceMinPerKm": 7.0,
+    "peakHrMax": 170,
+    "restartJogBelowHr": 135
+   },
+   "phase2": {
+    "talkTest": true,
+    "peakHrMax": 170,
+    "slowerAlwaysAllowed": true
+   },
+   "phase3to6": {
+    "talkTest": true,
+    "avgHrMax": 160,
+    "onHr170": "wandelen tot 150, dan verder"
+   },
+   "walks": {
+    "di": "125-145",
+    "za": "125-145",
+    "zo": "<125"
+   }
+  },
+  "progression": {
+   "advanceIf": "alle jog-sessies van de week gedaan, binnen de regels van de fase, pijn <= 3/10",
+   "else": "week herhalen",
+   "missedSession": "niet inhalen",
+   "missedWeek": "2 weken terug",
+   "testFailed": "laatste 2 weken van de fase herhalen, dan opnieuw testen",
+   "sick_or_restingHrPlus10": "alleen rustig wandelen, daarna laatste week herhalen",
+   "pain_gt3_or_nextMorning": "volgende sessie zonder jogs; 2e keer: 1 week terug",
+   "pain_gt_1week": "stoppen, huisarts/fysio, kracht terug in plan",
+   "weightFlat3Weeks": "eerst 1 week alles loggen, dan pas kcal omlaag"
+  },
+  "checks": {
+   "weighDaily": "elke ochtend na toilet, voor ontbijt; trend = 7-daags gemiddelde",
+   "weeklyClose": "zondagavond",
+   "dataCheckEvery": "4 weken, na herstelweek"
+  }
+ },
+ "weeks": [
+  {
+   "week": 1,
+   "startDate": "2026-10-05",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 10,
+      "jogMeters": 60,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 600,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 40,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 10,
+      "jogMeters": 60,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 600,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 2,
+   "startDate": "2026-10-12",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 60,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 720,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 45,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 60,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 720,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 3,
+   "startDate": "2026-10-19",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 75,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 900,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 75,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 900,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 4,
+   "startDate": "2026-10-26",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": true,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 10,
+      "jogMeters": 60,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 600,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 40,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 10,
+      "jogMeters": 60,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 600,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 5,
+   "startDate": "2026-11-02",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 100,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 1200,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 100,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 1200,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 6,
+   "startDate": "2026-11-09",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 120,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 1440,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 120,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 1440,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 7,
+   "startDate": "2026-11-16",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 150,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 1800,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 150,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 1800,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 8,
+   "startDate": "2026-11-23",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": true,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 10,
+      "jogMeters": 100,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 1000,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 45,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 10,
+      "jogMeters": 100,
+      "walkMetersBetween": 300,
+      "totalJogMeters": 1000,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 9,
+   "startDate": "2026-11-30",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 150,
+      "walkMetersBetween": 250,
+      "totalJogMeters": 1800,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 12,
+      "jogMeters": 150,
+      "walkMetersBetween": 250,
+      "totalJogMeters": 1800,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 10,
+   "startDate": "2026-12-07",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 10,
+      "jogMeters": 200,
+      "walkMetersBetween": 250,
+      "totalJogMeters": 2000,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 10,
+      "jogMeters": 200,
+      "walkMetersBetween": 250,
+      "totalJogMeters": 2000,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 11,
+   "startDate": "2026-12-14",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 11,
+      "jogMeters": 200,
+      "walkMetersBetween": 250,
+      "totalJogMeters": 2200,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 11,
+      "jogMeters": 200,
+      "walkMetersBetween": 250,
+      "totalJogMeters": 2200,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 12,
+   "startDate": "2026-12-21",
+   "phase": 1,
+   "phaseName": "Basis",
+   "phaseGoal": "jogs 60 → 200 m",
+   "recoveryWeek": false,
+   "testWeek": true,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "distance-intervals",
+      "reps": 8,
+      "jogMeters": 200,
+      "walkMetersBetween": 250,
+      "totalJogMeters": 1600,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "test",
+     "test": {
+      "kind": "5km walk+jog, target < 45:00",
+      "session": {
+       "format": "distance-intervals",
+       "reps": 8,
+       "jogMeters": 200,
+       "walkMetersBetween": 250,
+       "totalJogMeters": 1600,
+       "warmupWalkMin": 5,
+       "cooldownWalkMin": 5
+      }
+     },
+     "rule": "hele afstand zonder wandelen, niet sneller dan 7:00/km, max HR <= 170"
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 13,
+   "startDate": "2026-12-28",
+   "phase": 2,
+   "phaseName": "Naar 1 km",
+   "phaseGoal": "1 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 8,
+        "jogSec": 90,
+        "walkSec": 120
+       }
+      ],
+      "totalJogMin": 12.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 8,
+        "jogSec": 90,
+        "walkSec": 120
+       }
+      ],
+      "totalJogMin": 12.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 14,
+   "startDate": "2027-01-04",
+   "phase": 2,
+   "phaseName": "Naar 1 km",
+   "phaseGoal": "1 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 6,
+        "jogSec": 120,
+        "walkSec": 120
+       }
+      ],
+      "totalJogMin": 12.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 6,
+        "jogSec": 120,
+        "walkSec": 120
+       }
+      ],
+      "totalJogMin": 12.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 15,
+   "startDate": "2027-01-11",
+   "phase": 2,
+   "phaseName": "Naar 1 km",
+   "phaseGoal": "1 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 5,
+        "jogSec": 180,
+        "walkSec": 120
+       }
+      ],
+      "totalJogMin": 15.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 5,
+        "jogSec": 180,
+        "walkSec": 120
+       }
+      ],
+      "totalJogMin": 15.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 16,
+   "startDate": "2027-01-18",
+   "phase": 2,
+   "phaseName": "Naar 1 km",
+   "phaseGoal": "1 km aan één stuk",
+   "recoveryWeek": true,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 6,
+        "jogSec": 120,
+        "walkSec": 120
+       }
+      ],
+      "totalJogMin": 12.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 6,
+        "jogSec": 120,
+        "walkSec": 120
+       }
+      ],
+      "totalJogMin": 12.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "walk",
+     "name": "Lange wandeling",
+     "min": 55,
+     "hrZone": "Z2 125-145"
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 17,
+   "startDate": "2027-01-25",
+   "phase": 2,
+   "phaseName": "Naar 1 km",
+   "phaseGoal": "1 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 4,
+        "jogSec": 240,
+        "walkSec": 120
+       }
+      ],
+      "totalJogMin": 16.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 4,
+        "jogSec": 240,
+        "walkSec": 120
+       }
+      ],
+      "totalJogMin": 16.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "time-intervals",
+      "jogMin": 5,
+      "blockSec": "60-120",
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 18,
+   "startDate": "2027-02-01",
+   "phase": 2,
+   "phaseName": "Naar 1 km",
+   "phaseGoal": "1 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 3,
+        "jogSec": 300,
+        "walkSec": 150
+       }
+      ],
+      "totalJogMin": 15.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 3,
+        "jogSec": 300,
+        "walkSec": 150
+       }
+      ],
+      "totalJogMin": 15.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "time-intervals",
+      "jogMin": 7,
+      "blockSec": "60-120",
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 19,
+   "startDate": "2027-02-08",
+   "phase": 2,
+   "phaseName": "Naar 1 km",
+   "phaseGoal": "1 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 2,
+        "jogSec": 420,
+        "walkSec": 180
+       }
+      ],
+      "totalJogMin": 14.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 2,
+        "jogSec": 420,
+        "walkSec": 180
+       }
+      ],
+      "totalJogMin": 14.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "time-intervals",
+      "jogMin": 9,
+      "blockSec": "60-120",
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 20,
+   "startDate": "2027-02-15",
+   "phase": 2,
+   "phaseName": "Naar 1 km",
+   "phaseGoal": "1 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": true,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 2,
+        "jogSec": 420,
+        "walkSec": 180
+       }
+      ],
+      "totalJogMin": 14.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "test",
+     "test": {
+      "distanceKm": 1
+     },
+     "rule": "hele afstand zonder wandelen, niet sneller dan 7:00/km, max HR <= 170"
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "time-intervals",
+      "jogMin": 7,
+      "blockSec": "60-120",
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 21,
+   "startDate": "2027-02-22",
+   "phase": 3,
+   "phaseName": "Naar 2 km",
+   "phaseGoal": "2 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 2,
+        "jogSec": 480,
+        "walkSec": 180
+       }
+      ],
+      "totalJogMin": 16.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 2,
+        "jogSec": 480,
+        "walkSec": 180
+       }
+      ],
+      "totalJogMin": 16.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "time-intervals",
+      "jogMin": 11,
+      "blockSec": "60-120",
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 22,
+   "startDate": "2027-03-01",
+   "phase": 3,
+   "phaseName": "Naar 2 km",
+   "phaseGoal": "2 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 2,
+        "jogSec": 540,
+        "walkSec": 180
+       }
+      ],
+      "totalJogMin": 18.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 2,
+        "jogSec": 540,
+        "walkSec": 180
+       }
+      ],
+      "totalJogMin": 18.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "time-intervals",
+      "jogMin": 13,
+      "blockSec": "60-120",
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 23,
+   "startDate": "2027-03-08",
+   "phase": 3,
+   "phaseName": "Naar 2 km",
+   "phaseGoal": "2 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 1,
+        "jogSec": 600,
+        "walkSec": 180
+       },
+       {
+        "reps": 1,
+        "jogSec": 360,
+        "walkSec": 0
+       }
+      ],
+      "totalJogMin": 16.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 1,
+        "jogSec": 600,
+        "walkSec": 180
+       },
+       {
+        "reps": 1,
+        "jogSec": 360,
+        "walkSec": 0
+       }
+      ],
+      "totalJogMin": 16.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "time-intervals",
+      "jogMin": 14,
+      "blockSec": "60-120",
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 24,
+   "startDate": "2027-03-15",
+   "phase": 3,
+   "phaseName": "Naar 2 km",
+   "phaseGoal": "2 km aan één stuk",
+   "recoveryWeek": true,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 2,
+        "jogSec": 420,
+        "walkSec": 180
+       }
+      ],
+      "totalJogMin": 14.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 2,
+        "jogSec": 420,
+        "walkSec": 180
+       }
+      ],
+      "totalJogMin": 14.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "time-intervals",
+      "jogMin": 10,
+      "blockSec": "60-120",
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 25,
+   "startDate": "2027-03-22",
+   "phase": 3,
+   "phaseName": "Naar 2 km",
+   "phaseGoal": "2 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 1,
+        "jogSec": 720,
+        "walkSec": 180
+       },
+       {
+        "reps": 1,
+        "jogSec": 300,
+        "walkSec": 0
+       }
+      ],
+      "totalJogMin": 17.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "time-intervals",
+      "blocks": [
+       {
+        "reps": 1,
+        "jogSec": 720,
+        "walkSec": 180
+       },
+       {
+        "reps": 1,
+        "jogSec": 300,
+        "walkSec": 0
+       }
+      ],
+      "totalJogMin": 17.0,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "time-intervals",
+      "jogMin": 15,
+      "blockSec": "60-120",
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 26,
+   "startDate": "2027-03-29",
+   "phase": 3,
+   "phaseName": "Naar 2 km",
+   "phaseGoal": "2 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 13,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 13,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 16,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 27,
+   "startDate": "2027-04-05",
+   "phase": 3,
+   "phaseName": "Naar 2 km",
+   "phaseGoal": "2 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 14,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 14,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 17,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 28,
+   "startDate": "2027-04-12",
+   "phase": 3,
+   "phaseName": "Naar 2 km",
+   "phaseGoal": "2 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": true,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 14,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "test",
+     "test": {
+      "distanceKm": 2
+     },
+     "rule": "hele afstand zonder wandelen, niet sneller dan 7:00/km, max HR <= 170"
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 12,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 29,
+   "startDate": "2027-04-19",
+   "phase": 4,
+   "phaseName": "Naar 3 km",
+   "phaseGoal": "3 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 16,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 16,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 14,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 30,
+   "startDate": "2027-04-26",
+   "phase": 4,
+   "phaseName": "Naar 3 km",
+   "phaseGoal": "3 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 18,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 18,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 16,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 31,
+   "startDate": "2027-05-03",
+   "phase": 4,
+   "phaseName": "Naar 3 km",
+   "phaseGoal": "3 km aan één stuk",
+   "recoveryWeek": true,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 15,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 15,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 12,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 32,
+   "startDate": "2027-05-10",
+   "phase": 4,
+   "phaseName": "Naar 3 km",
+   "phaseGoal": "3 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 20,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 20,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 17,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 33,
+   "startDate": "2027-05-17",
+   "phase": 4,
+   "phaseName": "Naar 3 km",
+   "phaseGoal": "3 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 21,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 21,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 19,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 34,
+   "startDate": "2027-05-24",
+   "phase": 4,
+   "phaseName": "Naar 3 km",
+   "phaseGoal": "3 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": true,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 20,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "test",
+     "test": {
+      "distanceKm": 3
+     },
+     "rule": "hele afstand zonder wandelen, niet sneller dan 7:00/km, max HR <= 170"
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 15,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 35,
+   "startDate": "2027-05-31",
+   "phase": 5,
+   "phaseName": "Naar 4 km",
+   "phaseGoal": "4 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 24,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 24,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 20,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 36,
+   "startDate": "2027-06-07",
+   "phase": 5,
+   "phaseName": "Naar 4 km",
+   "phaseGoal": "4 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 26,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 26,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 22,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 37,
+   "startDate": "2027-06-14",
+   "phase": 5,
+   "phaseName": "Naar 4 km",
+   "phaseGoal": "4 km aan één stuk",
+   "recoveryWeek": true,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 22,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 22,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 18,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 38,
+   "startDate": "2027-06-21",
+   "phase": 5,
+   "phaseName": "Naar 4 km",
+   "phaseGoal": "4 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 27,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 27,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 24,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 39,
+   "startDate": "2027-06-28",
+   "phase": 5,
+   "phaseName": "Naar 4 km",
+   "phaseGoal": "4 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 28,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 28,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 25,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 40,
+   "startDate": "2027-07-05",
+   "phase": 5,
+   "phaseName": "Naar 4 km",
+   "phaseGoal": "4 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": true,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 26,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "test",
+     "test": {
+      "distanceKm": 4
+     },
+     "rule": "hele afstand zonder wandelen, niet sneller dan 7:00/km, max HR <= 170"
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 18,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 41,
+   "startDate": "2027-07-12",
+   "phase": 6,
+   "phaseName": "Naar 5 km",
+   "phaseGoal": "5 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 31,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 31,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 26,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 42,
+   "startDate": "2027-07-19",
+   "phase": 6,
+   "phaseName": "Naar 5 km",
+   "phaseGoal": "5 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 33,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 33,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 28,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 43,
+   "startDate": "2027-07-26",
+   "phase": 6,
+   "phaseName": "Naar 5 km",
+   "phaseGoal": "5 km aan één stuk",
+   "recoveryWeek": true,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 28,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 28,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 22,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 44,
+   "startDate": "2027-08-02",
+   "phase": 6,
+   "phaseName": "Naar 5 km",
+   "phaseGoal": "5 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 34,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 34,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 30,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 45,
+   "startDate": "2027-08-09",
+   "phase": 6,
+   "phaseName": "Naar 5 km",
+   "phaseGoal": "5 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": false,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 35.5,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 35.5,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 31,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  },
+  {
+   "week": 46,
+   "startDate": "2027-08-16",
+   "phase": 6,
+   "phaseName": "Naar 5 km",
+   "phaseGoal": "5 km aan één stuk",
+   "recoveryWeek": false,
+   "testWeek": true,
+   "days": {
+    "ma": {
+     "type": "jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 31,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "di": {
+     "type": "walk",
+     "name": "Duurwandeling",
+     "min": 50,
+     "hrZone": "Z2 125-145"
+    },
+    "wo": {
+     "type": "rest"
+    },
+    "do": {
+     "type": "test",
+     "test": {
+      "distanceKm": 5
+     },
+     "rule": "hele afstand zonder wandelen, niet sneller dan 7:00/km, max HR <= 170"
+    },
+    "vr": {
+     "type": "rest"
+    },
+    "za": {
+     "type": "jog",
+     "name": "Lichte jog",
+     "session": {
+      "format": "continuous",
+      "jogMin": 20,
+      "blockSec": null,
+      "warmupWalkMin": 5,
+      "cooldownWalkMin": 5
+     }
+    },
+    "zo": {
+     "type": "walk",
+     "name": "Herstelwandeling",
+     "min": 35,
+     "hrZone": "Z1 <125"
+    }
+   }
+  }
+ ]
+}

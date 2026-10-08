@@ -1,24 +1,32 @@
-# Wandelen naar 5km
+# Loopcoach
 
-Telefoon-app (PWA) om je trainingsschema af te vinken, wandelingen te loggen en je gewichtsdoel bij te houden.
-Alle gegevens blijven op je telefoon (localStorage). Maak via **Meer → Exporteren** af en toe een back-up.
+Persoonlijke telefoon-app (PWA): van wandelen naar 5 km aan één stuk joggen in 46 weken, plus gewicht en calorieën bijhouden.
+Schermen: **Vandaag** (sessie, gewicht, eten, week afsluiten) · **Gewicht** · **Sessies** · **Plan**.
 
-## Online zetten (GitHub Pages)
-1. Maak op github.com een nieuwe repository, bv. `wandelen-naar-5km`.
-2. Upload `index.html`, `manifest.webmanifest`, `sw.js`, `icon.svg` en `apple-touch-icon.png` (via "Add file → Upload files").
-3. Ga naar **Settings → Pages**, kies *Deploy from a branch*, branch `main`, map `/ (root)`, en klik **Save**.
-4. Na ±1 minuut staat de app op `https://<jouw-gebruikersnaam>.github.io/wandelen-naar-5km/`.
+- `data/schema.json` is de bron van waarheid voor het trainingsschema (zonder persoonlijke gegevens).
+- Persoonlijke gegevens (gewicht, sessies, doelen) staan alleen in je eigen Supabase-database, beveiligd met Row Level Security.
+- Zonder Supabase-instellingen bewaart de app alles alleen op het apparaat.
 
-## Op je telefoon zetten
-- **iPhone (Safari):** open de link → Deel-knop → *Zet op beginscherm*.
-- **Android (Chrome):** open de link → menu ⋮ → *App installeren* / *Toevoegen aan startscherm*.
+## Supabase instellen (eenmalig, gratis)
+1. Maak een account op [supabase.com](https://supabase.com) en een nieuw project (regio: Europe, bv. Frankfurt).
+2. **SQL Editor → New query**: plak de inhoud van `supabase.sql` en klik **Run**.
+3. **Authentication → URL Configuration**: zet *Site URL* op `https://basvanderlit1-commits.github.io/wandelen-naar-5km/`.
+4. **Project Settings → API**: kopieer de *Project URL* en de *publishable* (of *anon*) key en zet ze bovenin het script van `index.html` (`SUPABASE_URL`, `SUPABASE_KEY`). Deze key mag openbaar; gebruik **nooit** de *secret/service_role* key.
+5. Open de app, kies **Account maken**, bevestig je e-mail en log in.
+6. Daarna: **Authentication → Sign In / Providers → Allow new users to sign up** uitzetten, zodat niemand anders een account kan maken.
 
-## Schema aanpassen
-Bovenin het `<script>` in `index.html` staat `SCHEMA`: elke regel is een week, elke tekst een training.
-Let op: vinkjes zijn gekoppeld aan week- en trainingsnummer, dus trainingen tussenvoegen verschuift je vinkjes.
+Let op: een gratis project wordt gepauzeerd na 7 dagen zonder gebruik (dagelijks wegen voorkomt dat).
+
+## Op je telefoon
+- **iPhone (Safari):** open de link → Deel-knop → *Zet op beginscherm*. Log daarna in de app (vanaf het beginscherm) in.
+- **Android (Chrome):** menu ⋮ → *App installeren*.
+
+## Watch-data
+`tools/analyze_workout.py` analyseert een Apple Gezondheid-export of GPX (jog-detectie, hartslagregels).
+De uitkomst kun je op Vandaag plakken via *Analyse uit de chat plakken*.
 
 ## Lokaal testen
 ```bash
 python -m http.server 8765
 ```
-Open daarna http://localhost:8765.
+Open http://localhost:8765/?today=2026-10-08 om een datum te simuleren.

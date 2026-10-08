@@ -1,6 +1,6 @@
 {
-  "name": "Wandelen naar 5km",
-  "short_name": "Wandelen",
+  "name": "Loopcoach",
+  "short_name": "Loopcoach",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
