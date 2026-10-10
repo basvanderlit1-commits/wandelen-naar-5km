@@ -348,12 +348,8 @@ function renderToday(){
     <div class="tile"><span class="eyebrow">Plan</span><span class="v">${nl(pk,1)}</span><span class="d">kg verwacht</span></div></div></div>`;
   h+=`<div class="card"><span class="eyebrow">Eten vandaag</span><div class="row between"><div><div class="big">${int(k.kcal)}</div><div class="muted">kcal · nooit onder ${int(NUT().kcalFloor||2200)}</div></div><div style="text-align:right"><div class="big">${int(NUT().proteinG||130)} g</div><div class="muted">eiwit</div></div></div>${kcalAdvice()}</div>`;
   h+=weekCard();
-  // Nog in Safari geopend in plaats van vanaf het beginscherm
-  const standalone=navigator.standalone||matchMedia('(display-mode: standalone)').matches;
-  if(!standalone&&!LOC.hideInstall) h+=`<div class="banner b-mute"><b>Tip:</b> zet de app op je beginscherm: Deel-knop → <i>Zet op beginscherm</i>. Dan opent hij als app en blijven je gegevens bewaard. <button id="hide-install" style="margin-top:6px">Niet meer tonen</button></div>`;
   $('#v-today').innerHTML=h;
   $('#m-save').onclick=saveMorning;
-  $('#hide-install')?.addEventListener('click',()=>{LOC.hideInstall=true;if(saveLocal())render()});
   document.querySelectorAll('[data-kcal]').forEach(b=>b.onclick=()=>{LOC.kcal={kcal:+b.dataset.kcal,setAt:TODAY};if(saveLocal()){toast('Opgeslagen');render()}});
 }
 function upcoming(n){
