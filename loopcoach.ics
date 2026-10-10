@@ -1,0 +1,36 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Loopcoach//NL
+CALSCALE:GREGORIAN
+X-WR-CALNAME:Loopcoach
+REFRESH-INTERVAL;VALUE=DURATION:P1D
+BEGIN:VEVENT
+UID:loopcoach-training@basvanderlit1-commits.github.io
+DTSTAMP:20261010T000000Z
+DTSTART:20261011T190000
+DURATION:PT1H
+RRULE:FREQ=WEEKLY;BYDAY=MO,TU,TH,SA,SU;UNTIL=20270930T000000Z
+SUMMARY:Loopcoach: training
+DESCRIPTION:Open de Loopcoach-app voor de training van vandaag. Na afloop: data delen in de chat.
+URL:https://basvanderlit1-commits.github.io/wandelen-naar-5km/
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Training om 19:00
+TRIGGER:-PT30M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:loopcoach-wegen@basvanderlit1-commits.github.io
+DTSTAMP:20261010T000000Z
+DTSTART:20261011T073000
+DURATION:PT5M
+RRULE:FREQ=DAILY;UNTIL=20270930T000000Z
+SUMMARY:Loopcoach: wegen + ochtendcheck
+DESCRIPTION:Na toilet, vóór ontbijt. Vul gewicht (en eventueel pijn/rusthartslag) in de app in.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Wegen
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+END:VCALENDAR
