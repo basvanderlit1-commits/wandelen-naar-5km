@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Loopcoach</title>
 <meta name="theme-color" content="#2e7d5b">
@@ -10,17 +10,16 @@
 <link rel="icon" href="icon.svg">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 :root{
   --bg:#f2f6f3; --surface:#ffffff; --ink:#15191c; --ink-2:#4d5559; --muted:#7c8589; --line:#dde2df; --grid:#eceeed;
-  --accent:#2e7d5b; --accent-ink:#ffffff; --plan:#a9b0ad; --goal:#b56b00;
+  --accent:#2e7d5b; --accent-ink:#ffffff; --accent-bg:#e3f1ea; --plan:#a9b0ad; --goal:#b56b00;
   --good:#1a8a4c; --good-bg:#e5f3ea; --warn:#b56b00; --warn-bg:#fbf0dc; --bad:#c23b3a; --bad-bg:#fbe6e5;
-  --display:"Archivo",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --display:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0f1613; --surface:#18211d; --ink:#f1f3f2; --ink-2:#c1c7c5; --muted:#8d9694; --line:#2c3234; --grid:#242a2c;
-  --accent:#5cc493; --accent-ink:#0d1f17; --plan:#5d6663; --goal:#e6a23a;
+  --accent:#5cc493; --accent-ink:#0d1f17; --accent-bg:#16301f; --plan:#5d6663; --goal:#e6a23a;
   --good:#4cc083; --good-bg:#15291e; --warn:#e6a23a; --warn-bg:#2e2412; --bad:#ec6d6c; --bad-bg:#321a1a; color-scheme:dark}}
 *{box-sizing:border-box}
 html,body{min-height:100%;margin:0}
@@ -29,33 +28,31 @@ body{background:var(--bg);color:var(--ink);font-family:var(--display);font-size:
 section{display:flex;flex-direction:column;gap:16px}
 section[hidden]{display:none}
 header{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
-h1{font-stretch:118%;font-weight:800;font-size:26px;line-height:1;margin:0}
-h2{font-stretch:110%;font-weight:750;font-size:18px;margin:0}
+h1{font-weight:800;font-size:26px;line-height:1.1;margin:0}
+h2{font-weight:750;font-size:18px;margin:0}
 .eyebrow{font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:600}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card.hero{border-color:var(--accent);border-width:2px}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .between{justify-content:space-between}
-.big{font-stretch:105%;font-weight:800;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.big{font-weight:800;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
 .sub{color:var(--ink-2);font-size:14px;margin:0}
 .muted{color:var(--muted);font-size:13px}
 .pill{display:inline-flex;align-items:center;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:3px 9px;border-radius:99px;white-space:nowrap}
-.p-good{background:var(--good-bg);color:var(--good)}.p-warn{background:var(--warn-bg);color:var(--warn)}.p-mute{background:var(--grid);color:var(--ink-2)}
+.p-good{background:var(--good-bg);color:var(--good)}.p-warn{background:var(--warn-bg);color:var(--warn)}.p-bad{background:var(--bad-bg);color:var(--bad)}.p-mute{background:var(--grid);color:var(--ink-2)}.p-acc{background:var(--accent-bg);color:var(--accent)}
 .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .tile{border:1px solid var(--line);border-radius:10px;padding:9px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .tile .v{font-weight:750;font-size:19px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tile .d{font-size:12px;color:var(--ink-2)}
 button{font:inherit;font-weight:650;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 14px;cursor:pointer;min-height:44px}
 button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-button:disabled{opacity:.5;cursor:default}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-input,select,textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 10px;min-height:44px;width:100%;min-width:0}
-textarea{min-height:64px;resize:vertical}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 10px;min-height:44px;width:100%;min-width:0}
 label.f{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-2);min-width:0}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.weigh{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+.weigh{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:end}
 .steps{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:14px}
-.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom,0px);z-index:10}
-.tabs button{border:0;border-radius:0;background:transparent;color:var(--muted);font-size:12.5px;padding:10px 4px;min-height:54px}
+.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom,0px);z-index:10}
+.tabs button{border:0;border-radius:0;background:transparent;color:var(--muted);font-size:12px;padding:10px 2px;min-height:54px}
 .tabs button[aria-selected="true"]{color:var(--accent)}
 table{border-collapse:collapse;width:100%;font-size:13.5px}
 th,td{padding:8px 6px;text-align:left;border-bottom:1px solid var(--grid);vertical-align:top}
@@ -67,41 +64,44 @@ svg text{fill:var(--muted);font-family:var(--mono);font-size:10.5px}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2)}
 .legend i{display:inline-block;width:12px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
 .banner{border-radius:10px;padding:10px 12px;font-size:14px}
-.b-warn{background:var(--warn-bg);color:var(--ink)}.b-good{background:var(--good-bg);color:var(--ink)}.b-mute{background:var(--grid);color:var(--ink-2)}
+.b-warn{background:var(--warn-bg);color:var(--ink)}.b-good{background:var(--good-bg);color:var(--ink)}.b-mute{background:var(--grid);color:var(--ink-2)}.b-bad{background:var(--bad-bg);color:var(--ink)}
 .toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:9px;font-size:14px;z-index:20;max-width:90vw}
-.list{display:flex;flex-direction:column}
-.li{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--grid)}
-.li:first-child{border-top:0}
-.dot{width:10px;height:10px;border-radius:50%}
-details summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:14px;min-height:32px;display:flex;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;flex:none}
+details summary{cursor:pointer;list-style:none}
+details summary::-webkit-details-marker{display:none}
+.day{border-top:1px solid var(--grid);padding:10px 0}
+.day summary{display:grid;grid-template-columns:62px 1fr auto;gap:10px;align-items:start}
+.day .when{font-weight:650;font-size:13px;line-height:1.3}
+.day.today{background:var(--accent-bg);border-radius:10px;padding-inline:8px;margin-inline:-8px}
+.day .body{margin:8px 0 0 72px;display:flex;flex-direction:column;gap:8px}
+.day.rest .t{color:var(--muted)}
 </style>
 </head>
 <body>
 <div class="wrap" id="app">
   <header>
-    <div><div class="eyebrow" id="hdr-date">Vandaag</div><h1>Loopcoach</h1></div>
-    <span class="pill p-mute" id="hdr-week">Week –</span>
+    <div><div class="eyebrow">Loopcoach</div><h1 id="hdr-date">Vandaag</h1></div>
+    <span class="pill p-acc" id="hdr-week">Week –</span>
   </header>
   <div id="conn" class="banner b-mute" hidden></div>
-  <section id="v-login" hidden></section>
   <section id="v-today"></section>
+  <section id="v-agenda" hidden></section>
+  <section id="v-train" hidden></section>
   <section id="v-weight" hidden></section>
-  <section id="v-sessions" hidden></section>
   <section id="v-plan" hidden></section>
 </div>
 <nav class="tabs" role="tablist">
   <button role="tab" aria-selected="true" data-v="today">Vandaag</button>
+  <button role="tab" aria-selected="false" data-v="agenda">Agenda</button>
+  <button role="tab" aria-selected="false" data-v="train">Trainingen</button>
   <button role="tab" aria-selected="false" data-v="weight">Gewicht</button>
-  <button role="tab" aria-selected="false" data-v="sessions">Sessies</button>
   <button role="tab" aria-selected="false" data-v="plan">Plan</button>
 </nav>
 <div class="toast" id="toast" hidden></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.50.0/dist/umd/supabase.min.js" integrity="sha384-jP+y6mxch/vbLrNpx4basfv6ciZQuHwdRHgZGa6Mhja0Xm4p87ok2OQavTrRIGxH" crossorigin="anonymous"></script>
 <script>
-/* ---------- Supabase (leeg = alleen op dit apparaat opslaan) ---------- */
-const SUPABASE_URL = '';
-const SUPABASE_KEY = ''; // publishable/anon key: mag openbaar, data is beschermd met Row Level Security
+/* Loopcoach: planning + review. Schema: data/schema.json · trainingen, reviews en export-gewicht: data/log.json (bijgewerkt via de chat).
+   Op het apparaat (localStorage): eigen gewicht, ochtendcheck (pijn, rusthartslag), calorieën. */
 
 /* ---------- helpers ---------- */
 const $=s=>document.querySelector(s);
@@ -109,47 +109,70 @@ const iso=d=>d.toLocaleDateString('sv-SE');
 const parse=s=>new Date(s+'T12:00:00');
 const addDays=(s,n)=>{const d=parse(s);d.setDate(d.getDate()+n);return iso(d)};
 const days=(a,b)=>Math.round((parse(b)-parse(a))/864e5);
-const DK=['zo','ma','di','wo','do','vr','za'],MON=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+const DK=['zo','ma','di','wo','do','vr','za'],DAY=['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
+const MON=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'],MONTH=['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
 const nice=s=>{const d=parse(s);return `${DK[d.getDay()]} ${d.getDate()} ${MON[d.getMonth()]}`};
+const longDate=s=>{const d=parse(s);return `${DAY[d.getDay()][0].toUpperCase()+DAY[d.getDay()].slice(1)} ${d.getDate()} ${MONTH[d.getMonth()]}`};
 const nl=(x,d=1)=>x==null||isNaN(x)?'–':Number(x).toLocaleString('nl-NL',{minimumFractionDigits:d,maximumFractionDigits:d});
 const int=x=>x==null||isNaN(x)?'–':Math.round(x).toLocaleString('nl-NL');
 const mmss=m=>{if(m==null||isNaN(m))return '–';const s=Math.round(m*60);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
-const toMin=v=>{if(v==null||v==='')return null;v=String(v).trim().replace(',','.');if(v.includes(':')){const[a,b]=v.split(':');const r=+a+(+b)/60;return isNaN(r)?null:r}const n=parseFloat(v);return isNaN(n)?null:n};
-const numOrNull=v=>{if(v==null||v==='')return null;const x=parseFloat(String(v).replace(',','.'));return isNaN(x)?null:x};
+const num=v=>{if(v==null||v==='')return null;const x=parseFloat(String(v).replace(',','.'));return isNaN(x)?null:x};
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const validDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||'')&&iso(parse(s))===s;
+const weekStart=d=>addDays(d,-((parse(d).getDay()+6)%7));
 function toast(t){const el=$('#toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2600)}
 // ?today=2026-10-08 om een datum te testen (alleen lokaal)
 const qToday=location.hostname==='localhost'?new URLSearchParams(location.search).get('today'):null;
-const validDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||'')&&iso(parse(s))===s;
 let TODAY=validDate(qToday)?qToday:iso(new Date());
-// app blijft open na middernacht: datum bijwerken
-document.addEventListener('visibilitychange',()=>{if(!qToday&&!document.hidden&&iso(new Date())!==TODAY){TODAY=iso(new Date());S.pastedJogs=null;render(true)}});
 
-/* ---------- plan uit data/schema.json ---------- */
-let SCHEMA=null;
-const KCAL0=2500,KCAL_MIN=2200,PROTEIN=130; // overschreven door schema.config.nutrition
+/* ---------- data ---------- */
+let SCHEMA=null,LOG=null;
+const LKEY='lc-local';
+const isObj=o=>!!o&&typeof o==='object'&&!Array.isArray(o);
+let LOC=(()=>{try{const o=JSON.parse(localStorage.getItem(LKEY));return isObj(o)?o:{}}catch(e){return {}}})();
+if(!isObj(LOC.weights))LOC.weights={};if(!isObj(LOC.morning))LOC.morning={};
+function saveLocal(){try{localStorage.setItem(LKEY,JSON.stringify(LOC));return true}catch(e){toast('Opslaan op dit apparaat mislukt');return false}}
+const SET=()=>LOG.settings||{};
+const NUT=()=>SCHEMA.config.nutrition||{};
+const kcalState=()=>{const d={kcal:NUT().kcalStart||2500,setAt:SET().refDate||SCHEMA.config.startDate},k=isObj(LOC.kcal)?LOC.kcal:{};
+  return {kcal:num(k.kcal)>=1000?Math.round(num(k.kcal)):d.kcal,setAt:validDate(k.setAt)?k.setAt:d.setAt}};
+
+// Gewicht: eigen invoer + export. Beide op dezelfde dag en verschillend → middenweg.
+function weights(){
+  const m=new Map();
+  const ok=kg=>Number.isFinite(kg)&&kg>40&&kg<250;
+  for(const w of LOG.weights||[]){const kg=Number(w?.kg);if(validDate(w?.date)&&ok(kg)) m.set(w.date,{date:w.date,kg,exp:kg,src:'export'})}
+  for(const [d,v] of Object.entries(LOC.weights)){ const kg=Number(v); if(!validDate(d)||!ok(kg))continue; const e=m.get(d);
+    if(e){e.app=kg;if(Math.abs(e.exp-kg)>=0.05){e.kg=Math.round((e.exp+kg)/2*10)/10;e.src='middenweg'}else e.src='beide'} else m.set(d,{date:d,kg,app:kg,src:'app'}) }
+  return [...m.values()].sort((a,b)=>a.date.localeCompare(b.date));
+}
+const sessionsAll=()=>(LOG.sessions||[]).filter(s=>validDate(s.date)).sort((a,b)=>a.date.localeCompare(b.date));
+const sessionOn=d=>(LOG.sessions||[]).find(s=>s.date===d);
+
+/* ---------- schema ---------- */
+const NW=()=>SCHEMA.weeks.length;
+const clampW=w=>Math.min(Math.max(Math.round(w)||1,1),NW());
+const weekOf=w=>SCHEMA.weeks[clampW(w)-1];
+const phaseNr=w=>weekOf(w).phase;
 const secTxt=s=>s%60?mmss(s/60):`${s/60} min`;
 const minTxt=m=>m%1?`${mmss(m)} min`:`${m} min`;
 function sessText(s){
   let t;
-  if(s.format==='distance-intervals') t=`${s.reps} × ${s.jogMeters} m, ${s.walkMetersBetween} m wandelen ertussen (${int(s.totalJogMeters)} m jog)`;
+  if(s.format==='distance-intervals') t=`${s.reps} × ${s.jogMeters} m joggen, ${s.walkMetersBetween} m wandelen ertussen (${int(s.totalJogMeters)} m jog)`;
   else if(s.format==='time-intervals'&&s.blocks) t=s.blocks.map(b=>b.reps>1?`${b.reps} × ${secTxt(b.jogSec)} jog${b.walkSec?` / ${secTxt(b.walkSec)} wandelen`:''}`:`${secTxt(b.jogSec)} jog${b.walkSec?` + ${secTxt(b.walkSec)} wandelen`:''}`).join(' + ');
   else if(s.format==='time-intervals') t=`jog ${minTxt(s.jogMin)} in blokken van ${String(s.blockSec||'60-120').split('-').map(x=>x/60).join('–')} min`;
   else t=`${minTxt(s.jogMin)} aan één stuk joggen`;
   return `${t} · ${s.warmupWalkMin} min in- en ${s.cooldownWalkMin} min uitwandelen`;
 }
-const weekOf=w=>SCHEMA.weeks[Math.min(Math.max(w,1),SCHEMA.weeks.length)-1];
 function planFor(w,dow){ // dow: 0 zo .. 6 za
   const wk=weekOf(w),d=wk.days[DK[dow]],rec=wk.recoveryWeek?' (herstel)':'';
-  if(d.type==='jog') return {kind:'jog',title:`Jog-sessie${d.name?' (licht)':''} · week ${w}${rec}`,text:sessText(d.session),rules:true};
-  if(d.type==='test') return {kind:'test',title:`Test · week ${w}`,rules:true,
-    text:(d.test.distanceKm?`${d.test.distanceKm} km aan één stuk joggen. `:`${d.test.kind.replace('walk+jog','wandelen + joggen').replace('target','doel')}: ${sessText(d.test.session)}. `)+(d.rule||'').replace(/max HR <=/,'max hartslag ≤').replace(/^./,c=>c.toUpperCase())+'.'};
-  if(d.type==='walk') return {kind:'walk',title:d.name,text:`${d.min} min wandelen in ${d.hrZone}. Geen jogs.`};
-  return {kind:'rest',title:'Rustdag',text:'Geen training. Wel ~9.000 stappen.'};
+  if(d.type==='jog') return {kind:'jog',title:`Jog-sessie${d.name?' (licht)':''} · week ${clampW(w)}${rec}`,text:sessText(d.session),rules:true,day:d};
+  if(d.type==='test') return {kind:'test',title:`Test · week ${clampW(w)}`,rules:true,day:d,
+    text:(d.test.distanceKm?`${d.test.distanceKm} km aan één stuk joggen. `:`${sessText(d.test.session)}. `)+(d.rule||'').replace(/max HR <=/,'max hartslag ≤').replace(/^./,c=>c.toUpperCase())+'.'};
+  if(d.type==='walk') return {kind:'walk',title:d.name,text:`${d.min} min wandelen in ${d.hrZone}. Geen jogs.`,day:d};
+  return {kind:'rest',title:'Rustdag',text:'Geen training gepland.',day:d};
 }
-const phaseNr=w=>weekOf(w).phase;
-const phases=()=>{const m=new Map();SCHEMA.weeks.forEach(w=>{const p=m.get(w.phase)||{nr:w.phase,name:w.phaseName,goal:w.phaseGoal,from:w.week,to:w.week};p.to=w.week;m.set(w.phase,p)});return [...m.values()]};
-const isJog=s=>s&&(s.kind==='jog'||s.kind==='test');
+const isJog=s=>!!s&&(s.kind==='jog'||s.kind==='test');
 function phaseRules(w){
   const p=phaseNr(w),r=[];
   if(p===1) r.push('Jogtempo 7:00–7:30 /km of langzamer, korte passen','Hartslag 170 → direct wandelen','Pas weer joggen onder 135');
@@ -158,100 +181,26 @@ function phaseRules(w){
   r.push('Pijn op de borst, duizelig of benauwd? Stop en neem contact op met je huisarts.');
   return r;
 }
-// Waarom deze training? (het idee achter de sessie)
+const REST_OPTIONS=['20–30 min rustig wandelen, hartslag onder 125 (zone 1)','10–15 min stretchen of mobiliteit: kuiten, hamstrings, heupen','20–30 min rustig fietsen zonder te hijgen','Gewoon je stappen halen: ~9.000 stappen verspreid over de dag'];
 function purpose(w,dow){
   const wk=weekOf(w),d=wk.days[DK[dow]],f=(d.session||d.test?.session||{}).format,out=[];
-  if(d.type==='test') out.push(`Testmoment van fase ${wk.phase}: laat zien of je klaar bent voor de volgende fase (${wk.phaseGoal}). Start rustig, niet sneller dan 7:00 /km; lukt het niet, dan herhaal je de laatste 2 weken en test je opnieuw.`);
-  else if(d.type==='jog'&&d.name) out.push('Extra lichte jog-sessie: vaker joggen oefenen met een kleine belasting. Het schema is rustiger dan maandag en donderdag.');
+  if(d.type==='test') out.push(`Testmoment van fase ${wk.phase}: laat zien of je klaar bent voor de volgende fase (${wk.phaseGoal}). Start rustig; lukt het niet, dan herhaal je de laatste 2 weken en test je opnieuw.`);
+  else if(d.type==='jog'&&d.name) out.push('Extra lichte jog-sessie: vaker joggen oefenen met een kleine belasting.');
   else if(d.type==='jog'&&f==='distance-intervals') out.push('Korte jogs laten je pezen, botten en gewrichten wennen aan de schokken van joggen, terwijl je hartslag laag blijft. Het tempo is bewust traag; het wandelen ertussen is herstel, geen pauze.');
   else if(d.type==='jog'&&f==='time-intervals') out.push(`Je bouwt de jogblokken op in tijd, op weg naar ${wk.phaseGoal}. Jog zo rustig dat je hele zinnen kunt praten.`);
   else if(d.type==='jog') out.push(`Aan één stuk doorlopen in praattempo; elke week iets langer, op weg naar ${wk.phaseGoal}.`);
   else if(d.type==='walk'&&/Duur/.test(d.name)) out.push('Conditie en vetverbranding opbouwen in zone 2, zonder de belasting van joggen. Vlot doorwandelen (≥ 6 km/u).');
   else if(d.type==='walk'&&/Lange/.test(d.name)) out.push('Langer bewegen op lage intensiteit: uithoudingsvermogen en extra calorieën, zonder je benen te belasten.');
   else if(d.type==='walk') out.push('Actief herstel: rustig bewegen met een lage hartslag, zodat je fris bent voor de volgende jog-sessie.');
-  else out.push('Rust is onderdeel van het plan: je lichaam wordt sterker tijdens herstel.');
-  if(wk.recoveryWeek&&d.type!=='rest') out.push('Dit is een herstelweek: minder belasting zodat je lichaam de vorige weken kan verwerken.');
+  else out.push('Rust hoort bij het plan: je lichaam wordt sterker tijdens herstel. Licht bewegen mag, maar niet joggen en geen zware inspanning.');
+  if(wk.recoveryWeek&&d.type!=='rest') out.push('Herstelweek: minder belasting, zodat je lichaam de vorige weken kan verwerken.');
   return out.join(' ');
 }
-// Komende trainingen (rustdagen overgeslagen), vanaf morgen
-function upcoming(n){
-  const w=planState().planWeek,out=[];
-  for(let i=1;out.length<n&&i<15;i++){const dt=addDays(TODAY,i),dow=parse(dt).getDay(),pl=planFor(w,dow);if(pl.kind!=='rest')out.push({date:dt,dow,pl,in:i})}
-  return out;
-}
-// Review van een sessie: plan vs. resultaat
-function review(s){
-  const w=s.planWeek||1,dow=parse(s.date).getDay(),pl=planFor(w,dow),day=weekOf(w).days[DK[dow]],ph=phaseNr(w),out=[];
-  const add=(ok,t)=>out.push({ok,t});
-  if(pl.kind==='rest') add(null,'Gepland was een rustdag; extra bewegen is prima, maar rust telt ook mee.');
-  else if(isJog(pl)!==isJog(s)) add(false,`Gepland was: ${pl.title}. Je deed een ${isJog(s)?'jog':'wandeling'}.`);
-  if(s.kind==='walk'&&day.type==='walk'){
-    if(s.durMin!=null) add(s.durMin>=day.min*0.9,`Duur ${nl(s.durMin,0)} van ${day.min} min${s.durMin>=day.min*0.9?'.':': iets te kort, probeer de hele tijd vol te maken.'}`);
-    const z=(day.hrZone||'').match(/(\d+)-(\d+)/),u=(day.hrZone||'').match(/<(\d+)/);
-    if(s.avgHr!=null&&z) add(s.avgHr>=+z[1]&&s.avgHr<=+z[2],`Gem. hartslag ${int(s.avgHr)} (doel ${z[1]}–${z[2]})${s.avgHr>+z[2]?': te hoog, wandel iets rustiger.':s.avgHr<+z[1]?': mag iets vlotter.':'.'}`);
-    if(s.avgHr!=null&&u) add(s.avgHr<+u[1],`Gem. hartslag ${int(s.avgHr)} (doel onder ${u[1]})${s.avgHr<+u[1]?'.':': te hoog voor een herstelwandeling, rustiger aan.'}`);
-    if(s.km!=null&&s.durMin&&/Duur/.test(day.name)){const v=s.km/(s.durMin/60);add(v>=6,`Tempo ${nl(v,1)} km/u${v>=6?'.':' (doel ≥ 6,0): iets vlotter doorstappen.'}`)}
-  }
-  if(isJog(s)){
-    const ses=day.session||day.test?.session;
-    if(s.pace!=null&&(ph===1||s.kind==='test')) add(s.pace>=7,s.pace>=7?`Jogtempo ${mmss(s.pace)} /km: rustig genoeg.`:`Jogtempo ${mmss(s.pace)} /km is te snel (plan: 7:00–7:30). Kleinere passen, bewust trager.`);
-    if(s.maxHr!=null) add(s.maxHr<=170,s.maxHr<=170?`Max hartslag ${int(s.maxHr)}: onder de grens van 170.`:`Max hartslag ${int(s.maxHr)} ging boven 170. Wandel direct zodra je 170 ziet${ph===1?' en jog pas weer onder 135':ph>=3?', tot 150':''}.`);
-    if(s.avgHr!=null&&ph>=3) add(s.avgHr<=160,`Gem. hartslag ${int(s.avgHr)} (grens 160)${s.avgHr<=160?'.':': rustiger joggen.'}`);
-    if(ses?.format==='distance-intervals'&&s.jogCount!=null) add(s.jogCount>=ses.reps*0.9&&s.jogCount<=ses.reps*1.2,`${s.jogCount} jogs gedaan, gepland ${ses.reps}.`);
-    if(ses?.format==='distance-intervals'&&s.jogMeters!=null) add(s.jogMeters<=ses.totalJogMeters*1.25,`${int(s.jogMeters)} m gejogd, gepland ${int(ses.totalJogMeters)} m${s.jogMeters>ses.totalJogMeters*1.25?': meer is niet beter, houd je aan het schema.':'.'}`);
-    if(Array.isArray(s.jogs)&&s.jogs.length){const J=s.jogs,P=J.filter(j=>j.hrPeak!=null),H=J.filter(j=>j.hrStart!=null); // ontbrekende HS = geen data, geen fout
-      if(P.length){const n=P.filter(j=>j.hrPeak<=170).length;add(n===P.length,`Piek ≤ 170 bij ${n}/${P.length} jogs.`)}
-      if(ph===1){if(H.length){const n=H.filter(j=>j.hrStart<135).length;add(n===H.length,`Start onder 135 bij ${n}/${H.length} jogs${n<H.length?': wacht langer met de volgende jog.':'.'}`)}
-        const wm=ses?.walkMetersBetween;if(wm){const W=J.filter(j=>j.walkMBefore!=null);if(W.length)add(W.every(j=>j.walkMBefore>=wm),`Herstel ≥ ${wm} m bij ${W.filter(j=>j.walkMBefore>=wm).length}/${W.length} pauzes.`)}}}
-    if(s.talkTestOk!=null&&ph>=2) add(!!s.talkTestOk,s.talkTestOk?'Praattest gehaald.':'Praattest niet gehaald: jog langzamer.');
-    if(s.kind==='test'&&s.testPassed!=null) add(!!s.testPassed,s.testPassed?'Test gehaald!':'Test niet gehaald: laatste 2 weken van de fase herhalen.');
-  }
-  if(s.pain!=null) add(s.pain<=3,s.pain<=3?`Pijn ${int(s.pain)}/10: oké.`:`Pijn ${int(s.pain)}/10: volgende sessie zonder jogs. Houdt het langer dan een week aan: huisarts of fysio.`);
-  const bad=out.filter(x=>x.ok===false);
-  const verdict=!out.some(x=>x.ok!=null)?'Te weinig gegevens voor een review: vul hartslag, tempo of duur in.':bad.length?`Aandachtspunt: ${bad[0].t}`:'Goed uitgevoerd volgens plan.';
-  return {verdict,items:out,ok:!bad.length};
-}
-const reviewHtml=s=>{const r=review(s);return `<div class="banner ${r.ok?'b-good':'b-warn'}"><b>Review:</b> ${esc(r.verdict)}${r.items.length?`<ul class="steps" style="margin-top:6px">${r.items.map(x=>`<li>${x.ok===true?'✓':x.ok===false?'!':'·'} ${esc(x.t)}</li>`).join('')}</ul>`:''}</div>`};
 
-/* ---------- state ---------- */
-const S={docs:{},view:'today',ready:false,uid:null,offline:false};
-let sb=null;
-const weights=()=>Object.entries(S.docs).filter(([k])=>k.startsWith('weights/')).map(e=>e[1]).sort((a,b)=>a.date.localeCompare(b.date));
-const sessions=()=>Object.entries(S.docs).filter(([k])=>k.startsWith('sessions/')).map(e=>e[1]).sort((a,b)=>a.date.localeCompare(b.date));
-function planState(){const n=SCHEMA?.config?.nutrition||{};return Object.assign({planWeek:1,kcal:n.kcalStart||KCAL0,kcalSetAt:'2026-10-08',history:[],goalKg:null,refKg:null,refDate:null,rateKg:0.6},S.docs['state/plan']||{})}
-const kcalMin=()=>SCHEMA?.config?.nutrition?.kcalFloor||KCAL_MIN;
-
-/* ---------- opslag ---------- */
-const CACHE_KEY='lc-docs';
-function cacheSave(){try{localStorage.setItem(CACHE_KEY,JSON.stringify(S.docs))}catch(e){}}
-function cacheLoad(){try{return JSON.parse(localStorage.getItem(CACHE_KEY))||{}}catch(e){return {}}}
-async function loadDocs(){
-  if(!sb){S.docs=cacheLoad();return}
-  const {data,error}=await sb.from('docs').select('key,data');
-  if(error) throw error;
-  S.docs=Object.fromEntries(data.map(r=>[r.key,r.data])); cacheSave();
-}
-async function write(entries){ // [[key, data | null]]
-  if(SUPABASE_URL&&!sb) throw new Error('database niet geladen'); // niet stilletjes alleen lokaal opslaan
-  if(sb){
-    const up=entries.filter(e=>e[1]!=null).map(([key,data])=>({user_id:S.uid,key,data,updated_at:new Date().toISOString()}));
-    const del=entries.filter(e=>e[1]==null).map(e=>e[0]);
-    if(up.length){const {error}=await sb.from('docs').upsert(up);if(error)throw error}
-    if(del.length){const {error}=await sb.from('docs').delete().in('key',del);if(error)throw error}
-  }
-  for(const [k,v] of entries) v==null?delete S.docs[k]:S.docs[k]=v;
-  cacheSave(); render(true);
-}
-async function guard(fn){try{await fn()}catch(e){console.error(e);toast(navigator.onLine?'Opslaan mislukt, probeer het opnieuw':'Geen verbinding, probeer het zo opnieuw')}}
-
-/* ---------- rekenregels ---------- */
-function avg7(d){const w=weights().filter(x=>x.date<=d&&x.date>addDays(d,-7));return w.length?w.reduce((a,b)=>a+b.kg,0)/w.length:null}
-const cnt7=d=>weights().filter(x=>x.date<=d&&x.date>addDays(d,-7)).length;
-function trendPerWeek(){const W=weights();if(!W.length)return null;const l=W.at(-1).date,o=addDays(l,-14);if(cnt7(l)<3||cnt7(o)<3)return null;return (avg7(o)-avg7(l))/2}
-function planKgAt(d){const p=planState();if(p.refKg==null||!p.refDate)return null;return Math.max(p.goalKg??0,p.refKg-p.rateKg*days(p.refDate,d)/7)}
-function evalSession(s){
+/* ---------- beoordeling ---------- */
+function evalSession(s,w){
   if(!isJog(s))return null;
-  const ph=phaseNr(s.planWeek||1),out=[];
+  const ph=phaseNr(w),out=[];
   if(s.pace!=null&&(ph===1||s.kind==='test')) out.push({ok:s.pace>=7,t:`tempo ${mmss(s.pace)} /km`});
   if(s.maxHr!=null) out.push({ok:s.maxHr<=170,t:`max HS ${int(s.maxHr)}`});
   if(s.avgHr!=null&&ph>=3) out.push({ok:s.avgHr<=160,t:`gem. HS ${int(s.avgHr)}`});
@@ -260,161 +209,225 @@ function evalSession(s){
   if(s.pain!=null) out.push({ok:s.pain<=3,t:`pijn ${int(s.pain)}/10`});
   return out;
 }
-const sessionOk=s=>{const e=evalSession(s);return !!e&&e.every(x=>x.ok)};
-function weekStart(d){const off=(parse(d).getDay()+6)%7;return addDays(d,-off)}
-// Advies bij week afsluiten (config.progression)
-function weekAdvice(){
-  const p=planState(),w=p.planWeek,wk=weekOf(w),ws=weekStart(TODAY),S2=sessions();
-  const inWeek=S2.filter(s=>s.date>=ws&&s.date<=addDays(ws,6));
-  const reqDows=[1,4].concat(w>=17?[6]:[]);
-  const req=reqDows.map(dw=>S2.find(s=>s.date===addDays(ws,(dw+6)%7)));
-  const test=wk.testWeek?req[1]:null;
-  if(!inWeek.length) return {to:Math.max(1,w-2),why:'Hele week gemist: 2 weken terug.',req,inWeek};
-  if(wk.testWeek&&!(isJog(test)&&sessionOk(test))) return {to:Math.max(1,w-1),why:'Test niet gehaald: laatste 2 weken van de fase herhalen, dan opnieuw testen.',req,inWeek};
-  if(req.every(s=>isJog(s)&&sessionOk(s))) return {to:Math.min(SCHEMA.weeks.length,w+1),why:`Alle jog-sessies gedaan en binnen de grenzen. Door naar week ${Math.min(SCHEMA.weeks.length,w+1)}.`,req,inWeek};
-  const missing=req.filter(s=>!isJog(s)).length;
-  return {to:w,why:missing?`${missing} jog-sessie(s) niet gedaan: week ${w} herhalen.`:`Niet alle jog-sessies binnen de grenzen: week ${w} herhalen.`,req,inWeek};
+const sessionOk=(s,w)=>{const e=evalSession(s,w);return !!e&&e.every(x=>x.ok)};
+// Automatische punten: plan vs. resultaat
+function checks(s,w){
+  const dow=parse(s.date).getDay(),pl=planFor(w,dow),day=pl.day,ph=phaseNr(w),out=[],add=(ok,t)=>out.push({ok,t});
+  if(pl.kind==='rest') add(null,'Gepland was een rustdag.');
+  else if(isJog(pl)!==isJog(s)) add(false,`Gepland was: ${pl.title}.`);
+  if(s.kind==='walk'&&day.type==='walk'){
+    if(s.durMin!=null) add(s.durMin>=day.min*0.9,`Duur ${nl(s.durMin,0)} van ${day.min} min.`);
+    const z=(day.hrZone||'').match(/(\d+)-(\d+)/),u=(day.hrZone||'').match(/<(\d+)/);
+    if(s.avgHr!=null&&z) add(s.avgHr>=+z[1]&&s.avgHr<=+z[2],`Gem. hartslag ${int(s.avgHr)} (doel ${z[1]}–${z[2]}).`);
+    if(s.avgHr!=null&&u) add(s.avgHr<+u[1],`Gem. hartslag ${int(s.avgHr)} (doel onder ${u[1]}).`);
+    if(s.km!=null&&s.durMin&&/Duur/.test(day.name)){const v=s.km/(s.durMin/60);add(v>=6,`Tempo ${nl(v,1)} km/u (doel ≥ 6,0).`)}
+  }
+  if(isJog(s)){
+    const ses=day.session||day.test?.session;
+    if(s.pace!=null&&(ph===1||s.kind==='test')) add(s.pace>=7,`Jogtempo ${mmss(s.pace)} /km (plan 7:00–7:30).`);
+    if(s.maxHr!=null) add(s.maxHr<=170,`Max hartslag ${int(s.maxHr)} (grens 170).`);
+    if(s.avgHr!=null&&ph>=3) add(s.avgHr<=160,`Gem. hartslag ${int(s.avgHr)} (grens 160).`);
+    if(ses?.format==='distance-intervals'&&s.jogCount!=null) add(s.jogCount>=ses.reps*0.9&&s.jogCount<=ses.reps*1.2,`${s.jogCount} jogs, gepland ${ses.reps}.`);
+    if(ses?.format==='distance-intervals'&&s.jogMeters!=null) add(s.jogMeters<=ses.totalJogMeters*1.25,`${int(s.jogMeters)} m gejogd, gepland ${int(ses.totalJogMeters)} m.`);
+    if(s.kind==='test'&&s.testPassed!=null) add(!!s.testPassed,s.testPassed?'Test gehaald.':'Test niet gehaald.');
+  }
+  if(s.pain!=null) add(s.pain<=3,`Pijn ${int(s.pain)}/10 (grens 3).`);
+  return out;
+}
+const VERDICT={'goed':['p-good','✓ goed'],'binnen':['p-good','✓ binnen grenzen'],'te hard':['p-warn','! te hard'],'te licht':['p-warn','te licht'],'gemist':['p-bad','gemist'],'aangepast':['p-mute','aangepast']};
+function verdictPill(s,w){
+  if(s.verdict&&VERDICT[s.verdict]) return `<span class="pill ${VERDICT[s.verdict][0]}">${VERDICT[s.verdict][1]}</span>`;
+  if(!isJog(s)) return '<span class="pill p-good">✓ gedaan</span>';
+  const e=evalSession(s,w);return !e.length?'<span class="pill p-mute">geen data</span>':e.every(x=>x.ok)?'<span class="pill p-good">✓ binnen grenzen</span>':'<span class="pill p-warn">! te hard</span>';
+}
+function factsLine(s){
+  return [s.durMin!=null?`${nl(s.durMin,0)} min`:'',s.km!=null?`${nl(s.km,2)} km`:'',s.avgHr!=null?`gem. HS ${int(s.avgHr)}`:'',s.maxHr!=null?`max ${int(s.maxHr)}`:'',
+    s.pace!=null?`jog ${mmss(s.pace)} /km`:'',s.jogCount!=null?`${int(s.jogCount)} jogs`:'',s.jogMeters!=null?`${int(s.jogMeters)} m jog`:''].filter(Boolean).join(' · ');
+}
+function resultHtml(s,w){
+  const c=checks(s,w);
+  return `<div class="muted">${esc(factsLine(s))||'Geen meetgegevens.'}</div>
+   ${s.review?`<div class="banner ${s.verdict==='goed'||s.verdict==='binnen'?'b-good':s.verdict?'b-warn':'b-mute'}"><b>Review:</b> ${esc(s.review)}</div>`:'<div class="banner b-mute">Review volgt zodra je de data in de chat deelt.</div>'}
+   ${c.length?`<ul class="steps">${c.map(x=>`<li>${x.ok===true?'✓':x.ok===false?'!':'·'} ${esc(x.t)}</li>`).join('')}</ul>`:''}
+   ${s.stats?`<div class="muted">${esc(s.stats)}</div>`:''}`;
+}
+
+/* ---------- dynamisch schema: planweek per kalenderweek ---------- */
+// Loopt alle weken af vanaf de start. Weken met data (t/m dataThrough) worden beoordeeld volgens config.progression;
+// de lopende en toekomstige weken zijn een verwachting (elke week een stap verder).
+let TL=null;
+function evalWeek(ws,pw){
+  const wk=weekOf(pw),inWeek=sessionsAll().filter(s=>s.date>=ws&&s.date<=addDays(ws,6));
+  const req=[1,4].concat(pw>=17?[6]:[]).map(dw=>sessionOn(addDays(ws,(dw+6)%7)));
+  if(!inWeek.length) return {to:Math.max(1,pw-2),label:'gemist → 2 terug',why:'Hele week gemist: 2 weken terug.'};
+  if(wk.testWeek&&!(isJog(req[1])&&sessionOk(req[1],pw))) return {to:Math.max(1,pw-1),label:'test niet gehaald',why:'Test niet gehaald: laatste 2 weken van de fase herhalen, dan opnieuw testen.'};
+  if(req.every(s=>isJog(s)&&sessionOk(s,pw))) return {to:Math.min(NW(),pw+1),label:'door',why:`Alle jog-sessies binnen de grenzen: door naar week ${Math.min(NW(),pw+1)}.`};
+  const miss=req.filter(s=>!isJog(s)).length;
+  return {to:pw,label:'herhalen',why:miss?`${miss} jog-sessie(s) niet gedaan: week ${pw} herhalen.`:`Niet alle jog-sessies binnen de grenzen: week ${pw} herhalen.`};
+}
+function timeline(){
+  if(TL&&TL.key===TODAY)return TL;
+  const start=weekStart(SCHEMA.config.startDate),cur=weekStart(TODAY),thru=LOG.dataThrough||'',ov=LOG.weekOverrides||{},weeks=[];
+  let pw=1,done=false;
+  for(let ws=start;ws<=addDays(cur,7*60)&&!done;ws=addDays(ws,7)){
+    if(ov[ws]!=null) pw=clampW(ov[ws]);
+    // Beoordeeld als de hele week achter de data ligt, of als alle verplichte jog-dagen (ma, do, vanaf wk 17 ook za) al data hebben.
+    const reqDone=addDays(ws,pw>=17?5:3)<=thru&&sessionsAll().some(s=>s.date>=ws&&s.date<=addDays(ws,6));
+    const e={ws,pw,override:ov[ws]!=null,past:ws<cur,complete:addDays(ws,6)<=thru||reqDone};
+    weeks.push(e);
+    if(e.complete){e.res=evalWeek(ws,pw);pw=e.res.to}
+    else { if(pw>=NW()&&ws>=cur) done=true; pw=Math.min(NW(),pw+1) }
+  }
+  TL={key:TODAY,weeks,cur:weeks.find(w=>w.ws===cur)||weeks.at(-1)};
+  return TL;
+}
+const weekEntry=d=>{const ws=weekStart(d);return timeline().weeks.find(w=>w.ws===ws)};
+const pwOn=d=>{const t=timeline();return weekEntry(d)?.pw??(d>t.weeks.at(-1).ws?NW():1)};
+const curPw=()=>timeline().cur.pw;
+function finishDate(){const t=timeline(),last=t.weeks.find(w=>w.pw>=NW()&&w.ws>=t.cur.ws);return last?addDays(last.ws,3):null}
+
+/* ---------- gewicht + calorieën ---------- */
+function avg7(d){const w=weights().filter(x=>x.date<=d&&x.date>addDays(d,-7));return w.length?w.reduce((a,b)=>a+b.kg,0)/w.length:null}
+const cnt7=d=>weights().filter(x=>x.date<=d&&x.date>addDays(d,-7)).length;
+function trendPerWeek(){const W=weights();if(!W.length)return null;const l=W.at(-1).date,o=addDays(l,-14);if(cnt7(l)<3||cnt7(o)<3)return null;return (avg7(o)-avg7(l))/2}
+function planKgAt(d){const s=SET();if(s.refKg==null||!validDate(s.refDate))return null;return Math.max(s.goalKg??0,s.refKg-(s.rateKg||0.6)*days(s.refDate,d)/7)}
+function kcalAdvice(){
+  const k=kcalState(),tr=trendPerWeek(),since=days(k.setAt,TODAY),every=NUT().adjustEveryDays||14,min=NUT().kcalFloor||2200;
+  if(tr==null) return `<div class="banner b-mute">Nog te weinig metingen voor bijsturing. Weeg je dagelijks; na 3 weken stuurt de app je calorieën bij.</div>`;
+  if(since<every) return `<div class="banner b-mute">Volgende check over ${every-since} dagen. Je valt nu ${nl(tr,2)} kg per week af (doel 0,4–1,0).</div>`;
+  let nk=k.kcal,msg;
+  if(tr<0.4){nk=Math.max(min,k.kcal-200);msg=`Je valt ${nl(tr,2)} kg per week af, minder dan 0,4.`}
+  else if(tr>1.0){nk=k.kcal+200;msg=`Je valt ${nl(tr,2)} kg per week af, meer dan 1,0.`}
+  else return `<div class="banner b-good">Je valt ${nl(tr,2)} kg per week af. Precies goed, je calorieën blijven gelijk.<div style="margin-top:6px"><button data-kcal="${k.kcal}">Check opslaan</button></div></div>`;
+  if(nk===k.kcal) return `<div class="banner b-warn">${msg} Je zit al op de ondergrens van ${int(min)} kcal: meer bewegen in plaats van minder eten.<div style="margin-top:6px"><button data-kcal="${k.kcal}">Check opslaan</button></div></div>`;
+  return `<div class="banner b-warn">${msg} Advies: ${int(nk)} kcal.<div style="margin-top:6px"><button class="primary" data-kcal="${nk}">Toepassen</button></div></div>`;
+}
+// Signalen uit de ochtendcheck (config.progression)
+function signals(){
+  const out=[],m=LOC.morning,y=addDays(TODAY,-1),pain=Math.max(m[TODAY]?.pain??0,m[y]?.pain??0),last=sessionsAll().filter(s=>s.date<TODAY).at(-1);
+  if(pain>3||(last&&last.pain>3&&days(last.date,TODAY)<=2)) out.push(['b-warn',`Pijn boven 3: vandaag geen jogs, alleen rustig wandelen. Gebeurt dit een 2e keer, dan 1 week terug. Houdt de pijn langer dan een week aan: stoppen en naar huisarts of fysio.`]);
+  const prev=Object.entries(m).filter(([d,v])=>d<TODAY&&d>=addDays(TODAY,-21)&&v?.rhr>30).map(([,v])=>v.rhr).sort((a,b)=>a-b);
+  const rhr=m[TODAY]?.rhr;
+  if(rhr&&prev.length>=5){const base=prev[Math.floor(prev.length/2)];if(rhr>=base+10)out.push(['b-warn',`Rusthartslag ${rhr} is ${rhr-base} hoger dan normaal (${base}). Alleen rustig wandelen; daarna de laatste week herhalen. Laat het me weten in de chat, dan pas ik de planning aan.`])}
+  return out;
 }
 
 /* ---------- render: vandaag ---------- */
+function dayCard(date){
+  const w=pwOn(date),dow=parse(date).getDay(),pl=planFor(w,dow),s=sessionOn(date);
+  let h=`<div class="card hero"><div class="row between"><span class="eyebrow">Vandaag · ${esc(SCHEMA.config.sessionTime||'19:00')}</span>${s?verdictPill(s,w):pl.kind==='rest'?'<span class="pill p-mute">rust</span>':'<span class="pill p-acc">gepland</span>'}</div>
+    <h2>${esc(pl.title)}</h2><p class="sub">${esc(pl.text)}</p>`;
+  h+=signals().map(x=>`<div class="banner ${x[0]}">${esc(x[1])}</div>`).join('');
+  h+=`<p class="muted"><b>Idee:</b> ${esc(purpose(w,dow))}</p>`;
+  if(pl.kind==='rest') h+=`<div><span class="eyebrow">Zin om iets te doen? Dit mag</span><ul class="steps" style="margin-top:6px">${REST_OPTIONS.map(r=>`<li>${esc(r)}</li>`).join('')}</ul><p class="muted" style="margin-top:6px">Niet joggen en geen lange of zware inspanning: rust is waar je sterker wordt.</p></div>`;
+  if(pl.rules) h+=`<ul class="steps">${phaseRules(w).map(r=>`<li>${esc(r)}</li>`).join('')}</ul>`;
+  if(s) h+=resultHtml(s,w);
+  else if(pl.kind!=='rest') h+=`<p class="muted">Klaar? Deel je Watch-data in de chat; dan komt hier je review.</p>`;
+  return h+'</div>';
+}
 function renderToday(){
-  const p=planState(),d=parse(TODAY),pl=planFor(p.planWeek,d.getDay()),ses=S.docs['sessions/'+TODAY],w=S.docs['weights/'+TODAY];
-  const W=weights(),a7=avg7(TODAY)??(W.length?avg7(W.at(-1).date):null),tr=trendPerWeek(),pk=planKgAt(TODAY);
-  let h=`<div class="card"><div class="row between"><span class="eyebrow">Training vandaag · ${esc(SCHEMA.config.sessionTime||'19:00')}</span>${ses?'<span class="pill p-good">✓ Gedaan</span>':pl.kind==='rest'?'<span class="pill p-mute">Rust</span>':'<span class="pill p-mute">Open</span>'}</div>
-    <h2>${esc(pl.title)}</h2><p class="sub">${esc(pl.text)}</p>
-    <p class="muted"><b>Idee:</b> ${esc(purpose(p.planWeek,d.getDay()))}</p>
-    ${pl.rules?`<ul class="steps">${phaseRules(p.planWeek).map(r=>`<li>${esc(r)}</li>`).join('')}</ul>`:''}
-    ${ses?reviewHtml(ses):''}
-    ${pl.kind!=='rest'?sessionForm(pl,ses,p.planWeek):''}</div>`;
-  const up=upcoming(4),nx=up[0];
-  if(nx) h+=`<div class="card"><div class="row between"><span class="eyebrow">Volgende training</span><span class="pill p-mute">${nx.in===1?'morgen':`over ${nx.in} dagen`}</span></div>
-    <h2>${esc(nx.pl.title)}</h2><p class="sub">${nice(nx.date)} · ${esc(SCHEMA.config.sessionTime||'19:00')} — ${esc(nx.pl.text)}</p>
-    <p class="muted"><b>Idee:</b> ${esc(purpose(p.planWeek,nx.dow))}</p>
-    <div><span class="eyebrow">Planning daarna</span><table><tbody>${up.slice(1).map(u=>`<tr><td style="width:84px;white-space:nowrap">${nice(u.date)}</td><td>${esc(u.pl.title)}<div class="muted">${esc(u.pl.text)}</div></td></tr>`).join('')}</tbody></table></div>
-    <p class="muted">Na het afsluiten van de week kan de planweek veranderen.</p></div>`;
-  h+=`<div class="card"><span class="eyebrow">Gewicht · elke ochtend</span>
-    <div class="weigh"><label class="f">Vandaag (kg)<input id="w-kg" inputmode="decimal" placeholder="bijv. 122,4" value="${w?nl(w.kg,1):''}"></label><button class="primary" id="w-save">${w?'Bijwerken':'Opslaan'}</button></div>
+  const k=kcalState(),W=weights(),a7=avg7(TODAY)??(W.length?avg7(W.at(-1).date):null),tr=trendPerWeek(),pk=planKgAt(TODAY),m=LOC.morning[TODAY]||{};
+  let h=dayCard(TODAY);
+  const nx=upcoming(3);
+  if(nx.length) h+=`<div class="card"><div class="row between"><span class="eyebrow">Volgende training</span><span class="pill p-mute">${nx[0].in===1?'morgen':`over ${nx[0].in} dagen`}</span></div>
+    <h2>${esc(nx[0].pl.title)}</h2><p class="sub">${longDate(nx[0].date)} · ${esc(SCHEMA.config.sessionTime||'19:00')} — ${esc(nx[0].pl.text)}</p>
+    <p class="muted"><b>Idee:</b> ${esc(purpose(nx[0].w,nx[0].dow))}</p>
+    ${nx.slice(1).map(u=>`<div class="muted">${nice(u.date)}: ${esc(u.pl.title)}</div>`).join('')}</div>`;
+  h+=`<div class="card"><span class="eyebrow">Ochtendcheck · wegen na toilet, vóór ontbijt</span>
+    <div class="weigh"><label class="f">Gewicht (kg)<input id="m-kg" inputmode="decimal" placeholder="122,4" value="${LOC.weights[TODAY]!=null?nl(LOC.weights[TODAY],1):''}"></label>
+    <label class="f">Pijn (0–10)<input id="m-pain" inputmode="numeric" placeholder="0" value="${esc(m.pain??'')}"></label>
+    <label class="f">Rusthartslag<input id="m-rhr" inputmode="numeric" placeholder="bijv. 62" value="${esc(m.rhr??'')}"></label></div>
+    <button class="primary" id="m-save">Opslaan</button>
     <div class="tiles"><div class="tile"><span class="eyebrow">7-daags</span><span class="v">${nl(a7,1)}</span><span class="d">kg gemiddeld</span></div>
     <div class="tile"><span class="eyebrow">Tempo</span><span class="v">${tr!=null?(tr>=0?'−':'+')+nl(Math.abs(tr),2):'–'}</span><span class="d">kg per week</span></div>
-    <div class="tile"><span class="eyebrow">Plan</span><span class="v">${nl(pk,1)}</span><span class="d">${pk==null?'stel in bij Plan':'kg verwacht'}</span></div></div></div>`;
-  h+=`<div class="card"><span class="eyebrow">Eten vandaag</span><div class="row between"><div><div class="big">${int(p.kcal)}</div><div class="muted">kcal · nooit onder ${int(kcalMin())}</div></div><div style="text-align:right"><div class="big">${int(SCHEMA.config.nutrition?.proteinG||PROTEIN)} g</div><div class="muted">eiwit</div></div></div>${kcalAdvice()}</div>`;
+    <div class="tile"><span class="eyebrow">Plan</span><span class="v">${nl(pk,1)}</span><span class="d">kg verwacht</span></div></div></div>`;
+  h+=`<div class="card"><span class="eyebrow">Eten vandaag</span><div class="row between"><div><div class="big">${int(k.kcal)}</div><div class="muted">kcal · nooit onder ${int(NUT().kcalFloor||2200)}</div></div><div style="text-align:right"><div class="big">${int(NUT().proteinG||130)} g</div><div class="muted">eiwit</div></div></div>${kcalAdvice()}</div>`;
   h+=weekCard();
-  $('#v-today').innerHTML=h; bindToday(pl);
+  $('#v-today').innerHTML=h;
+  $('#m-save').onclick=saveMorning;
+  document.querySelectorAll('[data-kcal]').forEach(b=>b.onclick=()=>{LOC.kcal={kcal:+b.dataset.kcal,setAt:TODAY};if(saveLocal()){toast('Opgeslagen');render()}});
 }
-function sessionForm(pl,ses,w){
-  const v=k=>ses&&ses[k]!=null?esc(ses[k]):'';
-  const yn=(id,k,label)=>`<label class="f">${label}<select id="${id}"><option value=""></option><option value="1" ${ses&&ses[k]===true?'selected':''}>ja</option><option value="0" ${ses&&ses[k]===false?'selected':''}>nee</option></select></label>`;
-  return `<details ${ses?'':'open'}><summary>${ses?'Gegevens bekijken of aanpassen':'Afvinken en gegevens invullen'}</summary>
-  <div class="grid2" style="margin-top:8px">
-   <label class="f">Duur (min)<input id="s-dur" inputmode="decimal" value="${v('durMin')}"></label>
-   <label class="f">Afstand (km)<input id="s-km" inputmode="decimal" value="${ses&&ses.km!=null?nl(ses.km,2):''}"></label>
-   <label class="f">Gem. hartslag<input id="s-avg" inputmode="numeric" value="${v('avgHr')}"></label>
-   <label class="f">Max hartslag<input id="s-max" inputmode="numeric" value="${v('maxHr')}"></label>
-   ${isJog(pl)?`<label class="f">Gem. jogtempo (m:ss)<input id="s-pace" inputmode="decimal" placeholder="7:15" value="${ses&&ses.pace!=null?mmss(ses.pace):''}"></label>`:''}
-   <label class="f">Pijn (0–10)<input id="s-pain" inputmode="numeric" value="${v('pain')}"></label>
-   ${isJog(pl)&&phaseNr(w)>=2?yn('s-talk','talkTestOk','Praattest gehaald'):''}
-   ${pl.kind==='test'?yn('s-test','testPassed','Test gehaald'):''}
-  </div>
-  <label class="f" style="margin-top:8px">Notitie<textarea id="s-note">${v('note')}</textarea></label>
-  <details style="margin-top:6px"><summary>Analyse uit de chat plakken</summary><textarea id="s-paste" placeholder='{"durMin":47.5,"km":5.01,...}'></textarea><button id="s-fill" style="margin-top:6px">Velden invullen</button></details>
-  <div class="row" style="margin-top:8px"><button class="primary" id="s-save">${ses?'Opslaan':'Gedaan ✓'}</button>${ses?'<button id="s-del">Verwijderen</button>':''}</div>
-  ${ses?.jogs?.length?`<p class="muted">${ses.jogs.length} jogs uit Watch-analyse opgeslagen.</p>`:''}</details>`;
-}
-function kcalAdvice(){
-  const p=planState(),tr=trendPerWeek(),since=days(p.kcalSetAt,TODAY),every=SCHEMA.config.nutrition?.adjustEveryDays||14,min=kcalMin();
-  if(tr==null) return `<div class="banner b-mute">Nog te weinig metingen voor bijsturing. Weeg je dagelijks; na 3 weken stuurt de app je calorieën bij.</div>`;
-  if(since<every) return `<div class="banner b-mute">Volgende check over ${every-since} dagen. Je valt nu ${nl(tr,2)} kg per week af (doel 0,4–1,0).</div>`;
-  let nk=p.kcal,msg;
-  if(tr<0.4){nk=Math.max(min,p.kcal-200);msg=`Je valt ${nl(tr,2)} kg per week af, minder dan 0,4.`}
-  else if(tr>1.0){nk=p.kcal+200;msg=`Je valt ${nl(tr,2)} kg per week af, meer dan 1,0.`}
-  else return `<div class="banner b-good">Je valt ${nl(tr,2)} kg per week af. Precies goed, je calorieën blijven gelijk. <div style="margin-top:6px"><button id="k-ok">Check opslaan</button></div></div>`;
-  if(nk===p.kcal) return `<div class="banner b-warn">${msg} Je zit al op de ondergrens van ${int(min)} kcal: meer bewegen in plaats van minder eten. <div style="margin-top:6px"><button id="k-ok">Check opslaan</button></div></div>`;
-  return `<div class="banner b-warn">${msg} Advies: ${int(nk)} kcal.<div style="margin-top:6px"><button class="primary" id="k-apply" data-k="${nk}">Toepassen</button></div></div>`;
+function upcoming(n){
+  const out=[],fd=finishDate();
+  for(let i=1;out.length<n&&i<15;i++){const d=addDays(TODAY,i);if(fd&&d>fd)break;const dow=parse(d).getDay(),w=pwOn(d),pl=planFor(w,dow);if(pl.kind!=='rest')out.push({date:d,dow,w,pl,in:i})}
+  return out;
 }
 function weekCard(){
-  const p=planState(),ws=weekStart(TODAY),a=weekAdvice(),jogs=a.inWeek.filter(isJog),ok=jogs.filter(sessionOk).length;
-  const dots=[1,2,4,6,0].map(dw=>{const dt=addDays(ws,(dw+6)%7),s=S.docs['sessions/'+dt],pl=planFor(p.planWeek,dw);
-    const c=s?(isJog(s)?(sessionOk(s)?'var(--good)':'var(--warn)'):'var(--good)'):'var(--grid)';
-    return `<span title="${nice(dt)}: ${esc(pl.title)}" style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;color:var(--muted)"><span class="dot" style="background:${c};width:14px;height:14px"></span>${DK[dw]}</span>`}).join('');
-  const closed=(p.history||[]).some(x=>x.at>=ws), canClose=TODAY>=addDays(ws,3);
-  let close;
-  if(closed) close=`<p class="muted">Deze week is afgesloten.</p>`;
-  else if(!canClose) close=`<p class="muted">Vanaf donderdag kun je de week afsluiten.</p>`;
-  else {
-    const btn=(to,label)=>`<button class="${to===a.to?'primary':''}" data-close="${to}">${label}</button>`;
-    const opts=[[Math.min(SCHEMA.weeks.length,p.planWeek+1),`Door naar week ${Math.min(SCHEMA.weeks.length,p.planWeek+1)}`],[p.planWeek,`Week ${p.planWeek} herhalen`]];
-    if(!opts.some(o=>o[0]===a.to)) opts.push([a.to,`Naar week ${a.to}`]);
-    close=`<div class="banner ${a.to>p.planWeek?'b-good':'b-warn'}">${esc(a.why)}<div class="row" style="margin-top:8px">${opts.map(o=>btn(o[0],o[1])).join('')}</div></div>`;
-  }
-  return `<div class="card"><div class="row between"><span class="eyebrow">Deze week · ${a.inWeek.length} van 5 gedaan</span><span class="muted">${jogs.length} jog · ${ok} binnen de grenzen</span></div>
-   <div class="row" style="justify-content:space-around">${dots}</div>${close}</div>`;
+  const e=timeline().cur,ws=e.ws,w=e.pw,inWeek=sessionsAll().filter(s=>s.date>=ws&&s.date<=addDays(ws,6)),jogs=inWeek.filter(isJog);
+  const dots=[1,2,4,6,0].map(dw=>{const dt=addDays(ws,(dw+6)%7),s=sessionOn(dt);
+    const c=s?(isJog(s)?(sessionOk(s,w)?'var(--good)':'var(--warn)'):'var(--good)'):dt<TODAY&&dt<=(LOG.dataThrough||'')?'var(--bad)':'var(--grid)';
+    return `<span style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;color:var(--muted)"><span class="dot" style="background:${c};width:14px;height:14px"></span>${DK[dw]}</span>`}).join('');
+  const adv=evalWeek(ws,w);
+  return `<div class="card"><div class="row between"><span class="eyebrow">Deze week · planweek ${w}</span><span class="muted">${inWeek.length} van 5 · ${jogs.filter(s=>sessionOk(s,w)).length}/${jogs.length} jogs binnen grenzen</span></div>
+   <div class="row" style="justify-content:space-around">${dots}</div>
+   ${inWeek.length?`<p class="muted">Stand nu: ${esc(adv.why)} De week wordt automatisch beoordeeld als alle data binnen is.</p>`:'<p class="muted">Nog geen trainingen met data deze week.</p>'}</div>`;
 }
-function bindToday(pl){
-  $('#w-save')?.addEventListener('click',saveWeight);
-  $('#w-kg')?.addEventListener('keydown',e=>{if(e.key==='Enter')saveWeight()});
-  $('#s-save')?.addEventListener('click',()=>saveSession(pl));
-  $('#s-del')?.addEventListener('click',()=>confirm('Sessie verwijderen?')&&guard(()=>write([['sessions/'+TODAY,null]])).then(()=>toast('Sessie verwijderd')));
-  $('#s-fill')?.addEventListener('click',fillFromPaste);
-  $('#k-apply')?.addEventListener('click',e=>setPlan({kcal:+e.target.dataset.k,kcalSetAt:TODAY},'Calorieën aangepast'));
-  $('#k-ok')?.addEventListener('click',()=>setPlan({kcalSetAt:TODAY},'Check opgeslagen'));
-  document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeWeek(+b.dataset.close)));
+function saveMorning(){
+  const kg=num($('#m-kg').value),pain=num($('#m-pain').value),rhr=num($('#m-rhr').value);
+  if(kg!=null&&!(kg>40&&kg<250)){toast('Gewicht in kg, bijv. 122,4');return}
+  if(pain!=null&&!(pain>=0&&pain<=10)){toast('Pijn is 0 tot 10');return}
+  if(rhr!=null&&!(rhr>30&&rhr<130)){toast('Rusthartslag tussen 30 en 130');return}
+  if(kg!=null) LOC.weights[TODAY]=Math.round(kg*10)/10; else delete LOC.weights[TODAY];
+  LOC.morning[TODAY]={...(pain!=null?{pain:Math.round(pain)}:{}),...(rhr!=null?{rhr:Math.round(rhr)}:{})};
+  if(!Object.keys(LOC.morning[TODAY]).length) delete LOC.morning[TODAY];
+  if(saveLocal()){document.activeElement?.blur();toast('Opgeslagen');render()}
 }
 
-/* ---------- schrijven ---------- */
-async function saveWeight(){
-  const kg=numOrNull($('#w-kg').value);
-  if(!(kg>40&&kg<250)){toast('Vul je gewicht in kg in, bijv. 122,4');return}
-  await guard(async()=>{await write([['weights/'+TODAY,{date:TODAY,kg:Math.round(kg*10)/10,source:'app'}]]);toast('Gewicht opgeslagen')});
+/* ---------- render: agenda ---------- */
+function renderAgenda(){
+  const t=timeline(),show=t.weeks.filter(w=>w.ws<=addDays(t.cur.ws,7*5));
+  const h=show.map(e=>{
+    const wk=weekOf(e.pw),tag=e.override?'<span class="pill p-mute">aangepast</span>':e.res?`<span class="pill ${e.res.to>e.pw?'p-good':'p-warn'}">${esc(e.res.label)}</span>`:e.ws===t.cur.ws?'<span class="pill p-acc">deze week</span>':e.past?'<span class="pill p-mute">data volgt</span>':'<span class="pill p-mute">verwacht</span>';
+    const rows=[1,2,3,4,5,6,0].map(dw=>{const d=addDays(e.ws,(dw+6)%7),pl=planFor(e.pw,dw),s=sessionOn(d),isT=d===TODAY;
+      const st=s?verdictPill(s,e.pw):pl.kind==='rest'?'':d<TODAY&&d<=(LOG.dataThrough||'')?'<span class="pill p-bad">geen data</span>':d<TODAY?'<span class="pill p-mute">data volgt</span>':'';
+      return `<details class="day${isT?' today':''}${pl.kind==='rest'?' rest':''}" ${isT?'id="agenda-today" open':''}><summary><span class="when">${nice(d)}${isT?'<br><span class="pill p-acc">vandaag</span>':''}</span><span class="t">${esc(pl.title)}</span>${st}</summary>
+        <div class="body"><div class="sub">${esc(pl.text)}</div><div class="muted"><b>Idee:</b> ${esc(purpose(e.pw,dw))}</div>${s?resultHtml(s,e.pw):''}${pl.kind==='rest'?`<div class="muted">Mag: ${esc(REST_OPTIONS.slice(0,3).join(' · '))}</div>`:''}</div></details>`}).join('');
+    return `<div class="card"><div class="row between"><div><span class="eyebrow">Week van ${nice(e.ws)}</span><h2>Planweek ${e.pw} · fase ${wk.phase}${wk.recoveryWeek?' · herstel':''}${wk.testWeek?' · test':''}</h2></div>${tag}</div>${e.res?`<p class="muted">${esc(e.res.why)}</p>`:''}${rows}</div>`;
+  }).join('');
+  $('#v-agenda').innerHTML=`<p class="muted">Tik op een dag voor de planning en (achteraf) de review. Weken na vandaag zijn een verwachting: de app schuift ze op als een week herhaald moet worden.</p>`+h;
+  $('#agenda-today')?.scrollIntoView({block:'center'});
 }
-const yesNo=id=>{const v=$(id)?.value;return v==='1'?true:v==='0'?false:null};
-async function saveSession(pl){
-  const n=id=>numOrNull($(id)?.value),p=planState(),old=S.docs['sessions/'+TODAY]||{};
-  const body={...old,date:TODAY,kind:pl.kind,title:pl.title,planWeek:p.planWeek,done:true,durMin:n('#s-dur'),km:n('#s-km'),avgHr:n('#s-avg'),maxHr:n('#s-max'),
-    pace:isJog(pl)?toMin($('#s-pace')?.value):null,pain:n('#s-pain'),talkTestOk:yesNo('#s-talk'),testPassed:yesNo('#s-test'),note:$('#s-note')?.value||'',jogs:S.pastedJogs||old.jogs||null,source:S.pastedJogs?'watch':old.source||'app'};
-  if(body.pain!=null&&(body.pain<0||body.pain>10)){toast('Pijn is een getal van 0 tot 10');return}
-  await guard(async()=>{await write([['sessions/'+TODAY,body]]);S.pastedJogs=null;toast('Sessie opgeslagen')});
-}
-// Analyse uit de chat: {"durMin","km","avgHr","maxHr","pace","jogs":[...],"note"}
-function fillFromPaste(){
-  let d;try{d=JSON.parse($('#s-paste').value)}catch(e){toast('Dit is geen geldige analyse');return}
-  const set=(id,v)=>{const el=$(id);if(el&&v!=null)el.value=v};
-  set('#s-dur',d.durMin);set('#s-km',d.km!=null?nl(d.km,2):null);set('#s-avg',d.avgHr);set('#s-max',d.maxHr);
-  set('#s-pace',d.pace!=null?mmss(d.pace):null);set('#s-note',d.note);
-  const nums=j=>Object.fromEntries(['startMin','m','sec','paceMinKm','hrStart','hrPeak','walkMBefore'].map(k=>[k,numOrNull(j?.[k])]));
-  S.pastedJogs=Array.isArray(d.jogs)?d.jogs.slice(0,100).map(nums):null;
-  toast('Velden ingevuld, controleer en sla op');
-}
-async function setPlan(patch,msg){await guard(async()=>{await write([['state/plan',{...planState(),...patch}]]);toast(msg)})}
-async function closeWeek(to){
-  const p=planState(),hist=(p.history||[]).concat([{week:p.planWeek,result:to>p.planWeek?'door':'herhaald',to,at:TODAY}]).slice(-120);
-  await setPlan({planWeek:to,history:hist},to>p.planWeek?`Week ${to} gestart`:`Verder met week ${to}`);
+
+/* ---------- render: trainingen ---------- */
+function renderTrain(){
+  const L=sessionsAll().reverse(),jogs=L.filter(isJog),ok=jogs.filter(s=>sessionOk(s,pwOn(s.date))).length,km=L.reduce((a,s)=>a+(s.km||0),0);
+  let h=`<div class="card"><span class="eyebrow">Overzicht</span><div class="tiles">
+    <div class="tile"><span class="eyebrow">Trainingen</span><span class="v">${L.length}</span><span class="d">met data</span></div>
+    <div class="tile"><span class="eyebrow">Jogs ok</span><span class="v">${ok}/${jogs.length}</span><span class="d">binnen grenzen</span></div>
+    <div class="tile"><span class="eyebrow">Afstand</span><span class="v">${nl(km,1)}</span><span class="d">km totaal</span></div></div>
+    <p class="muted">Data bijgewerkt tot ${LOG.dataThrough?nice(LOG.dataThrough):'–'}. Deel nieuwe trainingen in de chat voor een review.</p></div>`;
+  h+=L.map(s=>{const w=pwOn(s.date),pl=planFor(w,parse(s.date).getDay());
+    return `<div class="card"><div class="row between"><span class="eyebrow">${longDate(s.date)} · planweek ${w}</span>${verdictPill(s,w)}</div><h2>${esc(pl.title)}</h2><div class="muted">Plan: ${esc(pl.text)}</div>${resultHtml(s,w)}</div>`}).join('')
+    ||'<div class="card"><p class="muted">Nog geen trainingen met data.</p></div>';
+  $('#v-train').innerHTML=h;
 }
 
 /* ---------- render: gewicht ---------- */
 function renderWeight(){
-  const W=weights(),last=W.at(-1),tr=trendPerWeek(),p=planState();
+  const W=weights(),last=W.at(-1),tr=trendPerWeek(),s=SET();
   let h=`<div class="card"><span class="eyebrow">Gewicht</span><div class="tiles">
    <div class="tile"><span class="eyebrow">Laatste</span><span class="v">${last?nl(last.kg,1):'–'}</span><span class="d">${last?nice(last.date):'nog niets'}</span></div>
    <div class="tile"><span class="eyebrow">7-daags</span><span class="v">${last?nl(avg7(last.date),1):'–'}</span><span class="d">kg</span></div>
-   <div class="tile"><span class="eyebrow">Nog te gaan</span><span class="v">${last&&p.goalKg!=null?nl(avg7(last.date)-p.goalKg,1):'–'}</span><span class="d">${p.goalKg!=null?`kg tot ${nl(p.goalKg,0)}`:'doel instellen bij Plan'}</span></div></div>
+   <div class="tile"><span class="eyebrow">Nog te gaan</span><span class="v">${last&&s.goalKg!=null?nl(avg7(last.date)-s.goalKg,1):'–'}</span><span class="d">kg tot ${nl(s.goalKg,0)}</span></div></div>
    ${weightChart()}
-   <div class="legend"><span><i style="background:var(--accent)"></i>7-daags gemiddelde</span><span><i style="background:var(--muted);height:6px;width:6px;border-radius:50%"></i>Dagmeting</span><span><i style="background:var(--plan)"></i>Plan ${nl(p.rateKg,1)} kg/week</span><span><i style="background:var(--goal)"></i>Doel</span></div>
-   <p class="muted">Tempo laatste 2 weken: ${tr!=null?nl(tr,2)+' kg per week':'nog te weinig metingen'} · calorieën nu ${int(p.kcal)} kcal</p></div>`;
-  h+=`<div class="card"><span class="eyebrow">Metingen</span><div class="tw"><table><thead><tr><th>Datum</th><th>kg</th><th>7-daags</th><th></th></tr></thead><tbody>${W.slice().reverse().slice(0,60).map(x=>`<tr><td>${nice(x.date)}</td><td class="n">${nl(x.kg,1)}</td><td class="n">${nl(avg7(x.date),1)}</td><td><button data-delw="${esc(x.date)}" aria-label="Verwijderen" style="min-height:0;padding:2px 8px;border:0">✕</button></td></tr>`).join('')||'<tr><td colspan="4" class="muted">Nog geen metingen. Weeg je morgenochtend en vul het in op Vandaag.</td></tr>'}</tbody></table></div></div>`;
+   <div class="legend"><span><i style="background:var(--accent)"></i>7-daags gemiddelde</span><span><i style="background:var(--muted);height:6px;width:6px;border-radius:50%"></i>Dagmeting</span><span><i style="background:var(--plan)"></i>Plan ${nl(s.rateKg||0.6,1)} kg/week</span><span><i style="background:var(--goal)"></i>Doel</span></div>
+   <p class="muted">Tempo laatste 2 weken: ${tr!=null?nl(tr,2)+' kg per week':'nog te weinig metingen'}${s.startKg&&validDate(s.startDate)?` · gestart op ${nl(s.startKg,0)} kg (${nice(s.startDate)})`:''}</p></div>`;
+  const srcTxt=x=>x.src==='middenweg'?`middenweg (app ${nl(x.app,1)} · export ${nl(x.exp,1)})`:x.src==='beide'?'app + export':x.src;
+  h+=`<div class="card"><span class="eyebrow">Metingen</span><div class="tw"><table><thead><tr><th>Datum</th><th>kg</th><th>7-daags</th><th>Bron</th></tr></thead><tbody>${W.slice().reverse().slice(0,90).map(x=>`<tr><td>${nice(x.date)}</td><td class="n">${nl(x.kg,1)}</td><td class="n">${nl(avg7(x.date),1)}</td><td class="muted">${esc(srcTxt(x))}${x.app!=null?` <button data-delw="${esc(x.date)}" aria-label="Eigen meting verwijderen" style="min-height:0;padding:0 6px;border:0">✕</button>`:''}</td></tr>`).join('')||'<tr><td colspan="4" class="muted">Nog geen metingen.</td></tr>'}</tbody></table></div></div>`;
   $('#v-weight').innerHTML=h;
-  document.querySelectorAll('[data-delw]').forEach(b=>b.addEventListener('click',()=>confirm(`Meting ${nice(b.dataset.delw)} verwijderen?`)&&guard(()=>write([['weights/'+b.dataset.delw,null]]))));
+  document.querySelectorAll('[data-delw]').forEach(b=>b.onclick=()=>{if(confirm(`Eigen meting van ${nice(b.dataset.delw)} verwijderen?`)){delete LOC.weights[b.dataset.delw];if(saveLocal())render()}});
 }
 function weightChart(){
-  const W=weights(),p=planState();if(W.length<2)return '<p class="muted">De grafiek verschijnt na 2 metingen.</p>';
+  const W=weights(),s=SET();if(W.length<2)return '<p class="muted">De grafiek verschijnt na 2 metingen.</p>';
   const from=W[0].date,to=addDays(TODAY,21),n=Math.max(1,days(from,to)),Wd=600,H=230,m={l:34,r:8,t:10,b:22};
   const xs=d=>m.l+days(from,d)/n*(Wd-m.l-m.r);
-  const vals=W.map(x=>x.kg).concat(p.goalKg!=null?[p.goalKg]:[]).concat(planKgAt(to)!=null?[planKgAt(to)]:[]);
+  const vals=W.map(x=>x.kg).concat(s.goalKg!=null?[s.goalKg]:[]).concat(planKgAt(to)!=null?[planKgAt(to)]:[]);
   const lo=Math.floor(Math.min(...vals)-2),hi=Math.ceil(Math.max(...vals)+1),ys=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
   let g='';const step=hi-lo>20?5:2;
   for(let v=Math.ceil(lo/step)*step;v<=hi;v+=step) g+=`<line x1="${m.l}" x2="${Wd-m.r}" y1="${ys(v)}" y2="${ys(v)}" stroke="var(--grid)"/><text x="${m.l-5}" y="${ys(v)+3.5}" text-anchor="end">${v}</text>`;
   for(let d=parse(from);iso(d)<=to;d.setDate(d.getDate()+1)) if(d.getDate()===1) g+=`<text x="${xs(iso(d))}" y="${H-6}" text-anchor="middle">1 ${MON[d.getMonth()]}</text>`;
-  if(p.goalKg!=null) g+=`<line x1="${m.l}" x2="${Wd-m.r}" y1="${ys(p.goalKg)}" y2="${ys(p.goalKg)}" stroke="var(--goal)" stroke-width="1.5"/>`;
-  if(planKgAt(to)!=null){const a=from<p.refDate?p.refDate:from;g+=`<line x1="${xs(a)}" y1="${ys(planKgAt(a))}" x2="${xs(to)}" y2="${ys(planKgAt(to))}" stroke="var(--plan)" stroke-width="2" stroke-dasharray="6 5"/>`}
+  if(s.goalKg!=null) g+=`<line x1="${m.l}" x2="${Wd-m.r}" y1="${ys(s.goalKg)}" y2="${ys(s.goalKg)}" stroke="var(--goal)" stroke-width="1.5"/>`;
+  if(planKgAt(to)!=null){const a=from<s.refDate?s.refDate:from;g+=`<line x1="${xs(a)}" y1="${ys(planKgAt(a))}" x2="${xs(to)}" y2="${ys(planKgAt(to))}" stroke="var(--plan)" stroke-width="2" stroke-dasharray="6 5"/>`}
   W.forEach(x=>g+=`<circle cx="${xs(x.date)}" cy="${ys(x.kg)}" r="2.5" fill="var(--muted)"><title>${nice(x.date)}: ${nl(x.kg,1)} kg</title></circle>`);
   const a=W.map(x=>[x.date,avg7(x.date)]);
   g+=`<path d="${a.map((q,i)=>(i?'L':'M')+xs(q[0]).toFixed(1)+','+ys(q[1]).toFixed(1)).join('')}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/>`;
@@ -422,138 +435,60 @@ function weightChart(){
   return `<svg viewBox="0 0 ${Wd} ${H}" role="img" aria-label="Gewicht met 7-daags gemiddelde, plan en doel">${g}</svg>`;
 }
 
-/* ---------- render: sessies ---------- */
-function renderSessions(){
-  const L=sessions().reverse();
-  const h=`<div class="card"><span class="eyebrow">Sessies</span><div class="list">${L.map(s=>{const e=evalSession(s);
-    const st=!isJog(s)?'<span class="pill p-good">✓</span>':!e.length?'<span class="pill p-mute">geen data</span>':e.every(x=>x.ok)?'<span class="pill p-good">✓ binnen grenzen</span>':'<span class="pill p-warn">! te hard</span>';
-    const bad=e?e.filter(x=>!x.ok).map(x=>x.t).join(', '):'';
-    const facts=[s.durMin!=null?`${nl(s.durMin,0)} min`:'',s.km!=null?`${nl(s.km,2)} km`:'',s.avgHr!=null?`gem. ${int(s.avgHr)}`:'',s.maxHr!=null?`max ${int(s.maxHr)}`:'',s.pace!=null?`jog ${mmss(s.pace)} /km`:''].filter(Boolean).join(' · ');
-    return `<div class="li"><span class="dot" style="background:${isJog(s)?'var(--accent)':'var(--muted)'}"></span><div><div style="font-weight:650">${nice(s.date)} · ${esc(s.title||s.kind)}</div><div class="muted">${facts||'–'}${bad?' · <b>'+esc(bad)+'</b>':''}${s.note?' · '+esc(s.note):''}</div><details><summary>Review bekijken</summary>${reviewHtml(s)}</details></div>${st}</div>`}).join('')||'<p class="muted">Nog geen sessies. Vink je training af op Vandaag.</p>'}</div></div>`;
-  $('#v-sessions').innerHTML=h;
-}
-
 /* ---------- render: plan ---------- */
 function renderPlan(){
-  const p=planState(),wk=weekOf(p.planWeek),c=SCHEMA.config;
-  let h=`<div class="card"><span class="eyebrow">Waar je staat</span><h2>Week ${esc(p.planWeek)} van ${SCHEMA.weeks.length} · fase ${wk.phase} · ${esc(wk.phaseName)}</h2>
-   <p class="sub">Doel van deze fase: ${esc(wk.phaseGoal)}. Einddoel: ${esc(c.goals.finalRun)} (rond ${nice(c.goals.finalRunTargetDate)} 2027)${p.goalKg!=null?` en ${nl(p.goalKg,0)} kg`:''}.</p>
-   ${wk.recoveryWeek?'<span class="pill p-mute">herstelweek</span>':''}${wk.testWeek?'<span class="pill p-warn">testweek</span>':''}</div>`;
-  h+=`<div class="card"><span class="eyebrow">Week-indeling</span><div class="tw"><table><tbody>${[1,2,3,4,5,6,0].map(dw=>{const pl=planFor(p.planWeek,dw);return `<tr><td style="width:44px;font-weight:650">${DK[dw]}</td><td>${esc(pl.title)}<div class="muted">${esc(pl.text)}</div></td></tr>`}).join('')}</tbody></table></div></div>`;
-  h+=`<div class="card"><span class="eyebrow">Fases</span><div class="tw"><table><thead><tr><th>Fase</th><th>Weken</th><th>Doel</th><th></th></tr></thead><tbody>${phases().map(f=>`<tr><td>${f.nr} · ${esc(f.name)}</td><td class="n">${f.from}–${f.to}</td><td>${esc(f.goal)}</td><td>${p.planWeek>f.to?'<span class="pill p-good">✓</span>':p.planWeek>=f.from?'<span class="pill p-mute">nu</span>':''}</td></tr>`).join('')}</tbody></table></div></div>`;
+  const t=timeline(),w=t.cur.pw,wk=weekOf(w),c=SCHEMA.config,fin=finishDate(),target=c.goals.finalRunTargetDate,late=fin&&target?days(target,fin):null;
+  const ph=[...new Map(SCHEMA.weeks.map(x=>[x.phase,{nr:x.phase,name:x.phaseName,goal:x.phaseGoal,from:SCHEMA.weeks.find(y=>y.phase===x.phase).week,to:x.week}])).values()];
+  let h=`<div class="card hero"><span class="eyebrow">Op weg naar ${esc(c.goals.finalRun)}</span><h2>Planweek ${w} van ${NW()} · fase ${wk.phase} · ${esc(wk.phaseName)}</h2>
+   <p class="sub">Doel van deze fase: ${esc(wk.phaseGoal)}.</p>
+   <div class="tiles"><div class="tile"><span class="eyebrow">Verwacht</span><span class="v">${fin?nice(fin):'–'}</span><span class="d">5 km-test${fin?' '+fin.slice(0,4):''}</span></div>
+   <div class="tile"><span class="eyebrow">Doel</span><span class="v">${nice(target)}</span><span class="d">${target.slice(0,4)}</span></div>
+   <div class="tile"><span class="eyebrow">Marge</span><span class="v">${late==null?'–':`${Math.round(Math.abs(late)/7)} wk`}</span><span class="d">${late==null?'':late<=0?'voor op doel':'later dan doel'}</span></div></div>
+   <p class="muted">Het schema past zich automatisch aan: een herhaalde week schuift alles een week op. Buffer in het plan: ${esc(c.goals.bufferWeeks||'4–6')} weken.</p></div>`;
+  h+=`<div class="card"><span class="eyebrow">Fases</span><div class="tw"><table><thead><tr><th>Fase</th><th>Weken</th><th>Doel</th><th></th></tr></thead><tbody>${ph.map(f=>`<tr><td>${f.nr} · ${esc(f.name)}</td><td class="n">${f.from}–${f.to}</td><td>${esc(f.goal)}</td><td>${w>f.to?'<span class="pill p-good">✓</span>':w>=f.from?'<span class="pill p-acc">nu</span>':''}</td></tr>`).join('')}</tbody></table></div></div>`;
   const pr=c.progression||{};
   h+=`<div class="card"><span class="eyebrow">Regels</span><ul class="steps">
    <li><b>Door:</b> ${esc(pr.advanceIf)}. Anders: ${esc(pr.else)}.</li><li><b>Sessie gemist:</b> ${esc(pr.missedSession)}. <b>Hele week gemist:</b> ${esc(pr.missedWeek)}.</li>
    <li><b>Test niet gehaald:</b> ${esc(pr.testFailed)}.</li><li><b>Ziek of rusthartslag +10:</b> ${esc(pr.sick_or_restingHrPlus10)}.</li>
    <li><b>Pijn &gt; 3 of de ochtend erna:</b> ${esc(pr.pain_gt3_or_nextMorning)}.</li><li><b>Pijn langer dan 1 week:</b> ${esc(pr.pain_gt_1week)}.</li></ul></div>`;
-  const hist=(p.history||[]).slice().reverse();
-  h+=`<div class="card"><span class="eyebrow">Geschiedenis</span>${hist.length?`<div class="tw"><table><tbody>${hist.map(x=>`<tr><td>${nice(x.at)}</td><td>Week ${esc(x.week)}</td><td>${x.result==='door'?'<span class="pill p-good">door</span>':`<span class="pill p-warn">${x.to!=null&&x.to<x.week?'terug naar '+esc(x.to):'herhaald'}</span>`}</td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">Nog geen weken afgesloten.</p>'}</div>`;
-  h+=`<div class="card"><span class="eyebrow">Doelen en planlijn</span>
-   <div class="grid2"><label class="f">Doelgewicht (kg)<input id="g-goal" inputmode="decimal" value="${p.goalKg!=null?nl(p.goalKg,1):''}"></label>
-   <label class="f">Afvaltempo (kg/week)<input id="g-rate" inputmode="decimal" value="${nl(p.rateKg,1)}"></label>
-   <label class="f">Planlijn start (kg)<input id="g-ref" inputmode="decimal" value="${p.refKg!=null?nl(p.refKg,1):''}"></label>
-   <label class="f">Planlijn startdatum<input id="g-refdate" type="date" value="${esc(p.refDate||'')}"></label>
-   <label class="f">Planweek<input id="g-week" inputmode="numeric" value="${esc(p.planWeek)}"></label>
-   <label class="f">Calorieën (kcal)<input id="g-kcal" inputmode="numeric" value="${esc(p.kcal)}"></label></div>
-   <button class="primary" id="g-save">Opslaan</button></div>`;
-  h+=`<div class="card"><span class="eyebrow">Historie importeren</span><p class="muted">Kies <b>weights.csv</b> en/of <b>sessions.json</b>. De gegevens gaan alleen naar jouw opslag, niet naar GitHub. Bestaande dagen worden niet overschreven.</p>
-   <input type="file" id="imp" accept=".csv,.json,text/csv,application/json" multiple></div>`;
-  h+=`<div class="card"><span class="eyebrow">Account</span><p class="muted">${sb?(S.offline?'Offline: je ziet de laatst geladen gegevens.':'Gegevens worden opgeslagen in je eigen database.'):'Gegevens staan alleen op dit apparaat (Supabase nog niet ingesteld).'}</p>${sb?'<button id="logout">Uitloggen</button>':''}</div>`;
+  h+=`<div class="card"><span class="eyebrow">Back-up van dit apparaat</span><p class="muted">Je eigen gewicht, ochtendcheck en calorieën staan alleen op deze telefoon. Trainingen en reviews staan in de app zelf.</p>
+   <div class="row"><button id="b-exp">Exporteren</button><button id="b-imp">Terugzetten</button><input type="file" id="b-file" accept=".json,application/json" hidden></div></div>`;
   $('#v-plan').innerHTML=h;
-  $('#g-save').addEventListener('click',()=>{
-    const goal=numOrNull($('#g-goal').value),rate=numOrNull($('#g-rate').value),ref=numOrNull($('#g-ref').value),rd=$('#g-refdate').value||null,wk=Math.round(numOrNull($('#g-week').value)),kc=Math.round(numOrNull($('#g-kcal').value));
-    if(!(wk>=1&&wk<=SCHEMA.weeks.length)){toast(`Planweek moet tussen 1 en ${SCHEMA.weeks.length} liggen`);return}
-    if(!(kc>=kcalMin()&&kc<6000)){toast(`Calorieën minimaal ${int(kcalMin())}`);return}
-    if((goal!=null&&!(goal>40&&goal<250))||(ref!=null&&!(ref>40&&ref<250))||!(rate>0&&rate<=2)){toast('Controleer de getallen');return}
-    if(rd&&!validDate(rd)){toast('Ongeldige datum');return}
-    setPlan({goalKg:goal,rateKg:rate,refKg:ref,refDate:rd,planWeek:wk,kcal:kc,...(kc!==p.kcal?{kcalSetAt:TODAY}:{})},'Opgeslagen');
-  });
-  $('#imp').addEventListener('change',e=>importHistory([...e.target.files]).finally(()=>e.target.value=''));
-  $('#logout')?.addEventListener('click',async()=>{await sb.auth.signOut();try{localStorage.removeItem(CACHE_KEY)}catch(e){};location.reload()});
-}
-
-/* ---------- historie importeren (weights.csv, sessions.json) ---------- */
-async function importHistory(files){
-  const entries=[],num=numOrNull;
-  for(const f of files){
-    const txt=await f.text();
-    if(/\.csv$/i.test(f.name)){
-      for(const line of txt.split(/\r?\n/).slice(1)){const [date,kg,src]=line.split(',');const k=num(kg);
-        if(validDate(date)&&k>40&&k<250&&!S.docs['weights/'+date]) entries.push(['weights/'+date,{date,kg:Math.round(k*10)/10,source:src==='export'?'export':'import'}])}
-    } else {
-      let arr;try{arr=JSON.parse(txt)}catch(e){toast(`${f.name} is geen geldige JSON`);continue}
-      for(const x of Array.isArray(arr)?arr:[]){
-        if(!x||!validDate(x.date)||S.docs['sessions/'+x.date])continue;
-        const kind=['jog','walk','test'].includes(x.kind)?x.kind:'walk',pw=Math.min(Math.max(Math.round(num(x.planWeek)||1),1),SCHEMA.weeks.length);
-        entries.push(['sessions/'+x.date,{date:x.date,kind,title:planFor(pw,parse(x.date).getDay()).title,planWeek:pw,done:true,durMin:num(x.durMin),km:num(x.km),avgHr:num(x.avgHr),maxHr:num(x.maxHr),
-          pace:num(x.pace??x.avgJogPaceMinKm),pain:num(x.pain),jogCount:Array.isArray(x.jogs)?x.jogs.length:num(x.jogs),jogMeters:num(x.jogMeters),
-          jogs:Array.isArray(x.jogs)?x.jogs.slice(0,100).map(j=>Object.fromEntries(['startMin','m','sec','paceMinKm','hrStart','hrPeak','walkMBefore'].map(k=>[k,num(j?.[k])]))):null,
-          note:String(x.note||'').slice(0,500),source:'import'}]);
-      }
-    }
-  }
-  if(!entries.length){toast('Niets nieuws gevonden om te importeren');return}
-  const uniq=[...new Map(entries)]; // dubbele datums in de bestanden: één keer opslaan
-  await guard(async()=>{await write(uniq);toast(`${uniq.length} items geïmporteerd`)});
-}
-
-/* ---------- inloggen ---------- */
-function renderLogin(msg){
-  $('#v-login').innerHTML=`<div class="card"><h2>Inloggen</h2><p class="sub">Log in om je gegevens op te slaan en op al je apparaten te zien.</p>
-   <label class="f">E-mail<input id="l-mail" type="email" autocomplete="email"></label>
-   <label class="f">Wachtwoord<input id="l-pw" type="password" autocomplete="current-password"></label>
-   <div class="row"><button class="primary" id="l-in">Inloggen</button><button id="l-up">Account maken</button></div>
-   ${msg?`<div class="banner b-mute">${esc(msg)}</div>`:''}</div>`;
-  const creds=()=>({email:$('#l-mail').value.trim(),password:$('#l-pw').value});
-  $('#l-in').onclick=async()=>{const {error}=await sb.auth.signInWithPassword(creds());if(error)renderLogin('Inloggen mislukt: controleer e-mail en wachtwoord.')};
-  $('#l-up').onclick=async()=>{const c=creds();if(c.password.length<8){renderLogin('Kies een wachtwoord van minstens 8 tekens.');return}
-    const {data,error}=await sb.auth.signUp({...c,options:{emailRedirectTo:location.origin+location.pathname}});
-    if(error)renderLogin('Account maken lukt niet (misschien staan nieuwe accounts uit).');else if(!data.session)renderLogin('Bevestig je e-mail via de link in je mail en log daarna hier in.')};
-}
-function showLogin(on){
-  $('#v-login').hidden=!on;$('.tabs').hidden=on;
-  ['today','weight','sessions','plan'].forEach(v=>$('#v-'+v).hidden=on||v!==S.view);
-  if(on)renderLogin();
+  $('#b-exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(LOC,null,1)],{type:'application/json'}));a.download=`loopcoach-backup-${TODAY}.json`;a.click()};
+  $('#b-imp').onclick=()=>$('#b-file').click();
+  $('#b-file').onchange=async e=>{try{const d=JSON.parse(await e.target.files[0].text());
+      const w=Object.fromEntries(Object.entries(isObj(d.weights)?d.weights:{}).map(([k,v])=>[k,Number(v)]).filter(([k,v])=>validDate(k)&&Number.isFinite(v)&&v>40&&v<250));
+      const m=Object.fromEntries(Object.entries(d.morning||{}).filter(([k,v])=>validDate(k)&&v&&typeof v==='object').map(([k,v])=>[k,{...(num(v.pain)!=null?{pain:num(v.pain)}:{}),...(num(v.rhr)!=null?{rhr:num(v.rhr)}:{})}]));
+      if(confirm(`Back-up terugzetten (${Object.keys(w).length} metingen)?`)){LOC={weights:w,morning:m,...(d.kcal&&num(d.kcal.kcal)>=2200&&validDate(d.kcal.setAt)?{kcal:{kcal:num(d.kcal.kcal),setAt:d.kcal.setAt}}:{})};if(saveLocal()){toast('Teruggezet');render()}}
+    }catch(_){toast('Geen geldig back-upbestand')} e.target.value=''};
 }
 
 /* ---------- tabs + start ---------- */
-function render(force){
-  if(!S.ready)return;
-  const ae=document.activeElement;
-  if(force) render.pending=false;
-  else if(ae&&/INPUT|TEXTAREA|SELECT/.test(ae.tagName)&&$('#app').contains(ae)&&!$('#v-login').contains(ae)){render.pending=true;return}
-  const p=planState(),wk=weekOf(p.planWeek);
-  $('#hdr-date').textContent=nice(TODAY);$('#hdr-week').textContent=`Week ${p.planWeek} · fase ${wk.phase}`;
-  ({today:renderToday,weight:renderWeight,sessions:renderSessions,plan:renderPlan})[S.view]();
+const VIEWS={today:renderToday,agenda:renderAgenda,train:renderTrain,weight:renderWeight,plan:renderPlan};
+let view='today';
+function render(){
+  if(!SCHEMA)return;
+  $('#hdr-date').textContent=longDate(TODAY);$('#hdr-week').textContent=`Week ${curPw()} · fase ${phaseNr(curPw())}`;
+  VIEWS[view]();
 }
-document.addEventListener('focusout',()=>setTimeout(()=>{if(render.pending){const ae=document.activeElement;if(!(ae&&/INPUT|TEXTAREA|SELECT/.test(ae.tagName))){render.pending=false;render()}}},0));
-document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{
-  S.view=b.dataset.v;document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
-  ['today','weight','sessions','plan'].forEach(v=>$('#v-'+v).hidden=v!==S.view);
-  S.pastedJogs=null;try{localStorage.setItem('lc-tab',S.view)}catch(e){};render(true);scrollTo(0,0)}));
-
+function show(v){
+  view=VIEWS[v]?v:'today';
+  document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.v===view));
+  Object.keys(VIEWS).forEach(k=>$('#v-'+k).hidden=k!==view);
+  try{localStorage.setItem('lc-tab',view)}catch(e){}
+  scrollTo(0,0);render();
+}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>show(b.dataset.v));
+async function load(){
+  const [s,l]=await Promise.all(['data/schema.json','data/log.json'].map(u=>fetch(u,{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error(u);return r.json()})));
+  SCHEMA=s;LOG=Object.assign({sessions:[],weights:[],settings:{},weekOverrides:{}},l);TL=null;
+}
+// App weer geopend: nieuwe datum en nieuwste reviews ophalen
+document.addEventListener('visibilitychange',async()=>{if(document.hidden||!SCHEMA)return;if(!qToday)TODAY=iso(new Date());try{await load()}catch(e){}TL=null;render()});
 async function start(){
-  const conn=$('#conn');
-  try{SCHEMA=await (await fetch('data/schema.json')).json()}catch(e){conn.hidden=false;conn.textContent='Het schema kon niet geladen worden. Controleer je verbinding.';return}
-  if(SUPABASE_URL&&SUPABASE_KEY&&window.supabase){
-    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-    const {data:{session}}=await sb.auth.getSession();
-    sb.auth.onAuthStateChange((ev,ses)=>{if(ev==='SIGNED_IN'&&!S.uid)location.reload();});
-    if(!session){showLogin(true);return}
-    S.uid=session.user.id;
-    const local=cacheLoad();
-    try{await loadDocs();
-      // eerste keer inloggen: wat al op dit apparaat stond meenemen naar de database
-      if(!Object.keys(S.docs).length&&Object.keys(local).length){S.ready=true;
-        try{await write(Object.entries(local))}catch(e){try{localStorage.setItem(CACHE_KEY,JSON.stringify(local))}catch(_){};toast('Overzetten naar de database mislukt; je lokale gegevens blijven bewaard')}}
-    }catch(e){S.docs=cacheLoad();S.offline=true;conn.hidden=false;conn.textContent='Offline: je ziet de laatst geladen gegevens. Opslaan lukt pas weer met verbinding.'}
-  } else {
-    await loadDocs();
-    if(SUPABASE_URL){conn.hidden=false;conn.textContent='Database niet bereikbaar: gegevens worden alleen op dit apparaat bewaard.'}
-  }
-  S.ready=true;
-  try{const t=localStorage.getItem('lc-tab');if(t&&t!=='today')return document.querySelector(`.tabs [data-v="${t}"]`)?.click()}catch(e){}
-  render();
+  try{await load()}catch(e){const c=$('#conn');c.hidden=false;c.textContent='Het schema kon niet geladen worden. Controleer je verbinding en probeer opnieuw.';return}
+  // vandaag openen staat altijd voorop
+  show('today');
 }
 start();
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');

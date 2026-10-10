@@ -1,29 +1,20 @@
 # Loopcoach
 
-Persoonlijke telefoon-app (PWA): van wandelen naar 5 km aan één stuk joggen in 46 weken, plus gewicht en calorieën bijhouden.
-Schermen: **Vandaag** (sessie, gewicht, eten, week afsluiten) · **Gewicht** · **Sessies** · **Plan**.
+Persoonlijke telefoon-app (PWA): van wandelen naar 5 km aan één stuk joggen in 46 weken. Planning en review van je trainingen, plus gewicht en calorieën.
 
-- `data/schema.json` is de bron van waarheid voor het trainingsschema (zonder persoonlijke gegevens).
-- Persoonlijke gegevens (gewicht, sessies, doelen) staan alleen in je eigen Supabase-database, beveiligd met Row Level Security.
-- Zonder Supabase-instellingen bewaart de app alles alleen op het apparaat.
+Schermen: **Vandaag** (training van vandaag bovenaan, rustdag-opties, volgende training, ochtendcheck, eten, week) · **Agenda** (per dag vooruit de planning, achteruit de review) · **Trainingen** (alle gedane trainingen met oordeel) · **Gewicht** · **Plan** (fase, verwachte 5 km-datum, regels, back-up).
 
-## Supabase instellen (eenmalig, gratis)
-1. Maak een account op [supabase.com](https://supabase.com) en een nieuw project (regio: Europe, bv. Frankfurt).
-2. **SQL Editor → New query**: plak de inhoud van `supabase.sql` en klik **Run**.
-3. **Authentication → URL Configuration**: zet *Site URL* op `https://basvanderlit1-commits.github.io/wandelen-naar-5km/`.
-4. **Project Settings → API**: kopieer de *Project URL* en de *publishable* (of *anon*) key en zet ze bovenin het script van `index.html` (`SUPABASE_URL`, `SUPABASE_KEY`). Deze key mag openbaar; gebruik **nooit** de *secret/service_role* key.
-5. Open de app, kies **Account maken**, bevestig je e-mail en log in.
-6. Daarna: **Authentication → Sign In / Providers → Allow new users to sign up** uitzetten, zodat niemand anders een account kan maken.
+## Hoe de data werkt
+- `data/schema.json`: het trainingsschema (46 weken + regels). Bron van waarheid.
+- `data/log.json`: gedane trainingen met review, gewicht uit de export, doelen en eventuele week-aanpassingen. Wordt via de chat bijgewerkt na het delen van Watch-data.
+- Op de telefoon (localStorage): eigen gewicht, ochtendcheck (pijn, rusthartslag) en calorieën. Back-up via **Plan → Exporteren**.
+- Gewicht van app en export op dezelfde dag die verschillen → de app neemt het midden.
 
-Let op: een gratis project wordt gepauzeerd na 7 dagen zonder gebruik (dagelijks wegen voorkomt dat).
+## Dynamisch schema
+De app rekent elke week door volgens de regels uit het schema: door, herhalen, hele week gemist (2 terug) of test niet gehaald (laatste 2 weken herhalen). Een herhaalde week schuift de agenda en de verwachte 5 km-datum op. Handmatig bijsturen (bv. ziekte) kan via `weekOverrides` in `data/log.json` (`"maandag-datum": planweek`).
 
 ## Op je telefoon
-- **iPhone (Safari):** open de link → Deel-knop → *Zet op beginscherm*. Log daarna in de app (vanaf het beginscherm) in.
-- **Android (Chrome):** menu ⋮ → *App installeren*.
-
-## Watch-data
-`tools/analyze_workout.py` analyseert een Apple Gezondheid-export of GPX (jog-detectie, hartslagregels).
-De uitkomst kun je op Vandaag plakken via *Analyse uit de chat plakken*.
+- **iPhone (Safari):** open de link → Deel-knop → *Zet op beginscherm*.
 
 ## Lokaal testen
 ```bash

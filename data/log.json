@@ -1,0 +1,281 @@
+{
+ "_uitleg": "Bijgewerkt door Claude vanuit de chat. weights = export (Apple Gezondheid); sessions = gedane trainingen met review; weekOverrides = handmatige planweek per maandag (bv. bij ziekte).",
+ "dataThrough": "2026-10-08",
+ "settings": {
+  "startKg": 136,
+  "startDate": "2026-07-12",
+  "goalKg": 95,
+  "refKg": 123,
+  "refDate": "2026-10-08",
+  "rateKg": 0.6,
+  "heightCm": 184,
+  "birthYear": 2004
+ },
+ "weekOverrides": {},
+ "weights": [
+  {
+   "date": "2026-07-12",
+   "kg": 136.0
+  },
+  {
+   "date": "2026-07-21",
+   "kg": 132.7
+  },
+  {
+   "date": "2026-07-22",
+   "kg": 132.5
+  },
+  {
+   "date": "2026-07-23",
+   "kg": 132.0
+  },
+  {
+   "date": "2026-07-24",
+   "kg": 131.5
+  },
+  {
+   "date": "2026-07-25",
+   "kg": 131.8
+  },
+  {
+   "date": "2026-07-26",
+   "kg": 131.3
+  },
+  {
+   "date": "2026-07-27",
+   "kg": 133.0
+  },
+  {
+   "date": "2026-07-28",
+   "kg": 131.4
+  },
+  {
+   "date": "2026-07-29",
+   "kg": 130.6
+  },
+  {
+   "date": "2026-07-30",
+   "kg": 131.1
+  },
+  {
+   "date": "2026-07-31",
+   "kg": 131.7
+  },
+  {
+   "date": "2026-08-01",
+   "kg": 131.0
+  },
+  {
+   "date": "2026-08-02",
+   "kg": 131.8
+  },
+  {
+   "date": "2026-08-03",
+   "kg": 132.2
+  },
+  {
+   "date": "2026-08-04",
+   "kg": 131.5
+  },
+  {
+   "date": "2026-08-05",
+   "kg": 131.0
+  },
+  {
+   "date": "2026-08-06",
+   "kg": 131.2
+  },
+  {
+   "date": "2026-08-07",
+   "kg": 131.7
+  },
+  {
+   "date": "2026-08-09",
+   "kg": 132.0
+  },
+  {
+   "date": "2026-08-10",
+   "kg": 132.3
+  },
+  {
+   "date": "2026-08-11",
+   "kg": 131.1
+  },
+  {
+   "date": "2026-08-12",
+   "kg": 130.5
+  },
+  {
+   "date": "2026-08-13",
+   "kg": 130.0
+  },
+  {
+   "date": "2026-08-14",
+   "kg": 130.1
+  },
+  {
+   "date": "2026-08-15",
+   "kg": 130.2
+  },
+  {
+   "date": "2026-08-16",
+   "kg": 130.2
+  },
+  {
+   "date": "2026-08-17",
+   "kg": 130.5
+  },
+  {
+   "date": "2026-08-18",
+   "kg": 130.1
+  },
+  {
+   "date": "2026-08-19",
+   "kg": 129.7
+  },
+  {
+   "date": "2026-08-20",
+   "kg": 129.5
+  },
+  {
+   "date": "2026-08-21",
+   "kg": 128.6
+  },
+  {
+   "date": "2026-08-22",
+   "kg": 128.0
+  },
+  {
+   "date": "2026-08-23",
+   "kg": 127.5
+  },
+  {
+   "date": "2026-08-24",
+   "kg": 128.7
+  },
+  {
+   "date": "2026-08-25",
+   "kg": 128.2
+  },
+  {
+   "date": "2026-08-26",
+   "kg": 125.4
+  },
+  {
+   "date": "2026-08-27",
+   "kg": 125.3
+  },
+  {
+   "date": "2026-08-28",
+   "kg": 126.0
+  },
+  {
+   "date": "2026-08-29",
+   "kg": 126.0
+  },
+  {
+   "date": "2026-08-30",
+   "kg": 128.0
+  },
+  {
+   "date": "2026-08-31",
+   "kg": 127.2
+  },
+  {
+   "date": "2026-09-01",
+   "kg": 126.5
+  },
+  {
+   "date": "2026-09-02",
+   "kg": 126.5
+  },
+  {
+   "date": "2026-09-03",
+   "kg": 126.0
+  },
+  {
+   "date": "2026-09-04",
+   "kg": 125.8
+  },
+  {
+   "date": "2026-09-08",
+   "kg": 127.2
+  },
+  {
+   "date": "2026-09-09",
+   "kg": 126.3
+  },
+  {
+   "date": "2026-09-10",
+   "kg": 125.7
+  },
+  {
+   "date": "2026-09-11",
+   "kg": 125.6
+  },
+  {
+   "date": "2026-09-14",
+   "kg": 126.4
+  },
+  {
+   "date": "2026-09-15",
+   "kg": 125.6
+  },
+  {
+   "date": "2026-09-16",
+   "kg": 125.4
+  },
+  {
+   "date": "2026-09-22",
+   "kg": 125.0
+  },
+  {
+   "date": "2026-09-23",
+   "kg": 124.1
+  }
+ ],
+ "sessions": [
+  {
+   "date": "2026-10-05",
+   "kind": "jog",
+   "durMin": 47.8,
+   "km": 5.01,
+   "avgHr": 144,
+   "maxHr": 182,
+   "pace": 5.88,
+   "jogCount": 11,
+   "jogMeters": 700,
+   "stats": "Piek ≤170 bij 2/11, start <135 bij 0/11, herstel ≥300 m bij 4/10",
+   "verdict": "te hard",
+   "review": "Te hard voor week 1. Je jogde 11 keer met gemiddeld 5:53 /km (plan: 7:00–7:30) en je hartslag piekte tot 182. Maar 2 van de 11 jogs bleven onder 170 en geen enkele jog begon onder 135, dus je startte steeds te vroeg. Herstel van minstens 300 m lukte bij 4 van de 10 pauzes. Volgende keer: na elke jog doorwandelen tot je hartslag onder 135 is, ook als dat langer dan 300 m duurt, en jog met hele kleine passen."
+  },
+  {
+   "date": "2026-10-06",
+   "kind": "walk",
+   "durMin": 38.6,
+   "km": 3.88,
+   "avgHr": 133,
+   "maxHr": 145,
+   "pace": null,
+   "jogCount": null,
+   "jogMeters": null,
+   "stats": "2 delen (26 + 12 min), 51 min pauze, 6,05 km/u",
+   "verdict": "goed",
+   "review": "Goede duurwandeling. 38,6 min (in 2 delen) met gemiddeld 133, netjes in zone 2, en 6,05 km/u: precies het doel. Volgende keer de 40 min in één keer volmaken."
+  },
+  {
+   "date": "2026-10-08",
+   "kind": "jog",
+   "durMin": 47.5,
+   "km": 5.01,
+   "avgHr": 143,
+   "maxHr": 174,
+   "pace": 6.03,
+   "jogCount": 9,
+   "jogMeters": 502,
+   "stats": "Piek ≤170 bij 4/9, start <135 bij 2/9, herstel ≥300 m bij 7/8",
+   "verdict": "te hard",
+   "review": "Beter dan maandag, maar nog te hard. 9 jogs met gemiddeld 6:02 /km (plan 7:00–7:30) en een piek van 174. Piek ≤ 170 bij 4 van 9 jogs, start onder 135 bij 2 van 9, herstel ≥ 300 m bij 7 van 8. De afstand klopte (502 m). Week 1 wordt herhaald. Focus: bewust trager joggen en pas starten als je onder 135 zit."
+  }
+ ]
+}

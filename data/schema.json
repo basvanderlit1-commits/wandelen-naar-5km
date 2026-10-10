@@ -762,7 +762,7 @@
        "cooldownWalkMin": 5
       }
      },
-     "rule": "hele afstand zonder wandelen, niet sneller dan 7:00/km, max HR <= 170"
+     "rule": "5 km wandelen + joggen binnen 45:00; jogs niet sneller dan 7:00/km, max HR <= 170"
     },
     "vr": {
      "type": "rest"
