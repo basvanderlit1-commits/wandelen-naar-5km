@@ -20,6 +20,7 @@ Doel: 5 km aan één stuk joggen (rond 22 aug 2027) en 95 kg. De app is **planni
 ## Bijsturen
 - Ziek, pijn > 1 week, bewust overslaan: `weekOverrides` in `log.json` → `{"<maandag JJJJ-MM-DD>": <planweek>}`. De app schuift de agenda en de verwachte 5 km-datum vanzelf op.
 - Weekprogressie (door / herhalen / 2 terug / test niet gehaald) rekent de app zelf uit `sessions` volgens `schema.json` → `config.progression`.
+- Darts (Pirates 7): de app haalt het wedstrijdschema uit https://basvanderlit1-commits.github.io/dv-the-pirates/pirates-7/pirates7.ics. Een training op een wedstrijddag schuift naar een vrije rustdag in dezelfde week (`layoutWeek`). Bij een review: kijk naar de verschoven dag, niet naar de schema-dag.
 - Medisch: bij pijn op de borst, duizeligheid of benauwdheid alleen "stop en neem contact op met je huisarts".
 
 ## Testen
