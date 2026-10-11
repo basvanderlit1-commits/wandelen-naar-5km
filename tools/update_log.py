@@ -44,7 +44,7 @@ def read_export(zpath, day):
                         hr.append((utc(sd), float(el.get("value"))))
                     elif t == "HKQuantityTypeIdentifierBodyMass":
                         kg = float(el.get("value")) * (0.45359237 if el.get("unit") == "lb" else 1)
-                        weights[sd[:10]] = round(kg, 1)
+                        weights.setdefault(sd[:10], round(kg, 1))  # eerste meting van de dag
                 elif el.tag == "Workout" and el.get("startDate", "").startswith(day):
                     workouts.append({"type": el.get("workoutActivityType"), "refs": [r.get("path") for r in el.iter("FileReference")],
                                      "durMin": float(el.get("duration") or 0) * (1 / 60 if el.get("durationUnit") == "s" else 1)})
