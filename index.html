@@ -537,7 +537,7 @@ function renderPlan(){
    <p class="muted">Darts: ${(()=>{const up=Object.keys(DARTS).filter(d=>d>=TODAY).sort();return up.length?`${up.length} wedstrijden van Pirates 7 staan nog op het programma (volgende: ${nice(up[0])}). Trainingen op die dagen schuiven naar een vrije dag in dezelfde week.`:'geen komende wedstrijden van Pirates 7 gevonden.'})()}</p></div>`;
   h+=whyCard(wk.phase);
   const ics=location.host+location.pathname.replace(/[^/]*$/,'')+'loopcoach.ics';
-  h+=`<div class="card"><span class="eyebrow">Herinneringen</span><p class="sub">Abonneer je één keer in de Agenda-app van je iPhone: elke dag om 18:30 een seintje om te kijken wat er vandaag staat (training, rustdag of darts), en elke ochtend om 07:30 voor wegen en de ochtendcheck.</p>
+  h+=`<div class="card"><span class="eyebrow">Herinneringen</span><p class="sub">Abonneer je één keer in de Agenda-app van je iPhone: elke dag staat erin wat er gepland is (training met uitleg en grenzen, rustdag of darts), met een seintje om 18:30, en elke ochtend om 07:30 voor wegen en de ochtendcheck.</p>
    <div class="row"><a class="btn" href="webcal://${esc(ics)}">Toevoegen aan Agenda</a></div>
    <p class="muted">Werkt het niet? Agenda → Agenda's → Voeg agenda toe → Voeg agenda-abonnement toe → plak: https://${esc(ics)}</p></div>`;
   h+=`<div class="card"><span class="eyebrow">Fases</span><div class="tw"><table><thead><tr><th>Fase</th><th>Weken</th><th>Doel</th><th></th></tr></thead><tbody>${ph.map(f=>`<tr><td>${f.nr} · ${esc(f.name)}</td><td class="n">${f.from}–${f.to}</td><td>${esc(f.goal)}</td><td>${w>f.to?'<span class="pill p-good">✓</span>':w>=f.from?'<span class="pill p-acc">nu</span>':''}</td></tr>`).join('')}</tbody></table></div></div>`;

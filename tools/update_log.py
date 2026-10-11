@@ -122,7 +122,8 @@ def main(argv=None):
         else:
             print(f"Geen GPS-training op {a.date} in de export; alleen gewichten bijwerken.")
         known = {w["date"] for w in log["weights"]}
-        new_w = {d: kg for d, kg in weights.items() if d not in known}
+        start = log.get("settings", {}).get("startDate", "")  # oudere metingen uit de export horen niet bij dit plan
+        new_w = {d: kg for d, kg in weights.items() if d not in known and d >= start}
     elif a.gpx:
         with open(a.gpx, encoding="utf-8") as f:
             pts = aw.parse_gpx(f.read())

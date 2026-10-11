@@ -14,7 +14,7 @@ Doel: 5 km aan één stuk joggen (rond 22 aug 2027) en 95 kg. De app is **planni
    Alleen een screenshot/cijfers → zet de velden met de hand (durMin, km, avgHr, maxHr, pace in min/km decimaal, jogCount, jogMeters).
 2. Schrijf de review en zet hem erbij: `--verdict "goed|binnen|te hard|te licht|gemist|aangepast" --review "..."`.
    Stijl: Nederlands, concrete getallen, plan vs. resultaat (zie de planweek in de app), eindig met één focuspunt voor de volgende keer.
-3. Laat de review in de chat zien en vraag: "Zal ik dit online zetten?" Pas na een ja: `git add -A`, `git commit`, `git push`.
+3. Laat de review in de chat zien en vraag: "Zal ik dit online zetten?" Pas na een ja: `node tools/make_ics.js` (agenda per dag bijwerken), `git add -A`, `git commit`, `git push`.
 4. Controleer na ±1 minuut of de site de nieuwe `data/log.json` serveert.
 
 ## Bijsturen
