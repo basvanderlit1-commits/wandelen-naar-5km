@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://basvanderlit1-commits.github.io; object-src 'none'; base-uri 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Loopcoach</title>
 <meta name="theme-color" content="#2e7d5b">
@@ -80,6 +80,7 @@ details summary::-webkit-details-marker{display:none}
 .day.today{background:var(--accent-bg);border-radius:10px;padding-inline:8px;margin-inline:-8px}
 .day .body{margin:8px 0 0 72px;display:flex;flex-direction:column;gap:8px}
 .day.rest .t{color:var(--muted)}
+.day.why summary{grid-template-columns:1fr}.day.why .body{margin-left:0}
 </style>
 </head>
 <body>
@@ -178,6 +179,55 @@ function planFor(w,dow){ // dow: 0 zo .. 6 za
   return {kind:'rest',title:'Rustdag',text:'Geen training gepland.',day:d};
 }
 const isJog=s=>!!s&&(s.kind==='jog'||s.kind==='test');
+
+/* ---------- dartswedstrijden (Pirates 7): trainingen eromheen plannen ---------- */
+const DARTS_URL='https://basvanderlit1-commits.github.io/dv-the-pirates/pirates-7/pirates7.ics';
+let DARTS={}; // 'JJJJ-MM-DD' → {summary, time}
+function parseIcs(txt){
+  const out={},lines=String(txt).replace(/\r?\n[ \t]/g,'').split(/\r?\n/);
+  let ev=null;
+  for(const l of lines){
+    if(l==='BEGIN:VEVENT') ev={};
+    else if(l==='END:VEVENT'){ if(ev?.date) out[ev.date]={summary:ev.summary||'Dartwedstrijd',time:ev.time||''}; ev=null }
+    else if(ev&&l.startsWith('DTSTART')){const m=l.match(/:(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2}))?/);if(m){ev.date=`${m[1]}-${m[2]}-${m[3]}`;if(m[4])ev.time=`${m[4]}:${m[5]}`}}
+    else if(ev&&l.startsWith('SUMMARY')) ev.summary=l.slice(l.indexOf(':')+1).replace(/\\([,;\\])/g,'$1').replace(/\\n/g,' ');
+  }
+  return out;
+}
+async function loadDarts(){
+  try{const r=await fetch(DARTS_URL,{cache:'no-cache'});if(!r.ok)throw 0;const t=await r.text();DARTS=parseIcs(t);try{localStorage.setItem('lc-darts',t)}catch(_){}}
+  catch(_){try{DARTS=parseIcs(localStorage.getItem('lc-darts')||'')}catch(e){DARTS={}}} // offline: laatst bekende schema
+}
+// Weekindeling na verschuiven: een training op een wedstrijddag gaat naar een vrije rustdag in dezelfde week
+// (bij jogs liefst niet direct naast een andere jog). Geen vrije dag: wandeling vervalt, jog ruilt met een wandeldag.
+const LAYOUT=new Map();
+function layoutWeek(ws,pw){
+  const key=ws+'|'+pw+'|'+Object.keys(DARTS).length;
+  if(LAYOUT.has(key))return LAYOUT.get(key);
+  const wk=weekOf(pw),type=d=>wk.days[DK[d.src]].type,restDow=[3,5,0,1,2,4,6].find(x=>wk.days[DK[x]].type==='rest')??3;
+  const L=[...Array(7)].map((_,i)=>{const date=addDays(ws,i);return {date,src:(i+1)%7,match:DARTS[date]||null}});
+  const jogAt=i=>i>=0&&i<7&&['jog','test'].includes(type(L[i]));
+  const todo=L.map((d,i)=>i).filter(i=>L[i].match&&type(L[i])!=='rest').sort((a,b)=>jogAt(b)-jogAt(a)); // jogs eerst
+  for(const i of todo){
+    const jog=jogAt(i),free=t=>L.map((d,j)=>j).filter(j=>!L[j].match&&type(L[j])===t);
+    const score=j=>(jog&&(jogAt(j-1)&&j-1!==i||jogAt(j+1)&&j+1!==i)?10:0)+Math.abs(j-i)-(j>i?0.1:0);
+    let cand=free('rest').sort((a,b)=>score(a)-score(b))[0],dropped=null;
+    if(cand==null&&jog){cand=free('walk').sort((a,b)=>score(a)-score(b))[0];if(cand!=null)dropped=wk.days[DK[L[cand].src]].name}
+    if(cand!=null){L[cand].movedFrom=L[i].date;if(dropped)L[cand].replaced=dropped;L[i].movedTo=L[cand].date;L[cand].src=L[i].src}
+    else L[i].dropped=wk.days[DK[L[i].src]].name||'training';
+    L[i].src=restDow;
+  }
+  LAYOUT.set(key,L);return L;
+}
+const slotOn=d=>layoutWeek(weekStart(d),pwOn(d))[(parse(d).getDay()+6)%7];
+function dayPlan(d){
+  const w=pwOn(d),s=slotOn(d),pl={...planFor(w,s.src),w,src:s.src};
+  if(s.match) return {...pl,kind:'rest',rules:false,darts:true,title:'Dartwedstrijd',
+    text:`${s.match.summary}${s.match.time?' · '+s.match.time:''}. Geen training vandaag.`+(s.movedTo?` Je training staat op ${nice(s.movedTo)}.`:'')+(s.dropped?` De ${s.dropped.toLowerCase()} vervalt deze week.`:'')};
+  if(s.movedFrom){pl.title+=` · verplaatst (darts ${nice(s.movedFrom)})`;pl.moved=s.movedFrom;if(s.replaced)pl.text+=` (In plaats van de ${s.replaced.toLowerCase()}.)`}
+  return pl;
+}
+function purposeOn(d){const p=dayPlan(d);return p.darts?'Wedstrijdavond: geen training. Je benen rusten, en de training van deze dag is naar een vrije dag in dezelfde week geschoven.':purpose(p.w,p.src)}
 function phaseRules(w){
   const p=phaseNr(w),r=[];
   if(p===1) r.push('Jogtempo 7:00–7:30 /km of langzamer, korte passen','Hartslag 170 → direct wandelen','Pas weer joggen onder 135');
@@ -217,8 +267,9 @@ function evalSession(s,w){
 const sessionOk=(s,w)=>{const e=evalSession(s,w);return !!e&&e.every(x=>x.ok)};
 // Automatische punten: plan vs. resultaat
 function checks(s,w){
-  const dow=parse(s.date).getDay(),pl=planFor(w,dow),day=pl.day,ph=phaseNr(w),out=[],add=(ok,t)=>out.push({ok,t});
-  if(pl.kind==='rest') add(null,'Gepland was een rustdag.');
+  const pl=dayPlan(s.date),day=pl.day,ph=phaseNr(w),out=[],add=(ok,t)=>out.push({ok,t});
+  if(pl.darts) add(null,'Gepland was een wedstrijddag (darts).');
+  else if(pl.kind==='rest') add(null,'Gepland was een rustdag.');
   else if(isJog(pl)!==isJog(s)) add(false,`Gepland was: ${pl.title}.`);
   if(s.kind==='walk'&&day.type==='walk'){
     if(s.durMin!=null) add(s.durMin>=day.min*0.9,`Duur ${nl(s.durMin,0)} van ${day.min} min.`);
@@ -263,9 +314,12 @@ function resultHtml(s,w){
 let TL=null;
 function evalWeek(ws,pw){
   const wk=weekOf(pw),inWeek=sessionsAll().filter(s=>s.date>=ws&&s.date<=addDays(ws,6));
-  const req=[1,4].concat(pw>=17?[6]:[]).map(dw=>sessionOn(addDays(ws,(dw+6)%7)));
+  // Verplichte jog-dagen volgens de (eventueel rond darts verschoven) weekindeling: ma + do, vanaf week 17 ook za
+  const L=layoutWeek(ws,pw),jd=L.filter(x=>['jog','test'].includes(wk.days[DK[x.src]].type));
+  const done=x=>sessionOn(x.date)||(x.movedFrom&&sessionOn(x.movedFrom)); // toch op de wedstrijddag getraind telt ook
+  const req=jd.map(done),test=jd.find(x=>wk.days[DK[x.src]].type==='test');
   if(!inWeek.length) return {to:Math.max(1,pw-2),label:'gemist → 2 terug',why:'Hele week gemist: 2 weken terug.'};
-  if(wk.testWeek&&!(isJog(req[1])&&sessionOk(req[1],pw))) return {to:Math.max(1,pw-1),label:'test niet gehaald',why:'Test niet gehaald: laatste 2 weken van de fase herhalen, dan opnieuw testen.'};
+  if(wk.testWeek&&!(test&&isJog(done(test))&&sessionOk(done(test),pw))) return {to:Math.max(1,pw-1),label:'test niet gehaald',why:'Test niet gehaald: laatste 2 weken van de fase herhalen, dan opnieuw testen.'};
   if(req.every(s=>isJog(s)&&sessionOk(s,pw))) return {to:Math.min(NW(),pw+1),label:'door',why:`Alle jog-sessies binnen de grenzen: door naar week ${Math.min(NW(),pw+1)}.`};
   const miss=req.filter(s=>!isJog(s)).length;
   return {to:pw,label:'herhalen',why:miss?`${miss} jog-sessie(s) niet gedaan: week ${pw} herhalen.`:`Niet alle jog-sessies binnen de grenzen: week ${pw} herhalen.`};
@@ -276,8 +330,9 @@ function timeline(){
   let pw=1,done=false;
   for(let ws=start;ws<=addDays(cur,7*60)&&!done;ws=addDays(ws,7)){
     if(ov[ws]!=null) pw=clampW(ov[ws]);
-    // Beoordeeld als de hele week achter de data ligt, of als alle verplichte jog-dagen (ma, do, vanaf wk 17 ook za) al data hebben.
-    const reqDone=addDays(ws,pw>=17?5:3)<=thru&&sessionsAll().some(s=>s.date>=ws&&s.date<=addDays(ws,6));
+    // Beoordeeld als de hele week achter de data ligt, of als alle verplichte jog-dagen van deze week al data hebben.
+    const wkk=weekOf(pw),lastJog=layoutWeek(ws,pw).filter(x=>['jog','test'].includes(wkk.days[DK[x.src]].type)).at(-1)?.date||addDays(ws,6);
+    const reqDone=lastJog<=thru&&sessionsAll().some(s=>s.date>=ws&&s.date<=addDays(ws,6));
     const e={ws,pw,override:ov[ws]!=null,past:ws<cur,complete:addDays(ws,6)<=thru||reqDone};
     weeks.push(e);
     if(e.complete){e.res=evalWeek(ws,pw);pw=e.res.to}
@@ -319,12 +374,12 @@ function signals(){
 
 /* ---------- render: vandaag ---------- */
 function dayCard(date){
-  const w=pwOn(date),dow=parse(date).getDay(),pl=planFor(w,dow),s=sessionOn(date);
-  let h=`<div class="card hero"><div class="row between"><span class="eyebrow">Vandaag · ${esc(SCHEMA.config.sessionTime||'19:00')}</span>${s?verdictPill(s,w):pl.kind==='rest'?'<span class="pill p-mute">rust</span>':'<span class="pill p-acc">gepland</span>'}</div>
+  const pl=dayPlan(date),w=pl.w,s=sessionOn(date);
+  let h=`<div class="card hero"><div class="row between"><span class="eyebrow">Vandaag${pl.darts?'':' · '+esc(SCHEMA.config.sessionTime||'19:00')}</span>${s?verdictPill(s,w):pl.darts?'<span class="pill p-warn">darts</span>':pl.kind==='rest'?'<span class="pill p-mute">rust</span>':'<span class="pill p-acc">gepland</span>'}</div>
     <h2>${esc(pl.title)}</h2><p class="sub">${esc(pl.text)}</p>`;
   h+=signals().map(x=>`<div class="banner ${x[0]}">${esc(x[1])}</div>`).join('');
-  h+=`<p class="muted"><b>Idee:</b> ${esc(purpose(w,dow))}</p>`;
-  if(pl.kind==='rest') h+=`<div><span class="eyebrow">Zin om iets te doen? Dit mag</span><ul class="steps" style="margin-top:6px">${REST_OPTIONS.map(r=>`<li>${esc(r)}</li>`).join('')}</ul><p class="muted" style="margin-top:6px">Niet joggen en geen lange of zware inspanning: rust is waar je sterker wordt.</p></div>`;
+  h+=`<p class="muted"><b>Idee:</b> ${esc(purposeOn(date))}</p>`;
+  if(pl.kind==='rest'&&!pl.darts) h+=`<div><span class="eyebrow">Zin om iets te doen? Dit mag</span><ul class="steps" style="margin-top:6px">${REST_OPTIONS.map(r=>`<li>${esc(r)}</li>`).join('')}</ul><p class="muted" style="margin-top:6px">Niet joggen en geen lange of zware inspanning: rust is waar je sterker wordt.</p></div>`;
   if(pl.rules) h+=`<ul class="steps">${phaseRules(w).map(r=>`<li>${esc(r)}</li>`).join('')}</ul>`;
   if(s) h+=resultHtml(s,w);
   else if(pl.kind!=='rest') h+=`<p class="muted">Klaar? Deel je Watch-data in de chat; dan komt hier je review.</p>`;
@@ -336,7 +391,7 @@ function renderToday(){
   const nx=upcoming(3);
   if(nx.length) h+=`<div class="card"><div class="row between"><span class="eyebrow">Volgende training</span><span class="pill p-mute">${nx[0].in===1?'morgen':`over ${nx[0].in} dagen`}</span></div>
     <h2>${esc(nx[0].pl.title)}</h2><p class="sub">${longDate(nx[0].date)} · ${esc(SCHEMA.config.sessionTime||'19:00')} — ${esc(nx[0].pl.text)}</p>
-    <p class="muted"><b>Idee:</b> ${esc(purpose(nx[0].w,nx[0].dow))}</p>
+    <p class="muted"><b>Idee:</b> ${esc(purposeOn(nx[0].date))}</p>
     ${nx.slice(1).map(u=>`<div class="muted">${nice(u.date)}: ${esc(u.pl.title)}</div>`).join('')}</div>`;
   h+=`<div class="card"><span class="eyebrow">Ochtendcheck · wegen na toilet, vóór ontbijt</span>
     <div class="weigh"><label class="f">Gewicht (kg)<input id="m-kg" inputmode="decimal" placeholder="122,4" value="${LOC.weights[TODAY]!=null?nl(LOC.weights[TODAY],1):''}"></label>
@@ -354,16 +409,17 @@ function renderToday(){
 }
 function upcoming(n){
   const out=[],fd=finishDate();
-  for(let i=1;out.length<n&&i<15;i++){const d=addDays(TODAY,i);if(fd&&d>fd)break;const dow=parse(d).getDay(),w=pwOn(d),pl=planFor(w,dow);if(pl.kind!=='rest')out.push({date:d,dow,w,pl,in:i})}
+  for(let i=1;out.length<n&&i<15;i++){const d=addDays(TODAY,i);if(fd&&d>fd)break;const pl=dayPlan(d);if(pl.kind!=='rest')out.push({date:d,pl,in:i})}
   return out;
 }
 function weekCard(){
   const e=timeline().cur,ws=e.ws,w=e.pw,inWeek=sessionsAll().filter(s=>s.date>=ws&&s.date<=addDays(ws,6)),jogs=inWeek.filter(isJog);
-  const dots=[1,2,4,6,0].map(dw=>{const dt=addDays(ws,(dw+6)%7),s=sessionOn(dt);
+  const tdays=[...Array(7)].map((_,i)=>addDays(ws,i)).filter(dt=>dayPlan(dt).kind!=='rest'||sessionOn(dt));
+  const dots=tdays.map(dt=>{const s=sessionOn(dt);
     const c=s?(isJog(s)?(sessionOk(s,w)?'var(--good)':'var(--warn)'):'var(--good)'):dt<TODAY&&dt<=(LOG.dataThrough||'')?'var(--bad)':'var(--grid)';
-    return `<span style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;color:var(--muted)"><span class="dot" style="background:${c};width:14px;height:14px"></span>${DK[dw]}</span>`}).join('');
-  const adv=evalWeek(ws,w);
-  return `<div class="card"><div class="row between"><span class="eyebrow">Deze week · planweek ${w}</span><span class="muted">${inWeek.length} van 5 · ${jogs.filter(s=>sessionOk(s,w)).length}/${jogs.length} jogs binnen grenzen</span></div>
+    return `<span style="display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;color:var(--muted)"><span class="dot" style="background:${c};width:14px;height:14px"></span>${DK[parse(dt).getDay()]}</span>`}).join('');
+  const adv=evalWeek(ws,w),nMatch=[...Array(7)].filter((_,i)=>DARTS[addDays(ws,i)]).length;
+  return `<div class="card"><div class="row between"><span class="eyebrow">Deze week · planweek ${w}${nMatch?` · ${nMatch}× darts`:''}</span><span class="muted">${inWeek.length} van ${tdays.length} ·${jogs.filter(s=>sessionOk(s,w)).length}/${jogs.length} jogs binnen grenzen</span></div>
    <div class="row" style="justify-content:space-around">${dots}</div>
    ${inWeek.length?`<p class="muted">Stand nu: ${esc(adv.why)} De week wordt automatisch beoordeeld als alle data binnen is.</p>`:'<p class="muted">Nog geen trainingen met data deze week.</p>'}</div>`;
 }
@@ -383,10 +439,10 @@ function renderAgenda(){
   const t=timeline(),show=t.weeks.filter(w=>w.ws<=addDays(t.cur.ws,7*5));
   const h=show.map(e=>{
     const wk=weekOf(e.pw),tag=e.override?'<span class="pill p-mute">aangepast</span>':e.res?`<span class="pill ${e.res.to>e.pw?'p-good':'p-warn'}">${esc(e.res.label)}</span>`:e.ws===t.cur.ws?'<span class="pill p-acc">deze week</span>':e.past?'<span class="pill p-mute">data volgt</span>':'<span class="pill p-mute">verwacht</span>';
-    const rows=[1,2,3,4,5,6,0].map(dw=>{const d=addDays(e.ws,(dw+6)%7),pl=planFor(e.pw,dw),s=sessionOn(d),isT=d===TODAY;
-      const st=s?verdictPill(s,e.pw):pl.kind==='rest'?'':d<TODAY&&d<=(LOG.dataThrough||'')?'<span class="pill p-bad">geen data</span>':d<TODAY?'<span class="pill p-mute">data volgt</span>':'';
+    const rows=[0,1,2,3,4,5,6].map(i=>{const d=addDays(e.ws,i),pl=dayPlan(d),s=sessionOn(d),isT=d===TODAY;
+      const st=s?verdictPill(s,e.pw):pl.darts?'<span class="pill p-warn">darts</span>':pl.kind==='rest'?'':d<TODAY&&d<=(LOG.dataThrough||'')?'<span class="pill p-bad">geen data</span>':d<TODAY?'<span class="pill p-mute">data volgt</span>':'';
       return `<details class="day${isT?' today':''}${pl.kind==='rest'?' rest':''}" ${isT?'id="agenda-today" open':''}><summary><span class="when">${nice(d)}${isT?'<br><span class="pill p-acc">vandaag</span>':''}</span><span class="t">${esc(pl.title)}</span>${st}</summary>
-        <div class="body"><div class="sub">${esc(pl.text)}</div><div class="muted"><b>Idee:</b> ${esc(purpose(e.pw,dw))}</div>${s?resultHtml(s,e.pw):''}${pl.kind==='rest'?`<div class="muted">Mag: ${esc(REST_OPTIONS.slice(0,3).join(' · '))}</div>`:''}</div></details>`}).join('');
+        <div class="body"><div class="sub">${esc(pl.text)}</div><div class="muted"><b>Idee:</b> ${esc(purposeOn(d))}</div>${s?resultHtml(s,e.pw):''}${pl.kind==='rest'&&!pl.darts?`<div class="muted">Mag: ${esc(REST_OPTIONS.slice(0,3).join(' · '))}</div>`:''}</div></details>`}).join('');
     return `<div class="card"><div class="row between"><div><span class="eyebrow">Week van ${nice(e.ws)}</span><h2>Planweek ${e.pw} · fase ${wk.phase}${wk.recoveryWeek?' · herstel':''}${wk.testWeek?' · test':''}</h2></div>${tag}</div>${e.res?`<p class="muted">${esc(e.res.why)}</p>`:''}${rows}</div>`;
   }).join('');
   $('#v-agenda').innerHTML=`<p class="muted">Tik op een dag voor de planning en (achteraf) de review. Weken na vandaag zijn een verwachting: de app schuift ze op als een week herhaald moet worden.</p>`+h;
@@ -401,7 +457,7 @@ function renderTrain(){
     <div class="tile"><span class="eyebrow">Jogs ok</span><span class="v">${ok}/${jogs.length}</span><span class="d">binnen grenzen</span></div>
     <div class="tile"><span class="eyebrow">Afstand</span><span class="v">${nl(km,1)}</span><span class="d">km totaal</span></div></div>
     <p class="muted">Data bijgewerkt tot ${LOG.dataThrough?nice(LOG.dataThrough):'–'}. Deel nieuwe trainingen in de chat voor een review.</p></div>`;
-  h+=L.map(s=>{const w=pwOn(s.date),pl=planFor(w,parse(s.date).getDay());
+  h+=L.map(s=>{const w=pwOn(s.date),pl=dayPlan(s.date);
     return `<div class="card"><div class="row between"><span class="eyebrow">${longDate(s.date)} · planweek ${w}</span>${verdictPill(s,w)}</div><h2>${esc(pl.title)}</h2><div class="muted">Plan: ${esc(pl.text)}</div>${resultHtml(s,w)}</div>`}).join('')
     ||'<div class="card"><p class="muted">Nog geen trainingen met data.</p></div>';
   $('#v-train').innerHTML=h;
@@ -441,6 +497,29 @@ function weightChart(){
 }
 
 /* ---------- render: plan ---------- */
+// Onderbouwing van het plan: waarom deze opbouw, in gewone taal.
+const PHASE_WHY={
+  1:'Je pezen, botten en gewrichten wennen aan joggen. Spieren en conditie gaan in weken vooruit, pezen en botten hebben maanden nodig. Daarom heel korte jogs, ook als het makkelijk voelt.',
+  2:'Van losse stukjes naar 1 km aan één stuk. De jogblokken worden langer in tijd; het wandelen ertussen wordt korter.',
+  3:'Van 1 naar 2 km. Vanaf week 17 komt er een derde, lichte jog bij: vaker kleine prikkels zijn beter dan één zware.',
+  4:'Van 2 naar 3 km. Langer aan één stuk in praattempo bouwt je basisconditie, waar de hele 5 km op rust.',
+  5:'Van 3 naar 4 km. De stappen zijn klein (een paar minuten per week), zodat je lichaam de extra afstand bijhoudt.',
+  6:'Van 4 naar 5 km, met de eindtest. Ook hier: rustig tempo. Het doel is 5 km uitlopen, niet snel lopen.'};
+function whyCard(p){
+  const c=SCHEMA.config,n=c.nutrition||{},R=[
+   ['Langzaam opbouwen','Bij joggen vangt je lichaam bij elke pas 2 à 3 keer je gewicht op. Pezen en botten passen zich trager aan dan je conditie. Het grootste risico is dus niet te weinig conditie, maar een blessure door te snel opbouwen. Daarom begint het plan met jogs van 60 m.'],
+   ['Ruim de tijd',`${NW()} weken plus ${c.goals.bufferWeeks||'4–6'} weken buffer tot ${nice(c.goals.finalRunTargetDate)}. Een week herhalen hoort erbij en brengt het doel niet in gevaar. Daardoor hoef je nooit door te drukken.`],
+   ['Jogdagen ma en do (later ook za)','Nooit twee jogdagen achter elkaar: pezen hebben 48 tot 72 uur nodig om te herstellen. De rustdagen (wo en vr) liggen er precies tussen.'],
+   ['Wandelen op di, za en zo','Zone 2-wandelen bouwt conditie op en verbrandt calorieën zonder de schokken van joggen. Zo train je je hart vaker dan je pezen.'],
+   ['Langzaam tempo en hartslaggrens','Minstens 7:00 /km, praattempo en bij 170 wandelen. Langzaam lopen traint je basisconditie (vetverbranding, hart) het best en belast je lichaam het minst. Te hard lopen is de meest gemaakte fout bij beginners.'],
+   ['Elke 4e week een herstelweek','Je wordt sterker in de rust na de training, niet tijdens de training. Een lichtere week zorgt dat je lichaam de vorige weken kan verwerken. Daarna checken we ook je data.'],
+   ['Een test aan het eind van elke fase','Zo bepaalt een meetbaar moment wanneer je verder gaat, niet je gevoel of de kalender. Haal je de test niet, dan herhaal je 2 weken en is er niets verloren.'],
+   ['Alleen door als het goed ging','Je gaat pas een week verder als alle jogs binnen de grenzen bleven. Een gemiste sessie haal je niet in: dubbel trainen is dubbele belasting. Het plan volgt je lichaam, niet de agenda.'],
+   ['Eten',`${n.kcalStart||2500} kcal, nooit onder ${n.kcalFloor||2200}, met ${n.proteinG||130} g eiwit. Dat geeft 0,4 tot 1 kg verlies per week: snel genoeg om de belasting op je benen te verlagen, maar niet zo streng dat je slecht herstelt. Eiwit beschermt je spieren. Watch-calorieën eet je niet terug, want die worden vaak overschat.`],
+   ['Dagelijks wegen, 7-daags gemiddelde','Je gewicht schommelt per dag 1 à 2 kg door vocht en zout. Alleen het weekgemiddelde laat de echte trend zien. Daarom stuurt de app pas na 14 dagen bij.']];
+  return `<div class="card"><span class="eyebrow">Waarom dit plan</span><p class="sub"><b>Nu, fase ${p}:</b> ${esc(PHASE_WHY[p]||'')}</p>
+   ${R.map(([t,x])=>`<details class="day why"><summary><span class="t">${esc(t)}</span></summary><div class="body"><div class="muted">${esc(x)}</div></div></details>`).join('')}</div>`;
+}
 function renderPlan(){
   const t=timeline(),w=t.cur.pw,wk=weekOf(w),c=SCHEMA.config,fin=finishDate(),target=c.goals.finalRunTargetDate,late=fin&&target?days(target,fin):null;
   const ph=[...new Map(SCHEMA.weeks.map(x=>[x.phase,{nr:x.phase,name:x.phaseName,goal:x.phaseGoal,from:SCHEMA.weeks.find(y=>y.phase===x.phase).week,to:x.week}])).values()];
@@ -451,9 +530,11 @@ function renderPlan(){
    <div class="tile"><span class="eyebrow">Marge</span><span class="v">${late==null?'–':`${Math.round(Math.abs(late)/7)} wk`}</span><span class="d">${late==null?'':late<=0?'voor op doel':'later dan doel'}</span></div></div>
    <div><div class="prog" role="img" aria-label="Week ${w} van ${NW()}">${SCHEMA.weeks.map(x=>`<span class="${x.week<w?'done':x.week===w?'now':''}"></span>`).join('')}</div>
    <div class="prog-l">${ph.map(f=>`<span style="flex:${f.to-f.from+1}">F${f.nr}</span>`).join('')}</div></div>
-   <p class="muted">Het schema past zich automatisch aan: een herhaalde week schuift alles een week op. Buffer in het plan: ${esc(c.goals.bufferWeeks||'4–6')} weken.</p></div>`;
+   <p class="muted">Het schema past zich automatisch aan: een herhaalde week schuift alles een week op. Buffer in het plan: ${esc(c.goals.bufferWeeks||'4–6')} weken.</p>
+   <p class="muted">Darts: ${(()=>{const up=Object.keys(DARTS).filter(d=>d>=TODAY).sort();return up.length?`${up.length} wedstrijden van Pirates 7 staan nog op het programma (volgende: ${nice(up[0])}). Trainingen op die dagen schuiven naar een vrije dag in dezelfde week.`:'geen komende wedstrijden van Pirates 7 gevonden.'})()}</p></div>`;
+  h+=whyCard(wk.phase);
   const ics=location.host+location.pathname.replace(/[^/]*$/,'')+'loopcoach.ics';
-  h+=`<div class="card"><span class="eyebrow">Herinneringen</span><p class="sub">Abonneer je één keer in de Agenda-app van je iPhone: elke trainingsdag een melding om 18:30 (training om 19:00) en elke ochtend om 07:30 voor wegen en de ochtendcheck.</p>
+  h+=`<div class="card"><span class="eyebrow">Herinneringen</span><p class="sub">Abonneer je één keer in de Agenda-app van je iPhone: elke dag om 18:30 een seintje om te kijken wat er vandaag staat (training, rustdag of darts), en elke ochtend om 07:30 voor wegen en de ochtendcheck.</p>
    <div class="row"><a class="btn" href="webcal://${esc(ics)}">Toevoegen aan Agenda</a></div>
    <p class="muted">Werkt het niet? Agenda → Agenda's → Voeg agenda toe → Voeg agenda-abonnement toe → plak: https://${esc(ics)}</p></div>`;
   h+=`<div class="card"><span class="eyebrow">Fases</span><div class="tw"><table><thead><tr><th>Fase</th><th>Weken</th><th>Doel</th><th></th></tr></thead><tbody>${ph.map(f=>`<tr><td>${f.nr} · ${esc(f.name)}</td><td class="n">${f.from}–${f.to}</td><td>${esc(f.goal)}</td><td>${w>f.to?'<span class="pill p-good">✓</span>':w>=f.from?'<span class="pill p-acc">nu</span>':''}</td></tr>`).join('')}</tbody></table></div></div>`;
@@ -492,7 +573,8 @@ function show(v){
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>show(b.dataset.v));
 async function load(){
   const [s,l]=await Promise.all(['data/schema.json','data/log.json'].map(u=>fetch(u,{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error(u);return r.json()})));
-  SCHEMA=s;LOG=Object.assign({sessions:[],weights:[],settings:{},weekOverrides:{}},l);TL=null;
+  await loadDarts(); // vóór de tijdlijn: weekindeling hangt van de wedstrijden af
+  SCHEMA=s;LOG=Object.assign({sessions:[],weights:[],settings:{},weekOverrides:{}},l);TL=null;LAYOUT.clear();
 }
 // App weer geopend: nieuwe datum en nieuwste reviews ophalen
 document.addEventListener('visibilitychange',async()=>{if(document.hidden||!SCHEMA)return;if(!qToday)TODAY=iso(new Date());try{await load()}catch(e){}TL=null;render()});
