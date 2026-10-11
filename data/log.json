@@ -1,6 +1,6 @@
 {
  "_uitleg": "Bijgewerkt door Claude vanuit de chat. weights = export (Apple Gezondheid); sessions = gedane trainingen met review; weekOverrides = handmatige planweek per maandag (bv. bij ziekte).",
- "dataThrough": "2026-10-08",
+ "dataThrough": "2026-10-11",
  "settings": {
   "startKg": 136,
   "startDate": "2026-07-12",
@@ -13,6 +13,14 @@
  },
  "weekOverrides": {},
  "weights": [
+  {
+   "date": "2017-07-12",
+   "kg": 127.0
+  },
+  {
+   "date": "2020-01-19",
+   "kg": 90.0
+  },
   {
    "date": "2026-07-12",
    "kg": 136.0
@@ -232,6 +240,18 @@
   {
    "date": "2026-09-23",
    "kg": 124.1
+  },
+  {
+   "date": "2026-10-09",
+   "kg": 121.8
+  },
+  {
+   "date": "2026-10-10",
+   "kg": 122.0
+  },
+  {
+   "date": "2026-10-11",
+   "kg": 120.4
   }
  ],
  "sessions": [
@@ -276,6 +296,26 @@
    "stats": "Piek ≤170 bij 4/9, start <135 bij 2/9, herstel ≥300 m bij 7/8",
    "verdict": "te hard",
    "review": "Beter dan maandag, maar nog te hard. 9 jogs met gemiddeld 6:02 /km (plan 7:00–7:30) en een piek van 174. Piek ≤ 170 bij 4 van 9 jogs, start onder 135 bij 2 van 9, herstel ≥ 300 m bij 7 van 8. De afstand klopte (502 m). Week 1 wordt herhaald. Focus: bewust trager joggen en pas starten als je onder 135 zit."
+  },
+  {
+   "date": "2026-10-10",
+   "durMin": 49.5,
+   "km": 4.61,
+   "avgHr": 123,
+   "maxHr": 142,
+   "kind": "walk",
+   "verdict": "te licht",
+   "review": "Rustig en netjes, maar iets onder het plan. 49,5 min (plan 55) over 4,61 km (5,6 km/u) met gemiddeld 123 en max 142: net onder zone 2 (125-145). Geen probleem, wel weinig prikkel. Volgende lange wandeling: de volle 55 min en iets steviger doorstappen, richting 130."
+  },
+  {
+   "date": "2026-10-11",
+   "durMin": 36.0,
+   "km": 3.06,
+   "avgHr": 119,
+   "maxHr": 139,
+   "kind": "walk",
+   "verdict": "goed",
+   "review": "Precies goed. 36 min (plan 35) over 3,06 km met gemiddeld 119 en max 139: netjes in zone 1 (<125). Echte herstelwandeling, zo hoort het. Gewicht vandaag 120,4 kg. Focus maandag: de jogs écht langzaam, pas starten onder 135."
   }
  ]
 }
