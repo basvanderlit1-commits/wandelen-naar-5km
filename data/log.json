@@ -1,6 +1,6 @@
 {
  "_uitleg": "Bijgewerkt door Claude vanuit de chat. weights = export (Apple Gezondheid); sessions = gedane trainingen met review; weekOverrides = handmatige planweek per maandag (bv. bij ziekte).",
- "dataThrough": "2026-10-11",
+ "dataThrough": "2026-10-12",
  "settings": {
   "startKg": 136,
   "startDate": "2026-07-12",
@@ -308,6 +308,130 @@
    "kind": "walk",
    "verdict": "goed",
    "review": "Precies goed. 36 min (plan 35) over 3,06 km met gemiddeld 119 en max 139: netjes in zone 1 (<125). Echte herstelwandeling, zo hoort het. Gewicht vandaag 120,4 kg. Focus maandag: de jogs écht langzaam, pas starten onder 135."
+  },
+  {
+   "date": "2026-10-12",
+   "durMin": 51.0,
+   "km": 5.11,
+   "avgHr": 132,
+   "maxHr": 169,
+   "pace": 5.86,
+   "jogCount": 12,
+   "jogMeters": 719,
+   "stats": "Piek ≤170 bij 12/12, start <135 bij 9/12, herstel ≥300 m bij 9/11",
+   "jogs": [
+    {
+     "startMin": 5.8,
+     "m": 71,
+     "sec": 26,
+     "paceMinKm": 6.08,
+     "hrStart": 122,
+     "hrPeak": 163,
+     "walkMBefore": null
+    },
+    {
+     "startMin": 9.2,
+     "m": 74,
+     "sec": 26,
+     "paceMinKm": 5.86,
+     "hrStart": 117,
+     "hrPeak": 163,
+     "walkMBefore": 281
+    },
+    {
+     "startMin": 13.1,
+     "m": 63,
+     "sec": 21,
+     "paceMinKm": 5.53,
+     "hrStart": 129,
+     "hrPeak": 167,
+     "walkMBefore": 337
+    },
+    {
+     "startMin": 17.1,
+     "m": 87,
+     "sec": 31,
+     "paceMinKm": 5.91,
+     "hrStart": 122,
+     "hrPeak": 169,
+     "walkMBefore": 332
+    },
+    {
+     "startMin": 21.3,
+     "m": 83,
+     "sec": 30,
+     "paceMinKm": 6.02,
+     "hrStart": 116,
+     "hrPeak": 165,
+     "walkMBefore": 345
+    },
+    {
+     "startMin": 25.0,
+     "m": 35,
+     "sec": 13,
+     "paceMinKm": 6.16,
+     "hrStart": 140,
+     "hrPeak": 153,
+     "walkMBefore": 298
+    },
+    {
+     "startMin": 29.2,
+     "m": 41,
+     "sec": 13,
+     "paceMinKm": 5.27,
+     "hrStart": 133,
+     "hrPeak": 161,
+     "walkMBefore": 380
+    },
+    {
+     "startMin": 33.3,
+     "m": 73,
+     "sec": 26,
+     "paceMinKm": 5.93,
+     "hrStart": 126,
+     "hrPeak": 166,
+     "walkMBefore": 362
+    },
+    {
+     "startMin": 37.6,
+     "m": 76,
+     "sec": 27,
+     "paceMinKm": 5.89,
+     "hrStart": 123,
+     "hrPeak": 168,
+     "walkMBefore": 362
+    },
+    {
+     "startMin": 42.0,
+     "m": 64,
+     "sec": 22,
+     "paceMinKm": 5.74,
+     "hrStart": 139,
+     "hrPeak": 166,
+     "walkMBefore": 366
+    },
+    {
+     "startMin": 46.1,
+     "m": 38,
+     "sec": 13,
+     "paceMinKm": 5.66,
+     "hrStart": 140,
+     "hrPeak": 162,
+     "walkMBefore": 347
+    },
+    {
+     "startMin": 50.1,
+     "m": 14,
+     "sec": 5,
+     "paceMinKm": 5.81,
+     "hrStart": 129,
+     "hrPeak": 148,
+     "walkMBefore": 354
+    }
+   ],
+   "kind": "jog",
+   "verdict": "te hard",
+   "review": "Grote stap vooruit, maar het tempo is nog te hoog. 12 jogs (plan 10) van gemiddeld 60 m, 719 m in totaal, met 5:52 /km (plan 7:00-7:30). Piek ≤ 170 bij 12 van 12 (max 169, op het randje), start onder 135 bij 9 van 12, herstel ≥ 300 m bij 9 van 11. Gemiddeld 132 over 51 min en 5,11 km. De hartslag houd je nu beter in de hand; het tempo nog niet. Focus donderdag: precies 10 jogs en zo langzaam dat het voelt als wandelen met een huppel, rond 7:15 /km."
   }
  ]
 }
