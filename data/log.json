@@ -1,6 +1,6 @@
 {
  "_uitleg": "Bijgewerkt door Claude vanuit de chat. weights = export (Apple Gezondheid); sessions = gedane trainingen met review; weekOverrides = handmatige planweek per maandag (bv. bij ziekte).",
- "dataThrough": "2026-10-12",
+ "dataThrough": "2026-10-14",
  "settings": {
   "startKg": 136,
   "startDate": "2026-07-12",
@@ -244,6 +244,18 @@
   {
    "date": "2026-10-11",
    "kg": 120.4
+  },
+  {
+   "date": "2026-10-12",
+   "kg": 122.4
+  },
+  {
+   "date": "2026-10-13",
+   "kg": 122.1
+  },
+  {
+   "date": "2026-10-14",
+   "kg": 121.8
   }
  ],
  "sessions": [
@@ -432,6 +444,16 @@
    "kind": "jog",
    "verdict": "te hard",
    "review": "Grote stap vooruit, maar het tempo is nog te hoog. 12 jogs (plan 10) van gemiddeld 60 m, 719 m in totaal, met 5:52 /km (plan 7:00-7:30). Piek ≤ 170 bij 12 van 12 (max 169, op het randje), start onder 135 bij 9 van 12, herstel ≥ 300 m bij 9 van 11. Gemiddeld 132 over 51 min en 5,11 km. De hartslag houd je nu beter in de hand; het tempo nog niet. Focus donderdag: precies 10 jogs en zo langzaam dat het voelt als wandelen met een huppel, rond 7:15 /km."
+  },
+  {
+   "date": "2026-10-14",
+   "durMin": 40.6,
+   "km": 4.04,
+   "avgHr": 128,
+   "maxHr": 142,
+   "kind": "walk",
+   "verdict": "goed",
+   "review": "Precies volgens plan. De duurwandeling schoof door darts van dinsdag naar woensdag: 40,6 min (plan 40) over 4,04 km (6,0 km/u) met gemiddeld 128 en max 142, netjes in zone 2 (125-145). Gewicht 121,8 kg vanochtend. Focus donderdag: precies 10 jogs van 60 m, rond 7:15 /km, en pas starten onder 135."
   }
  ]
 }
