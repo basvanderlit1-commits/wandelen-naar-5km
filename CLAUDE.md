@@ -1,6 +1,6 @@
-# Loopcoach — werkwijze
+# Orbit 5K (voorheen Loopcoach) — werkwijze
 
-Persoonlijke PWA (`index.html`), live via GitHub Pages: https://basvanderlit1-commits.github.io/wandelen-naar-5km/
+Persoonlijke PWA (`index.html` = opmaak, `app.css` = stijl, `app.js` = logica), live via GitHub Pages: https://basvanderlit1-commits.github.io/wandelen-naar-5km/
 Doel: 5 km aan één stuk joggen (rond 22 aug 2027) en 95 kg. De app is **planning + review**; de gebruiker voert alleen gewicht/ochtendcheck in op de telefoon.
 
 ## Bestanden
@@ -8,6 +8,7 @@ Doel: 5 km aan één stuk joggen (rond 22 aug 2027) en 95 kg. De app is **planni
 - `data/log.json` — gedane trainingen + reviews, export-gewichten, doelen, `weekOverrides`, `dataThrough`. Openbaar (bewuste keuze gebruiker).
 - `tools/update_log.py` — zet een training uit `exports/export.zip` of een GPX in `log.json` (+ nieuwe gewichten). `--selftest` om te controleren.
 - `exports/` en `*.zip` staan in `.gitignore`: ruwe exports nooit committen.
+- `tools/make_ics.js` — draait de rekenlogica uit `app.js` (alles boven "tabs + start") in Node: daar geen DOM gebruiken. Bestandsnaam `loopcoach.ics` en localStorage-sleutels (`lc-…`) niet hernoemen: agenda-abonnement en opgeslagen gewichten hangen eraan.
 
 ## Na een training (gebruiker deelt data in de chat, of `/training`)
 1. Export staat in `exports/` → `python tools/update_log.py <datum> --zip exports/export.zip --dry`, controleer, daarna zonder `--dry`.

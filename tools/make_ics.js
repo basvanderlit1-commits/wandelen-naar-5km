@@ -1,10 +1,10 @@
 // Schrijft loopcoach.ics: per dag een agenda-item met wat er gepland staat (training, rustdag of darts) + dagelijks wegen.
-// Gebruikt de rekenlogica uit index.html zelf, zodat agenda en app altijd hetzelfde zeggen.
+// Gebruikt de rekenlogica uit app.js zelf, zodat agenda en app altijd hetzelfde zeggen.
 // Gebruik: node tools/make_ics.js [JJJJ-MM-DD]   (datum alleen om te testen; standaard vandaag)
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const root = path.join(__dirname, '..');
-const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-const code = html.slice(html.indexOf('<script>') + 8, html.indexOf('/* ---------- tabs + start'));
+const js = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+const code = js.slice(0, js.indexOf('/* ---------- tabs + start'));
 const WEEKS = 8, HOST = 'basvanderlit1-commits.github.io', URL = `https://${HOST}/wandelen-naar-5km/`;
 
 (async () => {
@@ -40,10 +40,10 @@ const WEEKS = 8, HOST = 'basvanderlit1-commits.github.io', URL = `https://${HOST
       ...(training ? ['BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${esc(p.title)}`, 'TRIGGER:-PT30M', 'END:VALARM'] : []),
       'END:VEVENT');
   }
-  const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Loopcoach//NL', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:Loopcoach', 'REFRESH-INTERVAL;VALUE=DURATION:P1D',
+  const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Loopcoach//NL', 'CALSCALE:GREGORIAN', 'X-WR-CALNAME:Orbit 5K', 'REFRESH-INTERVAL;VALUE=DURATION:P1D',
     ...ev,
     'BEGIN:VEVENT', `UID:loopcoach-wegen@${HOST}`, `DTSTAMP:${stamp}`, 'DTSTART:20261011T073000', 'DURATION:PT5M', 'RRULE:FREQ=DAILY;UNTIL=20270930T000000Z',
-    'SUMMARY:Loopcoach: wegen + ochtendcheck', `DESCRIPTION:${esc('Na toilet, vóór ontbijt. Vul gewicht (en eventueel pijn/rusthartslag) in de app in.')}`,
+    'SUMMARY:Orbit 5K: wegen + ochtendcheck', `DESCRIPTION:${esc('Na toilet, vóór ontbijt. Vul gewicht (en eventueel pijn/rusthartslag) in de app in.')}`,
     'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:Wegen', 'TRIGGER:PT0M', 'END:VALARM', 'END:VEVENT',
     'END:VCALENDAR'].map(fold).join('\r\n') + '\r\n';
   fs.writeFileSync(path.join(root, 'loopcoach.ics'), ics);

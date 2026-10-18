@@ -1,13 +1,14 @@
 {
-  "name": "Loopcoach",
-  "short_name": "Loopcoach",
+  "name": "Orbit 5K",
+  "short_name": "Orbit 5K",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f2f6f3",
-  "theme_color": "#2e7d5b",
+  "background_color": "#070b1a",
+  "theme_color": "#070b1a",
   "lang": "nl",
   "icons": [
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
   ]
 }

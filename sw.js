@@ -1,8 +1,8 @@
 // Offline: eerst netwerk (altijd nieuwste versie), cache als terugval.
-const CACHE = "loopcoach-v7";
+const CACHE = "loopcoach-v8"; // Orbit 5K; naam van de cache maakt niet uit, het nummer wel
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(["./", "index.html", "manifest.webmanifest", "icon.svg", "apple-touch-icon.png", "data/schema.json", "data/log.json"])));
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(["./", "index.html", "app.css", "app.js", "manifest.webmanifest", "icon.svg", "apple-touch-icon.png", "data/schema.json", "data/log.json"])));
   self.skipWaiting();
 });
 

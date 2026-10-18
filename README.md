@@ -1,8 +1,10 @@
-# Loopcoach
+# Orbit 5K
 
 Persoonlijke telefoon-app (PWA): van wandelen naar 5 km aan één stuk joggen in 46 weken. Planning en review van je trainingen, plus gewicht en calorieën.
 
-Schermen: **Vandaag** (training van vandaag bovenaan, rustdag-opties, volgende training, ochtendcheck, eten, week) · **Agenda** (per dag vooruit de planning, achteruit de review) · **Trainingen** (alle gedane trainingen met oordeel) · **Gewicht** · **Plan** (fase, verwachte 5 km-datum, regels, back-up).
+Schermen: **Vandaag** (voortgangsring, training van vandaag, focus uit de laatste review, tempo-alarm voor je Watch, ochtendcheck, op zondag een weekoverzicht) · **Agenda** (per dag vooruit de planning, achteruit de review; darts en verplaatste trainingen gemarkeerd) · **Voortgang** (gewicht met prognose, trainingen met jog-staafjes per hartslag) · **Plan** (fases als banen, waarom dit plan, regels, back-up).
+
+Bestanden: `index.html` (opmaak) · `app.css` (stijl, altijd donker) · `app.js` (logica) · `sw.js` (offline) · `tools/make_ics.js` (agenda, gebruikt `app.js`).
 
 ## Hoe de data werkt
 - `data/schema.json`: het trainingsschema (46 weken + regels). Bron van waarheid.

@@ -1,5 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="#2e7d5b"/>
-  <text x="256" y="300" font-family="system-ui, sans-serif" font-size="190" font-weight="700" fill="#fff" text-anchor="middle">5km</text>
-  <path d="M120 370 Q256 330 392 370" stroke="#fff" stroke-width="18" fill="none" stroke-linecap="round"/>
+  <rect width="512" height="512" fill="#070b1a"/>
+  <circle cx="256" cy="256" r="150" fill="none" stroke="#232c5c" stroke-width="30"/>
+  <circle cx="256" cy="256" r="150" fill="none" stroke="#7cf6ff" stroke-width="30" stroke-linecap="round" stroke-dasharray="648 943" transform="rotate(-90 256 256)"/>
+  <circle cx="256" cy="106" r="26" fill="#a99bff" transform="rotate(155 256 256)"/>
+  <text x="256" y="291" text-anchor="middle" fill="#eef2ff" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="104" font-weight="700">5K</text>
 </svg>
