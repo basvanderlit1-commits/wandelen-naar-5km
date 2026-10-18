@@ -1,6 +1,6 @@
 {
  "_uitleg": "Bijgewerkt door Claude vanuit de chat. weights = export (Apple Gezondheid); sessions = gedane trainingen met review; weekOverrides = handmatige planweek per maandag (bv. bij ziekte).",
- "dataThrough": "2026-10-15",
+ "dataThrough": "2026-10-18",
  "settings": {
   "startKg": 136,
   "startDate": "2026-07-12",
@@ -262,6 +262,18 @@
   {
    "date": "2026-10-15",
    "kg": 121.8
+  },
+  {
+   "date": "2026-10-16",
+   "kg": 121.1
+  },
+  {
+   "date": "2026-10-17",
+   "kg": 120.8
+  },
+  {
+   "date": "2026-10-18",
+   "kg": 120.3
   }
  ],
  "sessions": [
@@ -584,6 +596,27 @@
    "kind": "jog",
    "verdict": "te hard",
    "review": "Nog te hard, en een stapje terug ten opzichte van maandag. 12 jogs (plan 10) van gemiddeld 56 m, 669 m in totaal, met 5:56 /km (plan 7:00-7:30) en een piek van 171. Piek ≤ 170 bij 11 van 12, start onder 135 bij maar 4 van 12 (maandag 9 van 12), herstel ≥ 300 m bij 10 van 11. Gemiddeld 137 over 50,5 min en 5,15 km. De wandelstukken zijn goed; je begint alleen te vroeg en te snel. Week 1 wordt opnieuw herhaald. Focus maandag: kijk vóór elke jog op je horloge en wacht tot je onder 135 zit, en stop na 10 jogs."
+  },
+  {
+   "date": "2026-10-17",
+   "durMin": 46.7,
+   "km": 4.4,
+   "avgHr": 133,
+   "maxHr": 154,
+   "kind": "walk",
+   "verdict": "te licht",
+   "review": "Goede intensiteit, iets te kort. 46,7 min (plan 55) over 4,4 km (5,65 km/u) met gemiddeld 133 en max 154: netjes in zone 2 (125-145), beter dan vorige zaterdag (123). Alleen de duur bleef weer ruim 8 min onder het plan. Volgende lange wandeling: de volle 55 min uitlopen in hetzelfde tempo."
+  },
+  {
+   "date": "2026-10-18",
+   "durMin": 36.9,
+   "km": 3.21,
+   "avgHr": 108,
+   "maxHr": 132,
+   "kind": "walk",
+   "verdict": "goed",
+   "review": "Prima herstel. In 3 delen (12 + 11 + 14 min) samen 37 min bewegen (plan 35) over 3,2 km, gemiddeld 108 en max 132: ruim in zone 1 (<125). Voor een herstelwandeling is splitsen geen probleem. Gewicht 120,3 kg, de laagste meting tot nu toe. Volgende week start op planweek 2; focus maandag: pas joggen onder 135, en het tempo omlaag naar 7:00-7:30 /km.",
+   "stats": "3 delen (12 + 11 + 14 min bewegen), 117 min incl. pauzes"
   }
  ]
 }
