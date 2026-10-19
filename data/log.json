@@ -1,6 +1,6 @@
 {
  "_uitleg": "Bijgewerkt door Claude vanuit de chat. weights = export (Apple Gezondheid); sessions = gedane trainingen met review; weekOverrides = handmatige planweek per maandag (bv. bij ziekte).",
- "dataThrough": "2026-10-18",
+ "dataThrough": "2026-10-19",
  "settings": {
   "startKg": 136,
   "startDate": "2026-07-12",
@@ -274,6 +274,10 @@
   {
    "date": "2026-10-18",
    "kg": 120.3
+  },
+  {
+   "date": "2026-10-19",
+   "kg": 120.8
   }
  ],
  "sessions": [
@@ -617,6 +621,103 @@
    "verdict": "goed",
    "review": "Prima herstel. In 3 delen (12 + 11 + 14 min) samen 37 min bewegen (plan 35) over 3,2 km, gemiddeld 108 en max 132: ruim in zone 1 (<125). Voor een herstelwandeling is splitsen geen probleem. Gewicht 120,3 kg, de laagste meting tot nu toe. Volgende week start op planweek 2; focus maandag: pas joggen onder 135, en het tempo omlaag naar 7:00-7:30 /km.",
    "stats": "3 delen (12 + 11 + 14 min bewegen), 117 min incl. pauzes"
+  },
+  {
+   "date": "2026-10-19",
+   "durMin": 57.3,
+   "km": 5.2,
+   "avgHr": 124,
+   "maxHr": 154,
+   "pace": 7.4,
+   "jogCount": 12,
+   "jogMeters": 561,
+   "stats": "Piek ≤170 bij 12/12, start <135 bij 12/12, herstel ≥300 m bij 11/11 (jogs handmatig geteld: rustig tempo viel onder de detectiegrens)",
+   "jogs": [
+    {
+     "startMin": 5.8,
+     "m": 30,
+     "sec": 11,
+     "paceMinKm": 6.14,
+     "hrStart": 142.0,
+     "hrPeak": 154.0,
+     "walkMBefore": null
+    },
+    {
+     "startMin": 9.8,
+     "m": 25,
+     "sec": 10,
+     "paceMinKm": 6.77,
+     "hrStart": 142.0,
+     "hrPeak": 149.0,
+     "walkMBefore": 363
+    },
+    {
+     "startMin": 14.1,
+     "m": 17,
+     "sec": 7,
+     "paceMinKm": 7.0,
+     "hrStart": 143.0,
+     "hrPeak": 151.0,
+     "walkMBefore": 373
+    },
+    {
+     "startMin": 31.6,
+     "m": 30,
+     "sec": 13,
+     "paceMinKm": 7.13,
+     "hrStart": 135.0,
+     "hrPeak": 152.0,
+     "walkMBefore": 1561
+    },
+    {
+     "startMin": 36.1,
+     "m": 30,
+     "sec": 12,
+     "paceMinKm": 6.71,
+     "hrStart": 128.0,
+     "hrPeak": 146.0,
+     "walkMBefore": 374
+    },
+    {
+     "startMin": 40.2,
+     "m": 17,
+     "sec": 7,
+     "paceMinKm": 6.9,
+     "hrStart": 127.0,
+     "hrPeak": 141.0,
+     "walkMBefore": 365
+    },
+    {
+     "startMin": 44.9,
+     "m": 34,
+     "sec": 14,
+     "paceMinKm": 6.81,
+     "hrStart": 120.0,
+     "hrPeak": 152.0,
+     "walkMBefore": 416
+    },
+    {
+     "startMin": 48.9,
+     "m": 14,
+     "sec": 6,
+     "paceMinKm": 7.31,
+     "hrStart": 140.0,
+     "hrPeak": 147.0,
+     "walkMBefore": 353
+    },
+    {
+     "startMin": 53.0,
+     "m": 46,
+     "sec": 18,
+     "paceMinKm": 6.55,
+     "hrStart": 121.0,
+     "hrPeak": 146.0,
+     "walkMBefore": 351
+    }
+   ],
+   "kind": "jog",
+   "verdict": "goed",
+   "review": "Dit is hem! 12 jogs (plan 12) om de ruim 4 minuten, gemiddeld 7:24 /km (plan 7:00-7:30). Piek ≤ 170 bij 12 van 12 (max 154), start onder 135 bij 12 van 12, herstel ≥ 300 m bij 11 van 11. Gemiddeld 124 over 57 min en 5,2 km. Gemeten joggen boven 7 km/u: 561 m (plan 720); bij zo'n rustig tempo telt het horloge het optrekken niet mee, dus dat is prima. Precies de rust en controle waar we drie weken naartoe werkten. Focus donderdag: exact hetzelfde nog een keer."
   }
  ]
 }
