@@ -1,6 +1,6 @@
 {
- "_uitleg": "Bijgewerkt door Claude vanuit de chat. weights = export (Apple Gezondheid); sessions = gedane trainingen met review; weekOverrides = handmatige planweek per maandag (bv. bij ziekte).",
- "dataThrough": "2026-10-19",
+ "_uitleg": "Bijgewerkt door Claude vanuit de chat. weights = export (Apple Gezondheid); sessions = gedane trainingen met review; weekOverrides = handmatige planweek per maandag (bv. bij ziekte); notes = melding per dag (bv. pijn), meenemen bij de review.",
+ "dataThrough": "2026-10-22",
  "settings": {
   "startKg": 136,
   "startDate": "2026-07-12",
@@ -13,6 +13,10 @@
  },
  "weekOverrides": {
   "2026-10-19": 2
+ },
+ "notes": {
+  "2026-10-20": "Last van spieren: duurwandeling 45 min met helling (incline) gaf flinke spierpijn binnenkant bovenbeen, boven de knie.",
+  "2026-10-22": "Last van spieren (spierpijn van dinsdag): geen jogs, ca. 45 min gewandeld op 12:15 /km."
  },
  "weights": [
   {
@@ -278,6 +282,22 @@
   {
    "date": "2026-10-19",
    "kg": 120.8
+  },
+  {
+   "date": "2026-10-20",
+   "kg": 120.7
+  },
+  {
+   "date": "2026-10-21",
+   "kg": 120.2
+  },
+  {
+   "date": "2026-10-22",
+   "kg": 120.4
+  },
+  {
+   "date": "2026-10-23",
+   "kg": 120.1
   }
  ],
  "sessions": [
@@ -718,6 +738,30 @@
    "kind": "jog",
    "verdict": "goed",
    "review": "Dit is hem! 12 jogs (plan 12) om de ruim 4 minuten, gemiddeld 7:24 /km (plan 7:00-7:30). Piek ≤ 170 bij 12 van 12 (max 154), start onder 135 bij 12 van 12, herstel ≥ 300 m bij 11 van 11. Gemiddeld 124 over 57 min en 5,2 km. Gemeten joggen boven 7 km/u: 561 m (plan 720); bij zo'n rustig tempo telt het horloge het optrekken niet mee, dus dat is prima. Precies de rust en controle waar we drie weken naartoe werkten. Focus donderdag: exact hetzelfde nog een keer."
+  },
+  {
+   "date": "2026-10-20",
+   "kind": "walk",
+   "durMin": 46.4,
+   "km": 2.19,
+   "avgHr": 137,
+   "maxHr": 148,
+   "pace": null,
+   "jogCount": null,
+   "jogMeters": null,
+   "stats": "Loopband met helling (indoor, geen GPS; afstand volgens horloge)",
+   "verdict": "te hard",
+   "review": "Hartslag goed, belasting te zwaar. 46,4 min (plan 45) op de loopband met helling, gemiddeld 137 en max 148: net binnen zone 2 (125-145). Maar de helling gaf flinke spierpijn binnenkant bovenbeen, boven de knie: die spieren zijn nog niet gewend aan klimmen. De duurwandeling is bedoeld als rustige basis, niet als krachttraining. Focus: duurwandelingen voorlopig vlak, helling pas later en heel geleidelijk."
+  },
+  {
+   "date": "2026-10-22",
+   "durMin": 42.4,
+   "km": 3.32,
+   "avgHr": 113,
+   "maxHr": 123,
+   "kind": "walk",
+   "verdict": "aangepast",
+   "review": "Terecht aangepast. Door de spierpijn van dinsdag geen jogs (plan 12 × 60 m), maar 42 min rustig gewandeld over 3,3 km met gemiddeld 113 en max 123. Volgens de regels: bij spierpijn de volgende sessie zonder jogs, dat heb je goed gedaan. Week 2 telt hierdoor niet als gehaald en wordt herhaald. Focus zaterdag: alleen vlak wandelen (geen helling), en stop als de pijn boven de knie oploopt."
   }
  ]
 }
